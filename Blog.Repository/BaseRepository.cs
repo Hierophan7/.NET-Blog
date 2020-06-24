@@ -2,48 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Repository
 {
 	public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 	{
+		protected DbContext EntitiesContext { get; set; }
 
+		public BaseRepository(DbContext entitiesContext)
+		{
+			this.EntitiesContext = entitiesContext;
+		}
 
 		public void Create(TEntity entity)
 		{
-			throw new NotImplementedException();
+			this.EntitiesContext.Set<TEntity>().Add(entity);
 		}
 
 		public bool Delete(TEntity entity)
 		{
-			throw new NotImplementedException();
+			this.EntitiesContext.Set<TEntity>().Remove(entity);
+			return true;
 		}
 
-		public IQueryable<TEntity> FindAll(params Expression<Func<TEntity, object>>[] includes)
+		public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> match)
 		{
-			throw new NotImplementedException();
+			return this.EntitiesContext.Set<TEntity>().AsQueryable<TEntity>();
 		}
 
-		public Task<IEnumerable<TEntity>> FindAllAsync(params Expression<Func<TEntity, object>>[] includes)
+		public async Task UpdateEntryAsync(TEntity entity, params Expression<Func<TEntity, object>>[] properties)
 		{
-			throw new NotImplementedException();
+			var entry = EntitiesContext.Entry(entity);
+
+			EntitiesContext.Set<TEntity>().Attach(entity);
+
+			foreach (var property in properties)
+				entry.Property(property).IsModified = true;
+
+			await EntitiesContext.SaveChangesAsync();
 		}
 
-		public Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
+		public async Task<IEnumerable<TEntity>> FindAllAsync()
 		{
-			throw new NotImplementedException();
+			return await this.EntitiesContext.Set<TEntity>().ToListAsync();
 		}
 
-		public Task SaveAsync()
+		public async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
 		{
-			throw new NotImplementedException();
+			return await this.EntitiesContext.Set<TEntity>().Where(expression).AsNoTracking().ToListAsync();
+		}
+
+		public async Task SaveAsync()
+		{
+			await this.EntitiesContext.SaveChangesAsync();
 		}
 
 		public void Update(TEntity entity)
 		{
-			throw new NotImplementedException();
+			this.EntitiesContext.Set<TEntity>().Update(entity);
 		}
 	}
 }

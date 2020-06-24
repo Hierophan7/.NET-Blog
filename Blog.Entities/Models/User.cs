@@ -21,6 +21,16 @@ namespace Blog.Entities.Models
 		[Display(Name = "Соль хеша пароля")]
 		public byte[] PasswordSalt { get; set; }
 
+		public string InstagramLink { get; set; }
+
+		public string YoutubeLink { get; set; }
+
+		public string FacebookLink { get; set; }
+
+		public string LinkedInLink { get; set; }
+
+		public string TwitterLink { get; set; }
+
 		[Required]
 		public int RoleId { get; set; }
 
@@ -29,7 +39,7 @@ namespace Blog.Entities.Models
 		public Picture Picture { get; set; }
 
 		public List<Post> Posts { get; set; }
-		
+
 		public List<Comment> Comments { get; set; }
 
 		public List<Complaint> Complaints { get; set; }

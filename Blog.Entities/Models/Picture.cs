@@ -14,7 +14,7 @@ namespace Blog.Entities.Models
 
 		public string PicturePath { get; set; }
 
-		public Guid? PostId {get; set; }
+		public Guid? PostId { get; set; }
 
 		public Post Post { get; set; }
 
