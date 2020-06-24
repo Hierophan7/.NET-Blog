@@ -21,7 +21,7 @@ namespace Blog.Entities.Models
 
 		public Post Post { get; set; }
 
-		public List<string> UserIP { get; set; }
+		public string UserIP { get; set; }
 
 	}
 }

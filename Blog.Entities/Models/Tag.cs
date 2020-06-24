@@ -9,8 +9,9 @@ namespace Blog.Entities.Models
 		[Key]
 		public Guid Id { get; set; }
 
+		[Required]
 		public string TagName { get; set; }
 
-		public List<TagPost> TagPosts { get; set; }
+		public List<Post> Posts { get; set; }
 	}
 }

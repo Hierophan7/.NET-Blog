@@ -11,11 +11,12 @@ namespace Blog.Entities.Models
 		[Key]
 		public Guid Id { get; set; }
 
+		[Required]
+		public string ComplaintText { get; set; }
+
 		public DateTime CreationData { get; set; }
 
 		public DateTime ModifiedDate { get; set; }
-
-		public string ComplaintText { get; set; }
 
 		public Guid UserId { get; set; }
 

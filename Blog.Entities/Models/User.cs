@@ -15,20 +15,18 @@ namespace Blog.Entities.Models
 		[Required]
 		public string Email { get; set; }
 
-		[Required]
-		public int RoleId { get; set; }
-
-		public Role Role { get; set; }
-
 		[Display(Name = "Хеш пароля")]
 		public byte[] PasswordHash { get; set; }
 
 		[Display(Name = "Соль хеша пароля")]
 		public byte[] PasswordSalt { get; set; }
 
-		public Guid ProfileImageId { get; set; }
+		[Required]
+		public int RoleId { get; set; }
 
-		public ProfileImage ProfileImage { get; set; }
+		public Role Role { get; set; }
+
+		public Picture Picture { get; set; }
 
 		public List<Post> Posts { get; set; }
 		

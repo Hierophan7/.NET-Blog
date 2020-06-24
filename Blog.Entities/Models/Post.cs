@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Blog.Entities.Enums;
 using Blog.Entities.Models.Interfaces;
@@ -11,8 +12,10 @@ namespace Blog.Entities.Models
 		[Key]
 		public Guid Id { get; set; }
 
-		public string Titel { get; set; }
+		[Required]
+		public string Title { get; set; }
 
+		[Required]
 		public string Text { get; set; }
 
 		public int ViewsCounter { get; set; }
@@ -27,6 +30,7 @@ namespace Blog.Entities.Models
 
 		public DateTime ModifiedDate { get; set; }
 
+		[Required]
 		public PostStatus PostStatus { get; set; }
 
 		public Guid CategoryId { get; set; }
@@ -41,9 +45,9 @@ namespace Blog.Entities.Models
 
 		public Language Language { get; set; }
 
-		public List<PostPicture> PostPictures { get; set; }
+		public List<Picture> Pictures { get; set; }
 
-		public List<TagPost> TagPosts { get; set; }
+		public List<Tag> Tags { get; set; }
 
 		public List<Reation> Reations { get; set; }
 
