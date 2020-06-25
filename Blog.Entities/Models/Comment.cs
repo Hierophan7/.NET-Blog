@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Blog.Entities.Models.Interfaces;
 
@@ -14,9 +15,10 @@ namespace Blog.Entities.Models
 		[Required]
 		public string CommentText { get; set; }
 
-		public Guid UserId { get; set; }
+		[ForeignKey("UserId")]
+		public Guid? UserId { get; set; }
 
-		public User Users { get; set; }
+		public User User { get; set; }
 
 		public Guid PostId { get; set; }
 

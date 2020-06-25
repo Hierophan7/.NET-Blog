@@ -12,6 +12,6 @@ namespace Blog.Services.Interfaces
         Task<TEntity> GetByIdAsync(Guid id);
         Task<TEntity> CreateAsync(TEntity createObject);
         Task UpdateAsync(TEntity updateObject);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

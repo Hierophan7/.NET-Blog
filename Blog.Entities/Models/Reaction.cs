@@ -6,7 +6,7 @@ using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.Models
 {
-	public class Reation : IBaseEntity
+	public class Reaction : IBaseEntity
 	{
 		[Key]
 		public Guid Id { get; set; }

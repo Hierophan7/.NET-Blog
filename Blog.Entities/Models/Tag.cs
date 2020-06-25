@@ -12,6 +12,6 @@ namespace Blog.Entities.Models
 		[Required]
 		public string TagName { get; set; }
 
-		public List<Post> Posts { get; set; }
+		public ICollection<TagPost> TagPosts { get; set; }
 	}
 }

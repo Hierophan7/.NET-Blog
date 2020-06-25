@@ -111,7 +111,5 @@ namespace Blog.Services
 
 			return user;
 		}
-
-
 	}
 }

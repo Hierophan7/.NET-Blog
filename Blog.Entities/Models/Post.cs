@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Blog.Entities.Enums;
 using Blog.Entities.Models.Interfaces;
 
@@ -37,6 +38,7 @@ namespace Blog.Entities.Models
 
 		public Category Category { get; set; }
 
+		[ForeignKey("UserId")]
 		public Guid UserId { get; set; }
 
 		public User User { get; set; }
@@ -47,9 +49,9 @@ namespace Blog.Entities.Models
 
 		public List<Picture> Pictures { get; set; }
 
-		public List<Tag> Tags { get; set; }
+		public ICollection<TagPost> TagPosts { get; set; }
 
-		public List<Reation> Reations { get; set; }
+		public List<Reaction> Reactions { get; set; }
 
 		public List<Comment> Comments { get; set; }
 	}
