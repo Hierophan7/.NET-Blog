@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Repository.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20200625101648_CreateBlogDB")]
-    partial class CreateBlogDB
+    [Migration("20200625131348_BlogDB")]
+    partial class BlogDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,17 +242,17 @@ namespace Blog.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5e506003-5bd3-463c-a299-73cee989bd37"),
+                            Id = new Guid("55f49f71-ea9a-4cd0-8cfd-a7e815d817e7"),
                             RoleName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("e9432405-3fbc-4b89-8c75-f8822e983ca6"),
+                            Id = new Guid("407cf5e8-eb76-4eb9-8a52-5f1ff0db1fb0"),
                             RoleName = "Superadmin"
                         },
                         new
                         {
-                            Id = new Guid("6af77b3d-3655-4c1f-a4bc-5748918e274f"),
+                            Id = new Guid("5f2db989-dfb7-4177-a1f7-a4a44b8355f2"),
                             RoleName = "User"
                         });
                 });
@@ -284,7 +284,7 @@ namespace Blog.Repository.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("TagPost");
+                    b.ToTable("TagPosts");
                 });
 
             modelBuilder.Entity("Blog.Entities.Models.User", b =>

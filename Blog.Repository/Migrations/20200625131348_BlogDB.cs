@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Blog.Repository.Migrations
 {
-    public partial class CreateBlogDB : Migration
+    public partial class BlogDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -202,7 +202,7 @@ namespace Blog.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TagPost",
+                name: "TagPosts",
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(nullable: false),
@@ -210,15 +210,15 @@ namespace Blog.Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TagPost", x => new { x.TagId, x.PostId });
+                    table.PrimaryKey("PK_TagPosts", x => new { x.TagId, x.PostId });
                     table.ForeignKey(
-                        name: "FK_TagPost_Posts_PostId",
+                        name: "FK_TagPosts_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TagPost_Tags_TagId",
+                        name: "FK_TagPosts_Tags_TagId",
                         column: x => x.TagId,
                         principalTable: "Tags",
                         principalColumn: "Id",
@@ -256,17 +256,17 @@ namespace Blog.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "RoleName" },
-                values: new object[] { new Guid("5e506003-5bd3-463c-a299-73cee989bd37"), "Admin" });
+                values: new object[] { new Guid("55f49f71-ea9a-4cd0-8cfd-a7e815d817e7"), "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "RoleName" },
-                values: new object[] { new Guid("e9432405-3fbc-4b89-8c75-f8822e983ca6"), "Superadmin" });
+                values: new object[] { new Guid("407cf5e8-eb76-4eb9-8a52-5f1ff0db1fb0"), "Superadmin" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "RoleName" },
-                values: new object[] { new Guid("6af77b3d-3655-4c1f-a4bc-5748918e274f"), "User" });
+                values: new object[] { new Guid("5f2db989-dfb7-4177-a1f7-a4a44b8355f2"), "User" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -321,8 +321,8 @@ namespace Blog.Repository.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TagPost_PostId",
-                table: "TagPost",
+                name: "IX_TagPosts_PostId",
+                table: "TagPosts",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
@@ -343,7 +343,7 @@ namespace Blog.Repository.Migrations
                 name: "Reations");
 
             migrationBuilder.DropTable(
-                name: "TagPost");
+                name: "TagPosts");
 
             migrationBuilder.DropTable(
                 name: "Comments");
