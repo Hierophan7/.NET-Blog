@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Services.Interfaces
 {
-	interface IBaseService<TEntity> where TEntity : class
+	public interface IBaseService<TEntity> where TEntity : class
 	{
         Task<IEnumerable<TEntity>> GetAllAsync();
         //Task<PageViewModel<TEntity>> GetAllPerPageAsync(int? page, int? pageSize);

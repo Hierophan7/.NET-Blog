@@ -31,8 +31,7 @@ namespace Blog.Entities.Models
 
 		public string TwitterLink { get; set; }
 
-		[Required]
-		public int RoleId { get; set; }
+		public Guid RoleId { get; set; }
 
 		public Role Role { get; set; }
 

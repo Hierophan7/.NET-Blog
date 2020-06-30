@@ -15,7 +15,7 @@ namespace Blog.Extensions
 		{
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddScoped<IUserService, UserService>();
-
+			services.AddScoped<IRoleService, RoleService>();
 		}
 	}
 }

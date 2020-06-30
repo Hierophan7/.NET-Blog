@@ -31,20 +31,19 @@ namespace Blog
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<BlogContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:BlogDB"]));
-
-			services.AddControllersWithViews();
 			services.AddCors();
-			services.AddControllers();
+			services.AddControllersWithViews();
 			services.ConfigureServices();
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddHttpContextAccessor();
 
+			services.AddDbContext<BlogContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:BlogDB"]));
 
 			// configure strongly typed settings objects
 			var appSettingsSection = Configuration.GetSection("AppSettings");
 			services.Configure<AppSettings>(appSettingsSection);
 
+			// configure jwt authentication
 			var appSettings = appSettingsSection.Get<AppSettings>();
 			var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 			services.AddAuthentication(x =>

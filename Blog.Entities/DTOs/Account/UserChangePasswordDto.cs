@@ -1,11 +1,11 @@
 ﻿namespace Blog.Entities.DTOs.Account
 {
-	public class UserChangePasdwordDto : UserNewPasdwordDto
+	public class UserChangePasswordDto : UserNewPasswordDto
 	{
 		public string OldPassword { get; set; }
 	}
 
-	public class UserNewPasdwordDto
+	public class UserNewPasswordDto
 	{
 		public int Id { get; set; }
 		public string NewPassword { get; set; }

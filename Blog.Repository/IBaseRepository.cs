@@ -8,6 +8,7 @@ namespace Blog.Repository
 {
 	public interface IBaseRepository<TEntity>
 	{
+		Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes);
 		IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>> match);
 		Task<IEnumerable<TEntity>> FindAllAsync();
 		Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> expression);

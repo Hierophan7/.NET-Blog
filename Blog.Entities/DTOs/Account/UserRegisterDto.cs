@@ -6,13 +6,17 @@ namespace Blog.Entities.DTOs.Account
 	{
 		[Required]
 		public string UserName { get; set; }
+
 		[Required]
 		public string Email { get; set; }
 
 		[Required]
-		public int RoleId { get; set; }
+		[DataType(DataType.Password)]
+		public string Password { get; set; }
 
 		[Required]
-		public string Password { get; set; }
+		[DataType(DataType.Password)]
+		[Compare("Password", ErrorMessage = "Пароли не совпадают")]
+		public string PasswordConfirm { get; set; }
 	}
 }
