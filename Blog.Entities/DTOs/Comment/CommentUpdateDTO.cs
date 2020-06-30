@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Collections.Generic;
+using Blog.Entities.DTOs.Post;
+using Blog.Entities.DTOs.Complaint;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Entities.DTOs.Comment
 {
@@ -16,10 +18,10 @@ namespace Blog.Entities.DTOs.Comment
 
 		public Guid PostId { get; set; }
 
-		//public Post Post { get; set; }
+		public PostViewDTO PostViewDTO { get; set; }
 
 		public DateTime ModifiedDate { get; set; }
 
-		//public List<Complaint> Complaints { get; set; }
+		public List<ComplaintViewDTO> Complaints { get; set; }
 	}
 }
