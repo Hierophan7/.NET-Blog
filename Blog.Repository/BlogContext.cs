@@ -21,7 +21,6 @@ namespace Blog.Repository
 			: base(options)
 		{
 			_httpContextAccessor = httpContextAccessor;
-			Database.EnsureCreated();
 		}
 
 		public DbSet<User> Users { get; set; }
@@ -35,8 +34,6 @@ namespace Blog.Repository
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<TagPost> TagPosts{ get; set; }
-
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Role>().HasData(
