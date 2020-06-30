@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Blog.Repository
 {
@@ -14,6 +16,7 @@ namespace Blog.Repository
 		public BaseRepository(DbContext entitiesContext)
 		{
 			this.EntitiesContext = entitiesContext;
+			
 		}
 
 		public void Create(TEntity entity)
@@ -51,6 +54,11 @@ namespace Blog.Repository
 
 		public async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
 		{
+			//IEnumerable<TEntity> query = null;
+
+			//query = await this.EntitiesContext.Set<TEntity>().Where(expression).AsNoTracking().ToListAsync();
+
+			//return query;
 			return await this.EntitiesContext.Set<TEntity>().Where(expression).AsNoTracking().ToListAsync();
 		}
 
@@ -62,6 +70,31 @@ namespace Blog.Repository
 		public void Update(TEntity entity)
 		{
 			this.EntitiesContext.Set<TEntity>().Update(entity);
+		}
+
+		public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes)
+		{
+			IQueryable<TEntity> query = null;
+
+			if (expression != null)
+				query = EntitiesContext.Set<TEntity>().Where(expression);
+			else
+				query = EntitiesContext.Set<TEntity>();
+
+			if (includes != null)
+				return await includes.Aggregate(query, (current, include) =>
+				{
+					if (!string.IsNullOrEmpty("include"))
+						return current.Include(include);
+					else
+						return current;
+				})
+					.AsNoTracking()
+					.ToListAsync();
+			else
+				return await query
+					.AsNoTracking()
+					.ToListAsync();
 		}
 	}
 }

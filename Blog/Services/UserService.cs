@@ -111,5 +111,24 @@ namespace Blog.Services
 
 			return user;
 		}
+
+		public async Task<User> AuthenticateAsync(string email, string password)
+		{
+			if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+				return null;
+
+			var user = (await _repository.FindByConditionAsync(u => u.Email == email)).FirstOrDefault();
+
+			// check if username exists
+			if (user == null)
+				return null;
+
+			// check if password is correct
+			if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+				return null;
+
+			// authentication successful
+			return user;
+		}
 	}
 }
