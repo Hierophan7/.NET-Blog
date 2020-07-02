@@ -18,7 +18,7 @@ namespace Blog.Entities.DTOs.Account
 
 		[Required]
 		[DataType(DataType.Password)]
-		[Compare("Password", ErrorMessage = "Password mismatch")]
+		[Compare("NewPassword", ErrorMessage = "Password mismatch")]
 		public string NewPasswordConfirm { get; set; }
 
 		public string UserEmail { get; set; }

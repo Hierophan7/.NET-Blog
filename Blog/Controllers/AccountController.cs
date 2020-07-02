@@ -50,12 +50,13 @@ namespace Blog.Controllers
 		{
 			var user = await _userService.AuthenticateAsync(userAuthenticateDto.Email, userAuthenticateDto.Password);
 
-			var userRole = await _roleService.GetByIdAsync(user.RoleId);
 
 			if (user == null)
 			{
 				return BadRequest(new { message = "К сожалению, логин или пароль неверны" });
 			}
+
+			var userRole = await _roleService.GetByIdAsync(user.RoleId);
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -119,38 +120,39 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> SendLinkForChengePassword(string email)
 		{
-			var user = _userService.GetByEmailAsync(email);
+			var user = await _userService.GetByEmailAsync(email);
 
 			if (user == null)
 			{
 				return BadRequest(new { message = $"User with {email} email wasn't find" });
 			}
 
-			var userNewPasswordDto = new UserNewPasswordDto()
-			{
-				UserEmail = email
-			};
+			
 
 			var callBack = Url.Action(
 				"NewPassword",
 				"Account",
-				new { user = userNewPasswordDto },
+				new { userEmail = email },
 				protocol: HttpContext.Request.Scheme);
 
 			await _emailService.SendAsync("Відновлення паролю",
-			 $"Для відновлення паролю, передіть за посиланням <a href='{callBack}'>Diary</a>", email);
+			 $"Для відновлення паролю, передіть за посиланням <a href='{callBack}'>Travel blog</a>", email);
 
 			return RedirectToAction("Authenticate", "Account");
 		}
-
+		 
 		[HttpGet]
-		public async Task<IActionResult> NewPasswordAsync(UserNewPasswordDto user)
+		public async Task<IActionResult> NewPassword(string userEmail)
 		{
-			var existUser = await _userService.GetByEmailAsync(user.UserEmail);
+			var existUser = await _userService.GetByEmailAsync(userEmail);
 
-			user.Id = existUser.Id;
+			UserNewPasswordDto userNewPasswordDto = new UserNewPasswordDto()
+			{
+				Id = existUser.Id,
+				UserEmail = existUser.Email
+			};
 
-			return View(user);
+			return View(userNewPasswordDto);
 		}
 
 		[HttpPost]
@@ -163,11 +165,11 @@ namespace Blog.Controllers
 				if (isPasswordChanged)
 					return RedirectToAction("Authenticate", "Account");
 				else
-					return BadRequest(new { message = "User do not find in DB" });
+					return BadRequest(new { message = "User didn't find in DB" });
 			}
 			else
 			{
-				return BadRequest(new { message = "Model state is not valid" });
+				return BadRequest(new { message = "Model state isn't valid" });
 			}
 		}
 	}

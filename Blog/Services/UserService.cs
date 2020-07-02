@@ -28,6 +28,9 @@ namespace Blog.Services
 
 				CreatePasswordHash(newPassword, out newPasswordHash, out newPasswordSalt);
 
+				user.PasswordHash = newPasswordHash;
+				user.PasswordSalt = newPasswordSalt;
+
 				await _repository.UpdateEntryAsync(user, x => x.PasswordHash, x => x.PasswordSalt);
 
 				return true;
@@ -80,7 +83,8 @@ namespace Blog.Services
 
 			using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
 			{
-				var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+				var passEnc = System.Text.Encoding.UTF8.GetBytes(password);
+				var computedHash = hmac.ComputeHash(passEnc);
 				return computedHash.SequenceEqual(storedHash);
 			}
 		}
@@ -125,7 +129,7 @@ namespace Blog.Services
 
 			// check if password is correct
 			if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-				return null;
+					return null;
 
 			// authentication successful
 			return user;

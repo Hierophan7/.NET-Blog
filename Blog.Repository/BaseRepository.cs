@@ -54,10 +54,6 @@ namespace Blog.Repository
 
 		public async Task<IEnumerable<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
 		{
-			//IEnumerable<TEntity> query = null;
-
-			//query = await this.EntitiesContext.Set<TEntity>().Where(expression).AsNoTracking().ToListAsync();
-
 			//return query;
 			return await this.EntitiesContext.Set<TEntity>().Where(expression).AsNoTracking().ToListAsync();
 		}
