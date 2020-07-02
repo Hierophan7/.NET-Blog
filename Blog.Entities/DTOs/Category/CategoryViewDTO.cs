@@ -14,6 +14,6 @@ namespace Blog.Entities.DTOs.Category
 		[Required]
 		public string CategoryName { get; set; }
 
-		//public List<PostViewDTO> Posts { get; set; }
+		public List<PostViewDTO> PostViewDTOs { get; set; }
 	}
 }

@@ -12,5 +12,6 @@ namespace Blog.Services.Interfaces
 		Task<User> CreateAsync(User user, string password);
 		Task<bool> ChangePassword(Guid userId, string newPassword);
 		Task<bool> ChangePassword(Guid userId, string newPassword, string oldPassword);
+		Task<User> GetByEmailAsync(string email);
 	}
 }

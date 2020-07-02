@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Blog.Entities.Enums;
-using Blog.Entities.Models;
-using Blog.Entities.DTOs.Picture;
-using Blog.Entities.DTOs.Comment;
-using Blog.Entities.DTOs.Category;
 using System.ComponentModel.DataAnnotations;
+using Blog.Entities.DTOs.Picture;
+using Blog.Entities.Enums;
 
 namespace Blog.Entities.DTOs.Post
 {
@@ -33,8 +29,6 @@ namespace Blog.Entities.DTOs.Post
 
 		public DateTime ModifiedDate { get; set; }
 
-		public List<CommentCreateDTO> Comments { get; set; }
-		
 		public List<PictureCreateDTO> Pictures { get; set; }
 
 		//Tags;

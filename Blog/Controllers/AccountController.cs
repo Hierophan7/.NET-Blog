@@ -16,24 +16,27 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Controllers
 {
+	//[Route("api/[controller]")]
 	public class AccountController : Controller
 	{
 		private IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly AppSettings _appSettings;
 		private readonly IRoleService _roleService;
-
+		private readonly IEmailService _emailService;
 
 		public AccountController(
 			IUserService userService,
 			IMapper mapper,
 			IOptions<AppSettings> appSettings,
-			IRoleService roleService)
+			IRoleService roleService,
+			IEmailService emailService)
 		{
 			_userService = userService;
 			_appSettings = appSettings.Value;
 			_mapper = mapper;
 			_roleService = roleService;
+			_emailService = emailService;
 		}
 
 		[HttpGet]
@@ -43,9 +46,11 @@ namespace Blog.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Authenticate([FromBody] UserAuthenticateDto userAuthenticateDto)
+		public async Task<IActionResult> Authenticate(UserAuthenticateDto userAuthenticateDto)
 		{
 			var user = await _userService.AuthenticateAsync(userAuthenticateDto.Email, userAuthenticateDto.Password);
+
+			var userRole = await _roleService.GetByIdAsync(user.RoleId);
 
 			if (user == null)
 			{
@@ -59,8 +64,9 @@ namespace Blog.Controllers
 				Subject = new ClaimsIdentity(new Claim[]
 				{
 					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+					new Claim(ClaimTypes.Name, user.UserName),
 					new Claim(ClaimTypes.Email, user.Email),
-					new Claim(ClaimTypes.Role, user.Role.RoleName)
+					new Claim(ClaimTypes.Role, userRole.RoleName)
 				}),
 				Expires = DateTime.UtcNow.AddDays(7),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -96,12 +102,73 @@ namespace Blog.Controllers
 
 				user.RoleId = role.Id;
 
-				var newUser = await _userService.CreateAsync(user, userRegisterDto.Password);
+				await _userService.CreateAsync(user, userRegisterDto.Password);
 
 				return RedirectToAction("Authenticate", "Account");
 			}
 			else
 				return BadRequest(new { message = "Enter Email and  Password or write all required data for user" });
+		}
+
+		[HttpGet]
+		public IActionResult SendLinkForChengePassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> SendLinkForChengePassword(string email)
+		{
+			var user = _userService.GetByEmailAsync(email);
+
+			if (user == null)
+			{
+				return BadRequest(new { message = $"User with {email} email wasn't find" });
+			}
+
+			var userNewPasswordDto = new UserNewPasswordDto()
+			{
+				UserEmail = email
+			};
+
+			var callBack = Url.Action(
+				"NewPassword",
+				"Account",
+				new { user = userNewPasswordDto },
+				protocol: HttpContext.Request.Scheme);
+
+			await _emailService.SendAsync("Відновлення паролю",
+			 $"Для відновлення паролю, передіть за посиланням <a href='{callBack}'>Diary</a>", email);
+
+			return RedirectToAction("Authenticate", "Account");
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> NewPasswordAsync(UserNewPasswordDto user)
+		{
+			var existUser = await _userService.GetByEmailAsync(user.UserEmail);
+
+			user.Id = existUser.Id;
+
+			return View(user);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> NewPassword(UserNewPasswordDto user)
+		{
+			if (ModelState.IsValid && user.Id != Guid.Empty && user.NewPassword.Equals(user.NewPasswordConfirm))
+			{
+				bool isPasswordChanged = await _userService.ChangePassword(user.Id, user.NewPassword);
+
+				if (isPasswordChanged)
+					return RedirectToAction("Authenticate", "Account");
+				else
+					return BadRequest(new { message = "User do not find in DB" });
+			}
+			else
+			{
+				return BadRequest(new { message = "Model state is not valid" });
+			}
 		}
 	}
 }

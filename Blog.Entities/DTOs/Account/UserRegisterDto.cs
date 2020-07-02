@@ -16,7 +16,7 @@ namespace Blog.Entities.DTOs.Account
 
 		[Required]
 		[DataType(DataType.Password)]
-		[Compare("Password", ErrorMessage = "Пароли не совпадают")]
+		[Compare("Password", ErrorMessage = "Password mismatch")]
 		public string PasswordConfirm { get; set; }
 	}
 }

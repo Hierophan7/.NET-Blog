@@ -1,4 +1,7 @@
-﻿namespace Blog.Entities.DTOs.Account
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Blog.Entities.DTOs.Account
 {
 	public class UserChangePasswordDto : UserNewPasswordDto
 	{
@@ -7,8 +10,17 @@
 
 	public class UserNewPasswordDto
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
+
+		[Required]
+		[DataType(DataType.Password)]
 		public string NewPassword { get; set; }
+
+		[Required]
+		[DataType(DataType.Password)]
+		[Compare("Password", ErrorMessage = "Password mismatch")]
 		public string NewPasswordConfirm { get; set; }
+
+		public string UserEmail { get; set; }
 	}
 }

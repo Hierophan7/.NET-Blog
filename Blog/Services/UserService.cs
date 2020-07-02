@@ -130,5 +130,10 @@ namespace Blog.Services
 			// authentication successful
 			return user;
 		}
+
+		public async Task<User> GetByEmailAsync(string email)
+		{
+			return (await _repository.FindByConditionAsync(u => u.Email == email)).FirstOrDefault();
+		}
 	}
 }

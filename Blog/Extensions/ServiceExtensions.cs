@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blog.Services;
+﻿using Blog.Services;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +12,14 @@ namespace Blog.Extensions
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IRoleService, RoleService>();
+			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<ICategoryService, CategoryService>();
+			services.AddScoped<ICommentService, CommentService>();
+			services.AddScoped<IComplaintService, ComplaintService>();
+			services.AddScoped<IPictureService, PictureService>();
+			services.AddScoped<IReactionService, ReactionService>();
+			services.AddScoped<ITagService, TagService>();
+			services.AddScoped<IEmailService, EmailService>();
 		}
 	}
 }
