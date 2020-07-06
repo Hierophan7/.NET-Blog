@@ -10,8 +10,8 @@
 
 		public const string userSender = "travelblog1.no.reply@gmail.com";
 
-		public const string passwordSender = "TraveBlog111";
+		public const string passwordSender = "TravelBlog111";
 
-		public const string headerAdministrationSite = "Администрация сайта";
+		public const string headerAdministrationSite = "Администрация сайта Travel Blog";
 	}
 }

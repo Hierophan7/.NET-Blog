@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Blog.Common;
 using Blog.Entities.DTOs.Account;
 using Blog.Entities.Models;
 using Blog.Helpers;
 using Blog.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Controllers
 {
-	//[Route("api/[controller]")]
 	public class AccountController : Controller
 	{
 		private IUserService _userService;
@@ -24,66 +24,61 @@ namespace Blog.Controllers
 		private readonly AppSettings _appSettings;
 		private readonly IRoleService _roleService;
 		private readonly IEmailService _emailService;
+		private readonly UserManager<User> _userManager;
+		private readonly SignInManager<User> _signInManager;
 
 		public AccountController(
 			IUserService userService,
 			IMapper mapper,
 			IOptions<AppSettings> appSettings,
 			IRoleService roleService,
-			IEmailService emailService)
+			IEmailService emailService,
+			UserManager<User> userManager,
+			SignInManager<User> signInManager)
 		{
 			_userService = userService;
 			_appSettings = appSettings.Value;
 			_mapper = mapper;
 			_roleService = roleService;
 			_emailService = emailService;
+			_userManager = userManager;
+			_signInManager = signInManager;
 		}
 
 		[HttpGet]
-		public IActionResult Authenticate()
+		public IActionResult Authenticate(string returnUrl = null)
 		{
-			return View();
+			return View(new UserAuthenticateDto { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Authenticate(UserAuthenticateDto userAuthenticateDto)
 		{
-			var user = await _userService.AuthenticateAsync(userAuthenticateDto.Email, userAuthenticateDto.Password);
-
-
-			if (user == null)
+			if (ModelState.IsValid)
 			{
-				return BadRequest(new { message = "К сожалению, логин или пароль неверны" });
+				var user = await _userService.GetByEmailAsync(userAuthenticateDto.Email);
+
+				var result =
+					await _signInManager.PasswordSignInAsync(user, userAuthenticateDto.Password, userAuthenticateDto.RememberMe, false);
+
+				if (result.Succeeded)
+				{
+					// проверяем, принадлежит ли URL приложению
+					if (!string.IsNullOrEmpty(userAuthenticateDto.ReturnUrl) && Url.IsLocalUrl(userAuthenticateDto.ReturnUrl))
+					{
+						return Redirect(userAuthenticateDto.ReturnUrl);
+					}
+					else
+					{
+						return RedirectToAction("Index", "Home");
+					}
+				}
+				else
+				{
+					ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+				}
 			}
-
-			var userRole = await _roleService.GetByIdAsync(user.RoleId);
-
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity(new Claim[]
-				{
-					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-					new Claim(ClaimTypes.Name, user.UserName),
-					new Claim(ClaimTypes.Email, user.Email),
-					new Claim(ClaimTypes.Role, userRole.RoleName)
-				}),
-				Expires = DateTime.UtcNow.AddDays(7),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-			};
-
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			var tokenString = tokenHandler.WriteToken(token);
-
-			return Ok(
-				new
-				{
-					Id = user.Id,
-					Email = user.Email,
-					UserName = user.UserName,
-					Token = tokenString
-				});
+			return View(userAuthenticateDto);
 		}
 
 		[HttpGet]
@@ -95,20 +90,44 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(userRegisterDto.Email) && !string.IsNullOrEmpty(userRegisterDto.Password))
+
+			if (ModelState.IsValid)
 			{
 				var user = _mapper.Map<User>(userRegisterDto);
 
-				var role = await _roleService.GetRoleByName("User");
+				// добавляем пользователя
+				var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
 
-				user.RoleId = role.Id;
+				if (result.Succeeded)
+				{
+					var currentUser = await _userManager.FindByEmailAsync(user.Email);
+					await _userManager.AddToRoleAsync(currentUser, "User");
 
-				await _userService.CreateAsync(user, userRegisterDto.Password);
+					await _emailService.SendAsync(SeccessRegisterSettings.subject,
+							SeccessRegisterSettings.CteateMessage(userRegisterDto), userRegisterDto.Email);
 
-				return RedirectToAction("Authenticate", "Account");
+					// установка куки
+					await _signInManager.SignInAsync(user, false);
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					foreach (var error in result.Errors)
+					{
+						ModelState.AddModelError(string.Empty, error.Description);
+					}
+				}
 			}
-			else
-				return BadRequest(new { message = "Enter Email and  Password or write all required data for user" });
+			return View(userRegisterDto);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> LogOff()
+		{
+			// delete authentication cookies
+			await _signInManager.SignOutAsync();
+
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]
@@ -127,50 +146,127 @@ namespace Blog.Controllers
 				return BadRequest(new { message = $"User with {email} email wasn't find" });
 			}
 
-			
-
-			var callBack = Url.Action(
+			var feedBack = Url.Action(
 				"NewPassword",
 				"Account",
 				new { userEmail = email },
 				protocol: HttpContext.Request.Scheme);
 
-			await _emailService.SendAsync("Відновлення паролю",
-			 $"Для відновлення паролю, передіть за посиланням <a href='{callBack}'>Travel blog</a>", email);
+			await _emailService.SendAsync(PasswordRecoverySettings.subject,
+				PasswordRecoverySettings.GetMessageWihtFeedBack(feedBack), email);
 
 			return RedirectToAction("Authenticate", "Account");
 		}
-		 
+
 		[HttpGet]
 		public async Task<IActionResult> NewPassword(string userEmail)
 		{
 			var existUser = await _userService.GetByEmailAsync(userEmail);
 
-			UserNewPasswordDto userNewPasswordDto = new UserNewPasswordDto()
-			{
-				Id = existUser.Id,
-				UserEmail = existUser.Email
-			};
+			var userNewPasswordDto = _mapper.Map<UserNewPasswordDto>(existUser);
+
+			//UserNewPasswordDto userNewPasswordDto = new UserNewPasswordDto()
+			//{
+			//	Id = existUser.Id,
+			//	UserEmail = existUser.Email
+			//};
 
 			return View(userNewPasswordDto);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> NewPassword(UserNewPasswordDto user)
+		public async Task<IActionResult> NewPassword(UserNewPasswordDto userNewPasswordDto)
 		{
-			if (ModelState.IsValid && user.Id != Guid.Empty && user.NewPassword.Equals(user.NewPasswordConfirm))
+			if (ModelState.IsValid && userNewPasswordDto.Id != Guid.Empty && userNewPasswordDto.NewPassword.Equals(userNewPasswordDto.NewPasswordConfirm))
 			{
-				bool isPasswordChanged = await _userService.ChangePassword(user.Id, user.NewPassword);
+				var user = await _userManager.FindByIdAsync(userNewPasswordDto.Id.ToString());
 
-				if (isPasswordChanged)
-					return RedirectToAction("Authenticate", "Account");
+				if (user != null)
+				{
+					var _passwordValidator =
+				HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+					var _passwordHasher =
+						HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+					IdentityResult result =
+						await _passwordValidator.ValidateAsync(_userManager, user, userNewPasswordDto.NewPassword);
+
+					if (result.Succeeded)
+					{
+						user.PasswordHash = _passwordHasher.HashPassword(user, userNewPasswordDto.NewPassword);
+
+						await _userManager.UpdateAsync(user);
+
+						return RedirectToAction("Authenticate", "Account");
+					}
+					else
+					{
+						foreach (var error in result.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+					}
+				}
 				else
-					return BadRequest(new { message = "User didn't find in DB" });
+				{
+					ModelState.AddModelError(string.Empty, "Користувач незнайдений");
+				}
 			}
 			else
 			{
-				return BadRequest(new { message = "Model state isn't valid" });
+				return Content("Model state isn't valid");
 			}
+			return View(userNewPasswordDto);
+		}
+
+		[Authorize]
+		[HttpGet]
+		public async Task<IActionResult> ChangePassword()
+		{
+			var nameOfCurrentUser = HttpContext.User.Identity.Name;
+
+			var currentUser = await _userManager.FindByNameAsync(nameOfCurrentUser);
+
+			var userChangePasswordDto = _mapper.Map<UserChangePasswordDto>(currentUser);
+
+			return View(userChangePasswordDto);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public async Task<IActionResult> ChangePassword(UserChangePasswordDto userChangePasswordDto)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByIdAsync(userChangePasswordDto.Id.ToString());
+
+				if (user != null)
+				{
+					IdentityResult result =
+						await _userManager.ChangePasswordAsync(user, userChangePasswordDto.OldPassword, userChangePasswordDto.NewPassword);
+
+					if (result.Succeeded)
+					{
+						return RedirectToAction("Index", "Home");
+					}
+					else
+					{
+						foreach (var error in result.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+					}
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "Користувач незнайдений");
+				}
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, "Неправильно введені дані");
+			}
+			return View(userChangePasswordDto);
 		}
 	}
 }

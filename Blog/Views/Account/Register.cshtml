@@ -15,10 +15,12 @@
 				<div class="form-group row px-3">
 					<label class="col-form-label">Введіть ім'я користувача:</label><br />
 					<input class="w-100" asp-for="UserName" placeholder="Ім'я користувача" />
+					<span asp-validation-for="UserName"></span>
 				</div>
 				<div class="form-group row px-3">
 					<label class="col-form-label">Введіть ваш email:</label><br />
 					<input class="w-100" asp-for="Email" placeholder="Email" type="email" />
+					<span asp-validation-for="Email"></span>
 				</div>
 				<div class="form-group row px-3">
 					<label class="col-form-label">Введіть ваш пароль:</label><br />

@@ -21,6 +21,8 @@ namespace Blog.Helpers
 			CreateMap<UserUpdateDto, User>();
 			CreateMap<User, UserViewDto>();
 			CreateMap<UserViewDto, User>();
+			CreateMap<User, UserChangePasswordDto>();
+			CreateMap<User, UserNewPasswordDto>();
 
 			CreateMap<CategoryCreateDTO, Category>();
 			CreateMap<Category, CategoryViewDTO>();

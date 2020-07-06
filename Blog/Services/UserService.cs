@@ -5,17 +5,21 @@ using System.Threading.Tasks;
 using Blog.Entities.Models;
 using Blog.Repository;
 using Blog.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Services
 {
 	public class UserService : BaseService<User>, IUserService
 	{
 		private Repository<User> _repository;
+		private readonly UserManager<User> _userManager;
 
-		public UserService(BlogContext blogContext)
+		public UserService(BlogContext blogContext,
+			UserManager<User> userManager)
 			: base(blogContext)
 		{
 			_repository = new Repository<User>(blogContext);
+			_userManager = userManager;
 		}
 
 		public async Task<bool> ChangePassword(Guid userId, string newPassword)
@@ -28,7 +32,7 @@ namespace Blog.Services
 
 				CreatePasswordHash(newPassword, out newPasswordHash, out newPasswordSalt);
 
-				user.PasswordHash = newPasswordHash;
+				user.PasswordHash = System.Text.Encoding.UTF8.GetString(newPasswordHash);
 				user.PasswordSalt = newPasswordSalt;
 
 				await _repository.UpdateEntryAsync(user, x => x.PasswordHash, x => x.PasswordSalt);
@@ -43,14 +47,16 @@ namespace Blog.Services
 		{
 			var user = (await _repository.FindByConditionAsync(u => u.Id == userId)).FirstOrDefault();
 
+			byte[] bytePasswordHash = System.Text.Encoding.UTF8.GetBytes(newPassword);
+
 			if (user != null)
 			{
-				if (VerifyPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+				if (VerifyPasswordHash(oldPassword, bytePasswordHash, user.PasswordSalt))
 				{
 					byte[] newPasswordHash, newPasswordSalt;
 					CreatePasswordHash(newPassword, out newPasswordHash, out newPasswordSalt);
 
-					user.PasswordHash = newPasswordHash;
+					user.PasswordHash = System.Text.Encoding.UTF8.GetString(newPasswordHash);
 					user.PasswordSalt = newPasswordSalt;
 
 					await _repository.UpdateEntryAsync(user, x => x.PasswordHash, x => x.PasswordSalt);
@@ -100,11 +106,11 @@ namespace Blog.Services
 			byte[] passwordHash, passwordSalt;
 			CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-			user.PasswordHash = passwordHash;
+			user.PasswordHash = System.Text.Encoding.UTF8.GetString(passwordHash);
+			
 			user.PasswordSalt = passwordSalt;
 
-			_repository.Create(user);
-			await _repository.SaveAsync();
+			await _userManager.CreateAsync(user);
 
 			return user;
 		}
@@ -123,13 +129,15 @@ namespace Blog.Services
 
 			var user = (await _repository.FindByConditionAsync(u => u.Email == email)).FirstOrDefault();
 
+			byte[] bytePasswordHash = System.Text.Encoding.UTF8.GetBytes(user.PasswordHash);
+
 			// check if username exists
 			if (user == null)
 				return null;
 
 			// check if password is correct
-			if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-					return null;
+			if (!VerifyPasswordHash(password, bytePasswordHash, user.PasswordSalt))
+				return null;
 
 			// authentication successful
 			return user;

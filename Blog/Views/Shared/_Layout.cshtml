@@ -27,10 +27,16 @@
 					</ul>
 				</div>
 
-				@if (!User.Identity.IsAuthenticated)
+				@if (User.Identity.IsAuthenticated)
+				{
+					<a class="text-dark" style="text-decoration: none;" asp-controller="Account" asp-action="LogOff">
+						Вийти <img src="~/signout.png" />
+					</a>
+				}
+				else
 				{
 					<a class="text-dark" style="text-decoration: none;" asp-action="Authenticate" asp-controller="Account">
-						Вхід <img src="~/login.png" />
+						Увійти <img src="~/signin_106368.png" />
 					</a>
 				}
 			</div>

@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blog.Entities.Models;
 using Blog.Entities.Models.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Repository
 {
-	public class BlogContext : DbContext
+	public class BlogContext : IdentityDbContext<User, AppRole, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 	{
 		private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -21,11 +19,12 @@ namespace Blog.Repository
 			: base(options)
 		{
 			_httpContextAccessor = httpContextAccessor;
+			Database.EnsureCreated();
 		}
 
-		public DbSet<User> Users { get; set; }
+		//public DbSet<User> Users { get; set; }
 		public DbSet<Tag> Tags { get; set; }
-		public DbSet<Role> Roles { get; set; }
+		//public DbSet<Role> Roles { get; set; }
 		public DbSet<Reaction> Reations { get; set; }
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<Picture> Pictures { get; set; }
@@ -34,15 +33,23 @@ namespace Blog.Repository
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<TagPost> TagPosts{ get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Role>().HasData(
-				new Role[]
-				{
-					new Role{ Id = Guid.NewGuid(), RoleName = "Admin"},
-					new Role{Id = Guid.NewGuid(), RoleName = "Superadmin"},
-					new Role{Id = Guid.NewGuid(), RoleName = "User"}
-				});
+			//modelBuilder.Entity<Role>().HasData(
+			//	new Role[]
+			//	{
+			//		new Role{ Id = Guid.NewGuid(), RoleName = "Admin"},
+			//		new Role{Id = Guid.NewGuid(), RoleName = "Superadmin"},
+			//		new Role{Id = Guid.NewGuid(), RoleName = "User"}
+			//	});
+
+			modelBuilder.Entity<RoleClaim>().HasKey(p => new { p.Id });
+			modelBuilder.Entity<UserLogin>().HasKey(p => new { p.UserId });
+			modelBuilder.Entity<UserClaim>().HasKey(p => new { p.Id });
+			modelBuilder.Entity<UserRole>().HasKey(p => new { p.UserId, p.RoleId });
+			modelBuilder.Entity<UserToken>().HasKey(p => new { p.UserId });
+			modelBuilder.Entity<AppRole>().HasKey(p => new { p.Id });
 
 			modelBuilder.Entity<TagPost>()
 				.HasKey(bc => new { bc.TagId, bc.PostId });
@@ -56,6 +63,9 @@ namespace Blog.Repository
 				.HasOne(bc => bc.Tag)
 				.WithMany(c => c.TagPosts)
 				.HasForeignKey(bc => bc.TagId);
+
+			base.OnModelCreating(modelBuilder);
+
 		}
 
 		public override int SaveChanges(bool acceptAllChangesOnSuccess)

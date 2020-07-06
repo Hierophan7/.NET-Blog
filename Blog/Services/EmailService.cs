@@ -27,7 +27,7 @@ namespace Blog.Services
 			using (var client = new SmtpClient())
 			{
 				await client.ConnectAsync(EmailSettings.smtpAdress, EmailSettings.port, EmailSettings.cancellationToken);
-				await client.AuthenticateAsync("travelblog1.no.reply@gmail.com", "TravelBlog111");
+				await client.AuthenticateAsync(EmailSettings.userSender, EmailSettings.passwordSender);
 				await client.SendAsync(emailMessage);
 				await client.DisconnectAsync(true);
 			}
