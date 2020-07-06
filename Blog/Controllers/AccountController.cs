@@ -165,12 +165,6 @@ namespace Blog.Controllers
 
 			var userNewPasswordDto = _mapper.Map<UserNewPasswordDto>(existUser);
 
-			//UserNewPasswordDto userNewPasswordDto = new UserNewPasswordDto()
-			//{
-			//	Id = existUser.Id,
-			//	UserEmail = existUser.Email
-			//};
-
 			return View(userNewPasswordDto);
 		}
 
@@ -196,6 +190,9 @@ namespace Blog.Controllers
 						user.PasswordHash = _passwordHasher.HashPassword(user, userNewPasswordDto.NewPassword);
 
 						await _userManager.UpdateAsync(user);
+
+						await _emailService.SendAsync(ChangePasswordSettings.subject,
+				ChangePasswordSettings.GetMessage(userNewPasswordDto.Email, userNewPasswordDto.NewPassword), userNewPasswordDto.Email);
 
 						return RedirectToAction("Authenticate", "Account");
 					}
@@ -247,6 +244,9 @@ namespace Blog.Controllers
 
 					if (result.Succeeded)
 					{
+						await _emailService.SendAsync(ChangePasswordSettings.subject,
+				ChangePasswordSettings.GetMessage(userChangePasswordDto.Email, userChangePasswordDto.NewPassword), userChangePasswordDto.Email);
+
 						return RedirectToAction("Index", "Home");
 					}
 					else
