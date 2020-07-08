@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Blog.Entities.DTOs.Account.UserViewDto>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/css/social.css" rel="stylesheet" type="text/css" />
+<link href="~/css/userCard.css" rel="stylesheet" type="text/css" />
+
+@foreach (var item in Model)
+{
+	<div class="card mb-3" style="max-width: 540px;">
+		<div class="row no-gutters">
+			<div class="col-4 p-1">
+				<div class="row">
+					<img src="~/unkown.png" class="card-img" alt="...">
+				</div>
+				<div class="row text-center control-buttons">
+					<div class="col">
+						<div class="row">
+							<div class="col ">
+								<a onclick="showInPopup('@Url.Action("UpdateUser","Admin", new { id = item.Id }, Context.Request.Scheme)', 'Редагування користувача')">
+									<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/pencil.svg">
+								</a>
+							</div>
+							<div class="col">
+								<form asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" onsubmit=" return jQueryAjaxDelete(this);">
+									<div class="ed-del-buttons">
+										<button type="submit">
+											<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/trash.svg">
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="card-body">
+					<h5 class="card-title text-left">@item.UserName</h5>
+					<label for="userEmail">Email:</label>
+					<p class="card-text" id="userEmail">@item.Email</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-center mb-4">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<div class="social">
+								<ul>
+									@if (item.FacebookLink != null)
+									{
+										<li><a href="@item.FacebookLink.ToString()"><i class="fa fa-lg fa-facebook"></i></a></li>
+									}
+									
+									@if (item.TwitterLink != null)
+									{
+										<li><a href="@item.TwitterLink.ToString()"><i class="fa fa-lg fa-twitter"></i></a></li>
+
+									}
+
+									@if (item.LinkedInLink != null)
+									{
+										<li><a href="@item.LinkedInLink.ToString()"><i class="fa fa-lg fa-linkedin"></i></a></li>
+									}
+
+									@if (item.InstagramLink != null)
+									{
+										<li><a href="@item.InstagramLink.ToString()"><i class="fa fa-lg fa-instagram"></i></a></li>
+									}
+
+									@if (item.YoutubeLink != null)
+									{
+										<li><a href="@item.YoutubeLink.ToString()"><i class="fa fa-lg fa-youtube"></i></a></li>
+									}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blog.Entities.Models;
 using Blog.Repository;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -26,9 +23,10 @@ namespace Blog
 				try
 				{
 					var rolesManager = services.GetRequiredService<RoleManager<AppRole>>();
+					var userManager = services.GetRequiredService<UserManager<User>>();
 
 					DbInitializer dbInitializer = new DbInitializer();
-					await dbInitializer.InitializeAsync( rolesManager);
+					await dbInitializer.InitializeAsync(rolesManager, userManager);
 				}
 				catch (Exception ex)
 				{

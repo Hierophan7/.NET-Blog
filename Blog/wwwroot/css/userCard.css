@@ -1,0 +1,13 @@
+﻿.control-buttons {
+	height: 2em;
+}
+
+	.control-buttons img {
+		height: 1em;
+		width: 1em;
+	}
+
+		.control-buttons img:hover {
+			height: 1.5em;
+			width: 1.5em;
+		}

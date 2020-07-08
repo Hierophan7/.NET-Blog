@@ -20,7 +20,10 @@
 					<label class="col-form-label">Введіть ваш пароль:</label><br />
 					<input class="w-100" type="password" asp-for="Password" placeholder="Пароль" />
 				</div>
-
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="rememberMe" asp-for="RememberMe">
+					<label class="form-check-label" for="rememberMe">Запам'ятати мене</label>
+				</div>
 				<div class="small mt-2">
 					<a class="text-left mb-0" asp-action="SendLinkForChengePassword" asp-controller="Account">Забули пароль?</a><br />
 					Немає облікового запису? <a asp-action="Register" asp-controller="Account">Створіть його!</a>

@@ -1,14 +1,17 @@
-﻿namespace Blog.Entities.DTOs.Account
+﻿using System;
+using Blog.Entities.DTOs.Picture;
+
+namespace Blog.Entities.DTOs.Account
 {
 	public class UserViewDto
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string UserName { get; set; }
 
 		public string Email { get; set; }
 
-		public int RoleId { get; set; }
+		public Guid RoleId { get; set; }
 
 		public string RoleName { get; set; }
 
@@ -21,5 +24,7 @@
 		public string LinkedInLink { get; set; }
 
 		public string TwitterLink { get; set; }
+		
+		public PictureViewDTO PictureViewDTO { get; set; }
 	}
 }

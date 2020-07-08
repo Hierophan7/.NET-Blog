@@ -46,6 +46,7 @@ namespace Blog
 			services.AddIdentity<User, AppRole>(opts =>
 			{
 				opts.Password.RequireUppercase = false;
+				opts.Password.RequireNonAlphanumeric = false;
 			})
 				.AddEntityFrameworkStores<BlogContext>();
 				//.AddDefaultTokenProviders();

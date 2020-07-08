@@ -1,0 +1,105 @@
+﻿@model Abbott.Entities.Dtos.Account.UserUpdateDto
+
+@{
+	Layout = null;
+}
+
+<div class="card mb-3" style="max-width: 540px;">
+	<div class="row no-gutters">
+
+		<div class="col">
+			<div class="card-body">
+				<form asp-action="UpdateUser" asp-controller="Admin" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+					<input asp-for="Id" type="hidden" />
+
+					<div class="row">
+						<div class="col-4 p-1">
+							<div class="row">
+								<img src="~/unkown.png" class="card-img" alt="...">
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-group">
+								<label class="control-label">Ім'я користувача</label>
+								<input asp-for="UserName" class="form-control" />
+								<span asp-validation-for="UserName" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Email</label>
+								<input asp-for="Email" class="form-control" />
+								<span asp-validation-for="Email" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					@*<div class="form-group">
+							<label class="control-label"></label>
+							<input asp-for="RoleId" class="form-control" />
+							<span asp-validation-for="RoleId" class="text-danger"></span>
+						</div>*@
+					<div class="form-group">
+						<div class="row">
+							<div class="col-3">
+								<label class="control-label">Instagram</label>
+							</div>
+							<div class="col">
+								<input asp-for="InstagramLink" class="form-control" placeholder="Посилання" />
+								<span asp-validation-for="InstagramLink" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-3">
+								<label class="control-label">Youtube</label>
+							</div>
+							<div class="col">
+								<input asp-for="YoutubeLink" class="form-control" placeholder="Посилання" />
+								<span asp-validation-for="YoutubeLink" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-3">
+								<label class="control-label">Facebook</label>
+							</div>
+							<div class="col">
+								<input asp-for="FacebookLink" class="form-control" placeholder="Посилання" />
+								<span asp-validation-for="FacebookLink" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-3">
+								<label class="control-label">LinkedIn</label>
+							</div>
+							<div class="col">
+								<input asp-for="LinkedInLink" class="form-control" placeholder="Посилання" />
+								<span asp-validation-for="LinkedInLink" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-3">
+								<label class="control-label">Twitter</label>
+							</div>
+							<div class="col">
+								<input asp-for="TwitterLink" class="form-control" placeholder="Посилання" />
+								<span asp-validation-for="TwitterLink" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Save" class="btn btn-primary" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
