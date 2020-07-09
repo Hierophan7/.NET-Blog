@@ -4,55 +4,55 @@
 <link href="~/css/social.css" rel="stylesheet" type="text/css" />
 <link href="~/css/userCard.css" rel="stylesheet" type="text/css" />
 
-@foreach (var item in Model)
-{
-	<div class="card mb-3" style="max-width: 540px;">
-		<div class="row no-gutters">
-			<div class="col-4 p-1">
-				<div class="row">
-					<img src="~/unkown.png" class="card-img" alt="...">
+<div class="container-fluid d-flex justify-content-center">
+
+	<div class="card-columns">
+		@foreach (var item in Model)
+		{
+			<div class="card m-2" style="max-width: 540px; min-width: 540px;">
+				<div class="card-header bg-primary text-light">
+					<h5 class="card-title text-center">@item.UserName</h5>
 				</div>
-				<div class="row text-center control-buttons">
-					<div class="col">
-						<div class="row">
-							<div class="col ">
-								<a onclick="showInPopup('@Url.Action("UpdateUser","Admin", new { id = item.Id }, Context.Request.Scheme)', 'Редагування користувача')">
-									<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/pencil.svg">
-								</a>
+				<div class="card-body bg-light">
+					<div class="row" style="height: 12em;">
+						<div class="col-4">
+							<div class="row">
+								<div class="col">
+									<img src="~/unkown.png" class="card-img" alt="...">
+								</div>
 							</div>
-							<div class="col">
-								<form asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" onsubmit=" return jQueryAjaxDelete(this);">
-									<div class="ed-del-buttons">
-										<button type="submit">
-											<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/trash.svg">
-										</button>
-									</div>
-								</form>
+							<div class="row text-center control-buttons ">
+								<div class="col text-center">
+									<a onclick="showInPopup('@Url.Action("UpdateUser","Admin", new { id = item.Id }, Context.Request.Scheme)',
+												'Редагування користувача')">
+										<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/pencil.svg">
+									</a>
+								</div>
+								<div class="col ">
+									<form asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" onsubmit=" return jQueryAjaxDelete(this);">
+										<div class="ed-del-buttons">
+											<button type="submit">
+												<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/trash.svg">
+											</button>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
+						<div class="col p-2">
+							<label for="userEmail">Email:</label>
+							<p class="card-text" id="userEmail">@item.Email</p>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-8">
-				<div class="card-body">
-					<h5 class="card-title text-left">@item.UserName</h5>
-					<label for="userEmail">Email:</label>
-					<p class="card-text" id="userEmail">@item.Email</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col text-center mb-4">
-				<div class="container">
-					<div class="row">
-						<div class="col">
+					<div class="row" style="height: 3em;">
+						<div class="col text-center">
 							<div class="social">
 								<ul>
 									@if (item.FacebookLink != null)
 									{
 										<li><a href="@item.FacebookLink.ToString()"><i class="fa fa-lg fa-facebook"></i></a></li>
 									}
-									
+
 									@if (item.TwitterLink != null)
 									{
 										<li><a href="@item.TwitterLink.ToString()"><i class="fa fa-lg fa-twitter"></i></a></li>
@@ -79,6 +79,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		}
 	</div>
-}
+
+</div>

@@ -49,7 +49,6 @@ namespace Blog.Helpers
 			CreateMap<TagUpdateDTO, Tag>();
 			CreateMap<Tag, TagViewDTO>();
 
-			CreateMap<Role, RoleViewDTO>();
 		}
 	}
 }

@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<Blog.Entities.DTOs.Account.UserViewDto>
 
 @{
-	ViewData["Title"] = "Users";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="view-all">
-	@await Html.PartialAsync("_ViewAllUsers", Model)
+<div class="container-fluid d-flex justify-content-center" id="view-all">
+	<div class="container">
+		@await Html.PartialAsync("_ViewAllUsers", Model)
+	</div>
 </div>

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Blog.Entities.DTOs;
+using Blog.Entities.Models;
 
 namespace Abbott.Entities.Dtos.Account
 {
 	public class UserUpdateDto
 	{
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public Guid Id { get; set; }
 
 		[Required, MaxLength(50)]
@@ -15,8 +17,8 @@ namespace Abbott.Entities.Dtos.Account
 		[Required, MaxLength(50)]
 		public string Email { get; set; }
 
-		//[Required]
-		//public int RoleId { get; set; }
+		public List<string> RolesInCurrentUser { get; set; }
+		public List<AppRole> AllRoles { get; set; }
 
 		public string InstagramLink { get; set; }
 

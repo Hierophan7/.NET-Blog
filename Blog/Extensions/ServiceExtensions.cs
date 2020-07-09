@@ -11,7 +11,6 @@ namespace Blog.Extensions
 		{
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddScoped<IUserService, UserService>();
-			services.AddScoped<IRoleService, RoleService>();
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<ICommentService, CommentService>();

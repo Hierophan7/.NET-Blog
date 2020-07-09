@@ -11,3 +11,19 @@
 			height: 1.5em;
 			width: 1.5em;
 		}
+
+@media (min-width: 576px) {
+	.card-columns {
+		-webkit-column-count: 2;
+		column-count: 2;
+	}
+}
+
+.ed-del-buttons button {
+	background: none;
+	border: none;
+}
+
+.sev_check{
+
+}

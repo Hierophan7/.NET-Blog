@@ -3,6 +3,7 @@
 		type: "Get",
 		url: url,
 		success: function (res) {
+			console.log(res)
 			$("#form-modal .modal-body").html(res);
 			$("#form-modal .modal-title").html(title);
 			$("#form-modal").modal("show");
@@ -26,8 +27,11 @@ jQueryAjaxPost = form => {
 					$("#form-modal .modal-title").html('');
 					$("#form-modal").modal("hide");
 				}
-				else
+				else {
 					$("#form-modal .modal-body").html(res.html);
+					$("#form-modal").modal("hide");
+				}
+
 			},
 			error: function (err) {
 				console.log(err);
@@ -50,7 +54,7 @@ jQueryAjaxDelete = form => {
 				contentType: false,
 				processData: false,
 				success: function (res) {
-					$("#view-all-users").html(res.html);
+					$("#view-all").html(res.html);
 				},
 				error: function (err) {
 					console.log(err);
@@ -64,3 +68,9 @@ jQueryAjaxDelete = form => {
 	// to prevent default form submit event 
 	return false;
 }
+
+$('#group input:checkbox').click(function () {
+	if ($(this).is(':checked')) {
+		$('#group input:checkbox').not(this).prop('checked', false);
+	}
+});

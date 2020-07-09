@@ -22,7 +22,6 @@ namespace Blog.Controllers
 		private IUserService _userService;
 		private readonly IMapper _mapper;
 		private readonly AppSettings _appSettings;
-		private readonly IRoleService _roleService;
 		private readonly IEmailService _emailService;
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
@@ -31,7 +30,6 @@ namespace Blog.Controllers
 			IUserService userService,
 			IMapper mapper,
 			IOptions<AppSettings> appSettings,
-			IRoleService roleService,
 			IEmailService emailService,
 			UserManager<User> userManager,
 			SignInManager<User> signInManager)
@@ -39,7 +37,6 @@ namespace Blog.Controllers
 			_userService = userService;
 			_appSettings = appSettings.Value;
 			_mapper = mapper;
-			_roleService = roleService;
 			_emailService = emailService;
 			_userManager = userManager;
 			_signInManager = signInManager;
