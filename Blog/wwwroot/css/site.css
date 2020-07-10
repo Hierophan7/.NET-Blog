@@ -2,70 +2,146 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+	white-space: normal;
+	text-align: center;
+	word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+	color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+	color: #fff;
+	background-color: #1b6ec2;
+	border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+	color: #fff;
+	background-color: #1b6ec2;
+	border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+	font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+	html {
+		font-size: 16px;
+	}
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+	border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+	box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+	font-size: 1rem;
+	line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	white-space: nowrap;
+	line-height: 60px; /* Vertically center the text there */
+}
+
+#body-row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#sidebar-container {
+	/*min-height: 100%;*/
+	/*    background-color: #333;*/
+	/*background: #333;
+	background: -moz-radial-gradient(center, ellipse cover, #333, #FFFFFF);
+	background: -webkit-linear-gradient(top, #333, #FFFFFF);
+	background: -o-linear-gradient(top, #333, #FFFFFF);*/
+	padding: 0;
+}
+
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+	width: 230px;
+}
+
+.sidebar-collapsed {
+	width: 60px;
+}
+
+/* Menu item*/
+#sidebar-container .list-group a {
+	height: 50px;
+	color: white;
+}
+
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+	height: 45px;
+	padding-left: 30px;
+}
+
+.sidebar-submenu {
+	font-size: 0.9rem;
+}
+
+/* Separators */
+.sidebar-separator-title {
+	background-color: #333;
+	height: 35px;
+}
+
+.sidebar-separator {
+	background-color: #333;
+	height: 25px;
+}
+
+.logo-separator {
+	background-color: #333;
+	height: 60px;
+}
+
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+	content: " \f0d7";
+	font-family: FontAwesome;
+	display: inline;
+	text-align: right;
+	padding-left: 10px;
+}
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+	content: " \f0da";
+	font-family: FontAwesome;
+	display: inline;
+	text-align: right;
+	padding-left: 10px;
 }

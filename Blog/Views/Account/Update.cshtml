@@ -1,0 +1,112 @@
+﻿@model Abbott.Entities.Dtos.Account.UserUpdateDto
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header card-header-primary">
+						<h4 class="card-title">Edit Profile</h4>
+						<p class="card-category">Complete your profile</p>
+					</div>
+					<div class="card-body">
+						<form asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="bmd-label-floating">Username</label>
+										<input type="text" class="form-control" asp-for="UserName">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Email address</label>
+										<input type="email" class="form-control" asp-for="Email">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Instagram</label>
+										<input type="text" class="form-control" asp-for="InstagramLink">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Youtube</label>
+										<input type="text" class="form-control" asp-for="YoutubeLink">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="bmd-label-floating">Facebook</label>
+										<input type="text" class="form-control" asp-for="FacebookLink">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="bmd-label-floating">LinkedIn</label>
+										<input type="text" class="form-control" asp-for="LinkedInLink">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="bmd-label-floating">Twitter</label>
+										<input type="text" class="form-control" asp-for="TwitterLink">
+									</div>
+								</div>
+							</div>
+							@if (User.IsInRole("SuperAdmin"))
+							{
+								<div class="form-group">
+									<div class="row">
+										<div class="col-4">
+											<label class="control-label">Доступні ролі</label>
+										</div>
+										<div class="col">
+											<div id="group">
+												@foreach (var role in Model.AllRoles)
+												{
+													<div class="form-check-inline">
+														<input type="checkbox" name="roles" value="@role.Name" class="form-check-input"
+															   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+														</div>
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+							}
+							<button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card card-profile">
+					<div class="card-avatar">
+						<a href="#pablo">
+							<img class="img" src="../assets/img/faces/marc.jpg" />
+						</a>
+					</div>
+					<div class="card-body">
+						<h6 class="card-title">@Model.UserName</h6>
+						<h4 class="card-category">@Model.Email</h4>
+						<h4 class="card-category">
+							@foreach (var role in Model.RolesInCurrentUser)
+							{
+								@role
+							}
+						</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/js/site.js" asp-append-version="true"></script>

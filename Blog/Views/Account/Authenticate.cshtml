@@ -2,12 +2,13 @@
 
 @{
 	ViewData["Title"] = "Вхід";
+	Layout = null;
 }
 
 <link href="~/css/common.css" rel="stylesheet" type="text/css" />
 
 <div class="vertical-center">
-	<div class="w-50">
+	<div class="w-25">
 		<div class="bg-white p-5 rounded">
 			<form asp-action="Authenticate" asp-controller="Account" method="post">
 				<h2 class="text-center mb-5">Travel blog</h2>

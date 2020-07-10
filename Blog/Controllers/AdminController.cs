@@ -42,7 +42,7 @@ namespace Blog.Controllers
 
 			var usersToView = _mapper.Map<IEnumerable<UserViewDto>>(users);
 
-			return PartialView(usersToView);
+			return View(usersToView);
 		}
 
 		[HttpPost]

@@ -7,7 +7,7 @@
 <link href="~/css/common.css" rel="stylesheet" type="text/css" />
 
 <div class="vertical-center">
-	<div class="w-50">
+	<div class="w-25">
 		<div class="bg-white p-5 rounded">
 			<form asp-action="Register" asp-controller="Account" method="post">
 				<h2 class="text-center mb-5">Travel blog</h2>
@@ -40,28 +40,5 @@
 				</div>
 			</form>
 		</div>
-	</div>
-</div>
-<div class="vertical-center">
-	<div class=" bg-white p-5 rounded w-75">
-		<form asp-action="SendLinkForChengePassword" asp-controller="Account" method="post">
-			<h2 class="text-center mb-4">Travel blog</h2>
-			<h3 class="text-left">
-				Введіть, будь ласка, вашу електронну адресу, на яку буде відправлено посилання для зміни паролю
-			</h3>
-
-			<div class="form-group row mt-5 ">
-				<label for="userEmail" class="col-1 col-form-label">Email:</label>
-				<div class="col-7 ml-0">
-					<input type="email" class="w-100 form-text text-muted mt-0 " id="userEmail"
-						   placeholder="Enter email" name="email" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<button type="submit" class="btn btn-outline-info">Надіслати</button>
-				</div>
-			</div>
-		</form>
 	</div>
 </div>
