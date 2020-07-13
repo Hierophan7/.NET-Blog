@@ -1,8 +1,4 @@
-﻿body {
-	background-image: url("/6IDrR2vr.jpg");
-}
-
-.vertical-center {
+﻿.vertical-center {
 	min-height: 100%;
 	min-height: 80vh;
 	display: flex;

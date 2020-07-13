@@ -3,16 +3,16 @@
 }
 
 	.control-buttons img {
-		height: 1em;
-		width: 1em;
+		height: 1.5em;
+		width: 1.5em;
 	}
 
 		.control-buttons img:hover {
-			height: 1.5em;
-			width: 1.5em;
+			height: 2em;
+			width: 2em;
 		}
 
-@media (min-width: 576px) {
+@media (min-width: 500px) {
 	.card-columns {
 		-webkit-column-count: 2;
 		column-count: 2;

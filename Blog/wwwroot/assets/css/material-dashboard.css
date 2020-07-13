@@ -21930,7 +21930,6 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   -webkit-transition: all 150ms linear, color, box-shadow 0ms;
   -moz-transition: all 150ms linear, color, box-shadow 0ms;
   -o-transition: all 150ms linear, color, box-shadow 0ms;
-  -ms-transition: all 150ms linear, color, box-shadow 0ms;
   transition: all 150ms linear, color, box-shadow 0ms;
 }
 

@@ -1,38 +1,90 @@
 ﻿@model Blog.Entities.DTOs.Account.UserAuthenticateDto
 
 @{
-	ViewData["Title"] = "Вхід";
+	ViewData["Title"] = "Log In";
 	Layout = null;
 }
 
-<link href="~/css/common.css" rel="stylesheet" type="text/css" />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="~/assets/css/material-dashboard.css" rel="stylesheet" />
+<!-- CSS Just for demo purpose, don't include it in your project -->
+<link href="~/assets/demo/demo.css" rel="stylesheet" />
 
-<div class="vertical-center">
-	<div class="w-25">
-		<div class="bg-white p-5 rounded">
-			<form asp-action="Authenticate" asp-controller="Account" method="post">
-				<h2 class="text-center mb-5">Travel blog</h2>
-				<h3 class="text-left">Вхід</h3>
-				<div class="form-group row px-3">
-					<label class="col-form-label">Введіть ваш email:</label><br />
-					<input class="w-100" asp-for="Email" placeholder="Email" type="email" />
+<body class="dark-edition">
+	<div class="wrapper ">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row d-flex justify-content-end">
+					<div class="w-50 m-md-5">
+						<div class="col">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Log In</h4>
+								</div>
+								<div class="card-body">
+									<form asp-action="Authenticate" asp-controller="Account" method="post">
+										<div class="row">
+											<div class="col-md-3">
+												<div class="form-group">
+													<label class="bmd-label-floating">Email</label>
+													<input type="text" class="form-control" asp-for="Email">
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div class="form-group">
+													<label class="bmd-label-floating">Password</label>
+													<input type="password" class="form-control" asp-for="Password">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<div class="form-check">
+													<label class="form-check-label">
+														<input class="form-check-input" type="checkbox" value="" asp-for="RememberMe">
+														<span class="form-check-sign">
+															<span class="check"></span>
+														</span>
+														Remember me
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="small mt-2">
+											<a class="text-left mb-0" asp-action="PasswordRestoringLink" asp-controller="Account">Forgot password?</a><br />
+											No account? <a asp-action="Register" asp-controller="Account">Create one!</a>
+										</div>
+										<button type="submit" class="btn btn-warning pull-right">Log in</button>
+										<div class="clearfix"></div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="form-group row px-3">
-					<label class="col-form-label">Введіть ваш пароль:</label><br />
-					<input class="w-100" type="password" asp-for="Password" placeholder="Пароль" />
-				</div>
-				<div class="form-check">
-					<input type="checkbox" class="form-check-input" id="rememberMe" asp-for="RememberMe">
-					<label class="form-check-label" for="rememberMe">Запам'ятати мене</label>
-				</div>
-				<div class="small mt-2">
-					<a class="text-left mb-0" asp-action="SendLinkForChengePassword" asp-controller="Account">Забули пароль?</a><br />
-					Немає облікового запису? <a asp-action="Register" asp-controller="Account">Створіть його!</a>
-				</div>
-				<div class="text-center">
-					<input class="mt-5 w-50 btn btn-outline-info" type="submit" value="Увійти" />
-				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-</div>
+</body>
+
+<!--   Core JS Files   -->
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script src="~/assets/js/core/popper.min.js"></script>
+<script src="~/assets/js/core/bootstrap-material-design.min.js"></script>
+<script src="https://unpkg.com/default-passive-events"></script>
+<script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Chartist JS -->
+<script src="~/assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="~/assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="~/assets/js/material-dashboard.js?v=2.1.0"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="~/assets/demo/demo.js"></script>
+<script src="~/js/site.js"></script>

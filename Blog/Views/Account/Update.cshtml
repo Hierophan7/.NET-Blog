@@ -1,5 +1,9 @@
 ﻿@model Abbott.Entities.Dtos.Account.UserUpdateDto
 
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -67,15 +71,11 @@
 											<label class="control-label">Доступні ролі</label>
 										</div>
 										<div class="col">
-											<div id="group">
-												@foreach (var role in Model.AllRoles)
-												{
-													<div class="form-check-inline">
-														<input type="checkbox" name="roles" value="@role.Name" class="form-check-input"
-															   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
-														</div>
+											@foreach (var role in Model.AllRoles)
+											{
+												<input type="checkbox" name="roles" value="@role.Name" class="form-check-input" onclick="onlyOne(this)"
+													   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
 												}
-											</div>
 										</div>
 									</div>
 								</div>
@@ -90,7 +90,7 @@
 				<div class="card card-profile">
 					<div class="card-avatar">
 						<a href="#pablo">
-							<img class="img" src="../assets/img/faces/marc.jpg" />
+							<img class="img" src="~/assets/img/faces/marc.jpg" />
 						</a>
 					</div>
 					<div class="card-body">
@@ -109,4 +109,11 @@
 	</div>
 </div>
 
-<script src="~/js/site.js" asp-append-version="true"></script>
+<script>
+	function onlyOne(checkbox) {
+		var checkboxes = document.getElementsByName('roles')
+		checkboxes.forEach((item) => {
+			if (item !== checkbox) item.checked = false
+		})
+	}
+</script>

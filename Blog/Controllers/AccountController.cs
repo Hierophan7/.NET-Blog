@@ -135,13 +135,13 @@ namespace Blog.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult SendLinkForChengePassword()
+		public IActionResult PasswordRestoringLink()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> SendLinkForChengePassword(string email)
+		public async Task<IActionResult> PasswordRestoringLink(string email)
 		{
 			var user = await _userService.GetByEmailAsync(email);
 

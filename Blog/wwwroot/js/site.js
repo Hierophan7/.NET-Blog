@@ -44,65 +44,29 @@
 //	return false;
 //}
 
-//jQueryAjaxDelete = form => {
-//	if (confirm('Ви дійсно хочете видалити цього користувача?')) {
-//		try {
-//			$.ajax({
-//				type: 'Post',
-//				url: form.action,
-//				data: new FormData(form),
-//				contentType: false,
-//				processData: false,
-//				success: function (res) {
-//					$("#view-all").html(res.html);
-//				},
-//				error: function (err) {
-//					console.log(err);
-//				}
-//			})
-//		} catch (e) {
-//			console.log(e);
-//		}
-//	}
-
-//	// to prevent default form submit event 
-//	return false;
-//}
-
-//$('#group input:checkbox').click(function () {
-//	if ($(this).is(':checked')) {
-//		$('#group input:checkbox').not(this).prop('checked', false);
-//	}
-//});
-
-//// Hide submenus
-//$('#body-row .collapse').collapse('hide');
-
-//// Collapse/Expand icon
-//$('#collapse-icon').addClass('fa-angle-double-left');
-
-//// Collapse click
-//$('[data-toggle=sidebar-colapse]').click(function () {
-//	SidebarCollapse();
-//});
-
-//function SidebarCollapse() {
-//	$('.menu-collapsed').toggleClass('d-none');
-//	$('.sidebar-submenu').toggleClass('d-none');
-//	$('.submenu-icon').toggleClass('d-none');
-//	$('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
-
-//	// Treating d-flex/d-none on separators with title
-//	var SeparatorTitle = $('.sidebar-separator-title');
-//	if (SeparatorTitle.hasClass('d-flex')) {
-//		SeparatorTitle.removeClass('d-flex');
-//	} else {
-//		SeparatorTitle.addClass('d-flex');
-//	}
-
-//	// Collapse/Expand icon
-//	$('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-//}``
+jQueryAjaxDelete = form => {
+	if (confirm('Ви дійсно хочете видалити цього користувача?')) {
+		try {
+			$.ajax({
+				type: 'Post',
+				url: form.action,
+				data: new FormData(form),
+				contentType: false,
+				processData: false,
+				success: function (res) {
+					$("#view-all").html(res.html);
+				},
+				error: function (err) {
+					console.log(err);
+				}
+			})
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	// to prevent default form submit event 
+	return false;
+}
 
 $(document).ready(function () {
 	$().ready(function () {
@@ -264,3 +228,4 @@ $(document).ready(function () {
 		});
 	});
 });
+}
