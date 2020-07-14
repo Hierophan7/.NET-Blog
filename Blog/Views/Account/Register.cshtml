@@ -31,6 +31,7 @@
 											<div class="form-group">
 												<label class="bmd-label-floating">Username</label>
 												<input type="text" class="form-control" asp-for="UserName">
+												<span class="text-danger" asp-validation-for="UserName"></span>
 											</div>
 										</div>
 
@@ -38,6 +39,7 @@
 											<div class="form-group">
 												<label class="bmd-label-floating">Email address</label>
 												<input type="email" class="form-control" asp-for="Email">
+												<span class="text-danger" asp-validation-for="Email"></span>
 											</div>
 										</div>
 									</div>
@@ -74,7 +76,8 @@
 	</div>
 </body>
 
-
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <!--   Core JS Files   -->
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script src="~/assets/js/core/popper.min.js"></script>

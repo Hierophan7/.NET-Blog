@@ -22,9 +22,7 @@ namespace Blog.Repository
 			Database.EnsureCreated();
 		}
 
-		//public DbSet<User> Users { get; set; }
 		public DbSet<Tag> Tags { get; set; }
-		//public DbSet<Role> Roles { get; set; }
 		public DbSet<Reaction> Reations { get; set; }
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<Picture> Pictures { get; set; }
@@ -36,14 +34,6 @@ namespace Blog.Repository
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			//modelBuilder.Entity<Role>().HasData(
-			//	new Role[]
-			//	{
-			//		new Role{ Id = Guid.NewGuid(), RoleName = "Admin"},
-			//		new Role{Id = Guid.NewGuid(), RoleName = "Superadmin"},
-			//		new Role{Id = Guid.NewGuid(), RoleName = "User"}
-			//	});
-
 			modelBuilder.Entity<RoleClaim>().HasKey(p => new { p.Id });
 			modelBuilder.Entity<UserLogin>().HasKey(p => new { p.UserId });
 			modelBuilder.Entity<UserClaim>().HasKey(p => new { p.Id });

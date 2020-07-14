@@ -4,10 +4,11 @@ namespace Blog.Entities.DTOs.Account
 {
 	public class UserAuthenticateDto
 	{
-		[Required]
+		[Required(ErrorMessage = "The field is required")]
+		[EmailAddress]
 		public string Email { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "The field is required")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 

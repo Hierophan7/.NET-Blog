@@ -11,10 +11,13 @@ namespace Abbott.Entities.Dtos.Account
 	{
 		public Guid Id { get; set; }
 
-		[Required, MaxLength(50)]
+		[Required(ErrorMessage = "The field is required")]
+		[MaxLength(50, ErrorMessage = "The length can't be more than 50.")]
 		public string UserName { get; set; }
 
-		[Required, MaxLength(50)]
+		[Required(ErrorMessage = "The field is required")]
+		[MaxLength(50, ErrorMessage = "The length can't be more than 50.")]
+		[EmailAddress]
 		public string Email { get; set; }
 
 		public List<string> RolesInCurrentUser { get; set; }

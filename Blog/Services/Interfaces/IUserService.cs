@@ -8,10 +8,5 @@ namespace Blog.Services.Interfaces
 {
 	public interface IUserService : IBaseService<User>
 	{
-		Task<User> AuthenticateAsync(string email, string password);
-		Task<User> CreateAsync(User user, string password);
-		Task<bool> ChangePassword(Guid userId, string newPassword);
-		Task<bool> ChangePassword(Guid userId, string newPassword, string oldPassword);
-		Task<User> GetByEmailAsync(string email);
 	}
 }

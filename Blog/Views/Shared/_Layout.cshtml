@@ -38,18 +38,25 @@
 							<p>Travel blog</p>
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a class="nav-link" asp-action="Update" asp-controller="Account">
-							<i class="material-icons">person</i>
-							<p>User Profile</p>
-						</a>
-					</li>
-					<li class="nav-item ">
-						<a class="nav-link" asp-action="Users" asp-controller="Admin">
-							<i class="material-icons">person</i>
-							<p>Users</p>
-						</a>
-					</li>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li class="nav-item ">
+							<a class="nav-link" asp-action="Update" asp-controller="Account">
+								<i class="material-icons">person</i>
+								<p>User Profile</p>
+							</a>
+						</li>
+					}
+					@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+					{
+						<li class="nav-item ">
+							<a class="nav-link" asp-action="Users" asp-controller="Admin">
+								<i class="material-icons">person</i>
+								<p>Users</p>
+							</a>
+						</li>
+					}
+
 					<li class="nav-item ">
 						<a class="nav-link">
 							<i class="material-icons">content_paste</i>
@@ -86,9 +93,6 @@
 		<div class="main-panel">
 			<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
 				<div class="container-fluid">
-					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:void(0)">Travel blog</a>
-					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="navbar-toggler-icon icon-bar"></span>
@@ -211,22 +215,22 @@
 				<li class="header-title">Images</li>
 				<li>
 					<a class="img-holder switch-trigger" href="javascript:void(0)">
-						<img src="~/assets/img/sidebar-1.jpg" alt="">
+						<img src="../assets/img/sidebar-1.jpg" alt="">
 					</a>
 				</li>
 				<li class="active">
 					<a class="img-holder switch-trigger" href="javascript:void(0)">
-						<img src="~/assets/img/sidebar-2.jpg" alt="">
+						<img src="../assets/img/sidebar-2.jpg" alt="">
 					</a>
 				</li>
 				<li>
 					<a class="img-holder switch-trigger" href="javascript:void(0)">
-						<img src="~/assets/img/sidebar-3.jpg" alt="">
+						<img src="../assets/img/sidebar-3.jpg" alt="">
 					</a>
 				</li>
 				<li>
 					<a class="img-holder switch-trigger" href="javascript:void(0)">
-						<img src="~/assets/img/sidebar-4.jpg" alt="">
+						<img src="../assets/img/sidebar-4.jpg" alt="">
 					</a>
 				</li>
 			</ul>
@@ -245,7 +249,7 @@
 	<!--  Notifications Plugin    -->
 	<script src="~/assets/js/plugins/bootstrap-notify.js"></script>
 	<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-	<script src="~/assets/js/material-dashboard.js?v=2.1.0"></script>
+	<script src="~/assets/js/material-dashboard.js"></script>
 	<!-- Material Dashboard DEMO methods, don't include it in your project! -->
 	<script src="~/assets/demo/demo.js"></script>
 	<script src="~/js/site.js"></script>

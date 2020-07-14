@@ -40,9 +40,22 @@ namespace Blog.Controllers
 		{
 			var users = await _userService.GetAllAsync();
 
-			var usersToView = _mapper.Map<IEnumerable<UserViewDto>>(users);
+			List<UserViewDto> userViewDtos = new List<UserViewDto>();
+			
+			foreach (var user in users)
+			{
+				// Gets a list of role names the specified user belongs to
+				var rolesInUser = await _userManager.GetRolesAsync(user);
 
-			return View(usersToView);
+				var userViewDTO = _mapper.Map<UserViewDto>(user);
+
+				// User has only one role, so when we get roles list, we take zero [0] element from it.
+				userViewDTO.RoleName = rolesInUser[0];
+
+				userViewDtos.Add(userViewDTO);
+			}
+
+			return View(userViewDtos);
 		}
 
 		[HttpPost]

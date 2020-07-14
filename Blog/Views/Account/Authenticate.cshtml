@@ -31,6 +31,7 @@
 												<div class="form-group">
 													<label class="bmd-label-floating">Email</label>
 													<input type="text" class="form-control" asp-for="Email">
+													<span class="text-danger" asp-validation-for="Email"></span>
 												</div>
 											</div>
 
@@ -38,6 +39,7 @@
 												<div class="form-group">
 													<label class="bmd-label-floating">Password</label>
 													<input type="password" class="form-control" asp-for="Password">
+													<span class="text-danger" asp-validation-for="Password"></span>
 												</div>
 											</div>
 										</div>
@@ -84,7 +86,7 @@
 <!--  Notifications Plugin    -->
 <script src="~/assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="~/assets/js/material-dashboard.js?v=2.1.0"></script>
+<script src="~/assets/js/material-dashboard.js"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="~/assets/demo/demo.js"></script>
 <script src="~/js/site.js"></script>

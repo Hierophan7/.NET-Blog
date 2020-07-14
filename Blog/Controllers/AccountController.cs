@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Abbott.Entities.Dtos.Account;
 using AutoMapper;
@@ -17,7 +14,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Controllers
 {
@@ -60,7 +56,7 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _userService.GetByEmailAsync(userAuthenticateDto.Email);
+				var user = await _userManager.FindByEmailAsync(userAuthenticateDto.Email);
 
 				var result =
 					await _signInManager.PasswordSignInAsync(user, userAuthenticateDto.Password, userAuthenticateDto.RememberMe, false);
@@ -143,7 +139,7 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> PasswordRestoringLink(string email)
 		{
-			var user = await _userService.GetByEmailAsync(email);
+			var user = await _userManager.FindByEmailAsync(email);
 
 			if (user == null)
 			{
@@ -165,7 +161,7 @@ namespace Blog.Controllers
 		[HttpGet]
 		public async Task<IActionResult> NewPassword(string userEmail)
 		{
-			var existUser = await _userService.GetByEmailAsync(userEmail);
+			var existUser = await _userManager.FindByEmailAsync(userEmail);
 
 			var userNewPasswordDto = _mapper.Map<UserNewPasswordDto>(existUser);
 
@@ -181,8 +177,9 @@ namespace Blog.Controllers
 
 				if (user != null)
 				{
-					var _passwordValidator =
-				HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+					var _passwordValidator = HttpContext
+						.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+
 					var _passwordHasher =
 						HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
 
@@ -196,7 +193,8 @@ namespace Blog.Controllers
 						await _userManager.UpdateAsync(user);
 
 						await _emailService.SendAsync(ChangePasswordSettings.subject,
-				ChangePasswordSettings.GetMessage(userNewPasswordDto.Email, userNewPasswordDto.NewPassword), userNewPasswordDto.Email);
+							ChangePasswordSettings.GetMessage(userNewPasswordDto.Email,
+							userNewPasswordDto.NewPassword), userNewPasswordDto.Email);
 
 						return RedirectToAction("Authenticate", "Account");
 					}
@@ -220,18 +218,21 @@ namespace Blog.Controllers
 			return View(userNewPasswordDto);
 		}
 
-		[Authorize]
-		[HttpGet]
-		public async Task<IActionResult> ChangePassword()
-		{
-			var nameOfCurrentUser = HttpContext.User.Identity.Name;
+		//[Authorize]
+		//[HttpGet]
+		//public async Task<IActionResult> ChangePassword()
+		//{
+		//	var nameOfCurrentUser = HttpContext.User.Identity.Name;
 
-			var currentUser = await _userManager.FindByNameAsync(nameOfCurrentUser);
+		//	var currentUser = await _userManager.FindByNameAsync(nameOfCurrentUser);
 
-			var userChangePasswordDto = _mapper.Map<UserChangePasswordDto>(currentUser);
+		//	if (currentUser == null)
+		//		return NotFound();
 
-			return View(userChangePasswordDto);
-		}
+		//	var userChangePasswordDto = _mapper.Map<UserChangePasswordDto>(currentUser);
+
+		//	return PartialView(userChangePasswordDto);
+		//}
 
 		[Authorize]
 		[HttpPost]
@@ -239,7 +240,9 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _userManager.FindByIdAsync(userChangePasswordDto.Id.ToString());
+				var nameOfCurrentUser = HttpContext.User.Identity.Name;
+
+				var user = await _userManager.FindByNameAsync(nameOfCurrentUser);
 
 				if (user != null)
 				{
@@ -249,7 +252,8 @@ namespace Blog.Controllers
 					if (result.Succeeded)
 					{
 						await _emailService.SendAsync(ChangePasswordSettings.subject,
-				ChangePasswordSettings.GetMessage(userChangePasswordDto.Email, userChangePasswordDto.NewPassword), userChangePasswordDto.Email);
+							ChangePasswordSettings.GetMessage(user.Email, userChangePasswordDto.NewPassword),
+							user.Email);
 
 						return RedirectToAction("Index", "Home");
 					}
@@ -270,7 +274,7 @@ namespace Blog.Controllers
 			{
 				ModelState.AddModelError(string.Empty, "Неправильно введені дані");
 			}
-			return View(userChangePasswordDto);
+			return PartialView(userChangePasswordDto);
 		}
 
 		[HttpGet]
@@ -299,11 +303,6 @@ namespace Blog.Controllers
 
 			userToView.RolesInCurrentUser = rolesInUser.ToList();
 			userToView.AllRoles = roles;
-
-			if (userToView == null)
-			{
-				return NotFound();
-			}
 
 			return View(userToView);
 		}

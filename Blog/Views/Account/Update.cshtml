@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="card">
-					<div class="card-header card-header-primary">
+					<div class="card-header card-header-warning">
 						<h4 class="card-title">Edit Profile</h4>
 						<p class="card-category">Complete your profile</p>
 					</div>
@@ -20,12 +20,14 @@
 									<div class="form-group">
 										<label class="bmd-label-floating">Username</label>
 										<input type="text" class="form-control" asp-for="UserName">
+										<span asp-validation-for="UserName"></span>
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
 										<label class="bmd-label-floating">Email address</label>
 										<input type="email" class="form-control" asp-for="Email">
+										<span asp-validation-for="Email"></span>
 									</div>
 								</div>
 							</div>
@@ -67,20 +69,27 @@
 							{
 								<div class="form-group">
 									<div class="row">
-										<div class="col-4">
+										<div class="col-2">
 											<label class="control-label">Доступні ролі</label>
 										</div>
 										<div class="col">
-											@foreach (var role in Model.AllRoles)
+			 								@foreach (var role in Model.AllRoles)
 											{
-												<input type="checkbox" name="roles" value="@role.Name" class="form-check-input" onclick="onlyOne(this)"
-													   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+												<div class="form-check d-inline-block mr-5">
+													<label class="form-check-label">
+														<input class="form-check-input" name="roles" type="checkbox" value="@role.Name" onclick="onlyOne(this)"
+															   @(Model.RolesInCurrentUser.Contains(role.Name) ? "checked=\"checked\"" : "")>@role.Name
+															<span class="form-check-sign">
+																<span class="check"></span>
+															</span>
+														</label>
+												</div>
 												}
 										</div>
 									</div>
 								</div>
 							}
-							<button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+							<button type="submit" class="btn btn-warning pull-right">Update Profile</button>
 							<div class="clearfix"></div>
 						</form>
 					</div>
@@ -104,6 +113,11 @@
 						</h4>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				@await Html.PartialAsync("ChangePassword", new Blog.Entities.DTOs.Account.UserChangePasswordDto())
 			</div>
 		</div>
 	</div>

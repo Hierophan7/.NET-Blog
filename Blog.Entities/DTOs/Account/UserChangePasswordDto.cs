@@ -12,11 +12,11 @@ namespace Blog.Entities.DTOs.Account
 	{
 		public Guid Id { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "The field is required")]
 		[DataType(DataType.Password)]
 		public string NewPassword { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "The field is required")]
 		[DataType(DataType.Password)]
 		[Compare("NewPassword", ErrorMessage = "Password mismatch")]
 		public string NewPasswordConfirm { get; set; }
