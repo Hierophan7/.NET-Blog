@@ -14,22 +14,31 @@
 					<div class="col-4">
 						<div class="row">
 							<div class="col">
-								<div class="card-icon">
-									<img src="~/unkown.png" class="card-img" alt="...">
+								<div class="card-profile ">
+									<div class="card-avatar">
+										@if (item.AvatarViewDTO != null)
+										{
+											<img class="img" src="~/Files/Avatars/@item.AvatarViewDTO.PictureName" />
+										}
+										else
+										{
+											<img class="img" src="~/assets/img/faces/marc.jpg" />
+										}
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row mt-2 text-center control-buttons ">
 							<div class="col text-center">
 								<a asp-action="Update" asp-controller="Account" asp-route-id="@item.Id">
-									<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/pencil.svg">
+									<img src="~/assets/img/edit-white-18dp.svg" />
 								</a>
 							</div>
 							<div class="col text-center">
 								<form asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" onsubmit=" return jQueryAjaxDelete(this);">
 									<div class="ed-del-buttons">
 										<button type="submit">
-											<img class="ico" src="~/lib/bootstrap/dist/open-iconic-master/svg/trash.svg">
+											<img src="~/assets/img/delete-white-18dp.svg" />
 										</button>
 									</div>
 								</form>

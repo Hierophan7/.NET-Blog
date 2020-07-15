@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Blog.Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using Blog.Entities.Models;
+using Blog.Entities.DTOs.Picture;
 
 namespace Abbott.Entities.Dtos.Account
 {
@@ -23,6 +25,8 @@ namespace Abbott.Entities.Dtos.Account
 		public List<string> RolesInCurrentUser { get; set; }
 		public List<AppRole> AllRoles { get; set; }
 
+		public PictureViewDTO AvatarViewDTO { get; set; }
+
 		public string InstagramLink { get; set; }
 
 		public string YoutubeLink { get; set; }
@@ -33,5 +37,6 @@ namespace Abbott.Entities.Dtos.Account
 
 		public string TwitterLink { get; set; }
 
+		public IFormFile Avatar { get; set; }
 	}
 }

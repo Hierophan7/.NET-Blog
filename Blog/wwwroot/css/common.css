@@ -6,3 +6,8 @@
 	justify-content: center;
 	background: none;
 }
+
+.upload-element input[type="file"]{
+	border: none;
+	background-image: url(~/assets/img/add_image.svg);
+}

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Abbott.Entities.Dtos.Account;
 using AutoMapper;
 using Blog.Common;
 using Blog.Entities.DTOs.Account;
+using Blog.Entities.DTOs.Picture;
 using Blog.Entities.Models;
 using Blog.Helpers;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +30,8 @@ namespace Blog.Controllers
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
 		private readonly RoleManager<AppRole> _roleManager;
+		private readonly IPictureService _pictureService;
+		private readonly IWebHostEnvironment _webHostEnvironment;
 
 		public AccountController(
 			IUserService userService,
@@ -34,8 +40,11 @@ namespace Blog.Controllers
 			IEmailService emailService,
 			UserManager<User> userManager,
 			SignInManager<User> signInManager,
-			RoleManager<AppRole> roleManager)
+			RoleManager<AppRole> roleManager,
+			IPictureService pictureService,
+			IWebHostEnvironment webHostEnvironment)
 		{
+			_pictureService = pictureService;
 			_userService = userService;
 			_appSettings = appSettings.Value;
 			_mapper = mapper;
@@ -43,6 +52,7 @@ namespace Blog.Controllers
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_roleManager = roleManager;
+			_webHostEnvironment = webHostEnvironment;
 		}
 
 		[HttpGet]
@@ -295,9 +305,16 @@ namespace Blog.Controllers
 			if (user == null)
 				return NotFound();
 
+			// Get the user's prifile picture
+			var avatar = await _pictureService.GetAvatarAsync(user.Id);
+
+			var avatarViewDTO = _mapper.Map<PictureViewDTO>(avatar);
+
 			var roles = await _roleManager.Roles.ToListAsync();
 
 			var userToView = _mapper.Map<UserUpdateDto>(user);
+
+			userToView.AvatarViewDTO = avatarViewDTO;
 
 			var rolesInUser = await _userManager.GetRolesAsync(user);
 
@@ -327,6 +344,20 @@ namespace Blog.Controllers
 						user.YoutubeLink = userUpdateDto.YoutubeLink;
 					}
 
+					// Get the user's prifile picture
+					var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
+
+					if (currentAvatar != null)
+						// Delete the current profile pictures
+						await _pictureService.DeleteAsync(currentAvatar.Id);
+
+					Picture avatar = new Picture();
+
+					if (userUpdateDto.Avatar != null)
+						AddAvatar(userUpdateDto.Avatar, user.Id, out avatar);
+
+					await _pictureService.CreateAsync(avatar);
+					
 					// получем список ролей пользователя
 					var userRoles = await _userManager.GetRolesAsync(user);
 					// получаем все роли
@@ -353,6 +384,23 @@ namespace Blog.Controllers
 			}
 
 			return View(userUpdateDto);
+		}
+
+		public void AddAvatar(IFormFile formFile, Guid userId, out Picture avatar)
+		{
+			var pictureName = Guid.NewGuid() + "_" + formFile.FileName;
+
+			// Path to the profile picture
+			var path = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "Avatars", pictureName);
+
+			// Save the profile picture into WebRootPath/Files/Avatars
+			using (var fileStream = new FileStream(path, FileMode.Create))
+			{
+				//await formFile.CopyToAsync(fileStream);
+				formFile.CopyTo(fileStream);
+			}
+
+			avatar = new Picture { PictureName = pictureName, PicturePath = path, UserId = userId };
 		}
 	}
 }

@@ -46,29 +46,36 @@
 								<p>User Profile</p>
 							</a>
 						</li>
-					}
-					@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-					{
+
+						@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+						{
+							<li class="nav-item ">
+								<a class="nav-link" asp-action="Users" asp-controller="Admin">
+									<i class="material-icons">group</i>
+									<p>Users</p>
+								</a>
+							</li>
+						}
 						<li class="nav-item ">
-							<a class="nav-link" asp-action="Users" asp-controller="Admin">
-								<i class="material-icons">person</i>
-								<p>Users</p>
+							<a class="nav-link">
+								<i class="material-icons">archive</i>
+								<p>Archive</p>
+							</a>
+						</li>
+						<li class="nav-item ">
+							<a class="nav-link">
+								<i class="material-icons">description</i>
+								<p>Drafts</p>
 							</a>
 						</li>
 					}
-
 					<li class="nav-item ">
 						<a class="nav-link">
 							<i class="material-icons">content_paste</i>
 							<p>Table List</p>
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a class="nav-link">
-							<i class="material-icons">library_books</i>
-							<p>Typography</p>
-						</a>
-					</li>
+
 					<li class="nav-item ">
 						<a class="nav-link">
 							<i class="material-icons">bubble_chart</i>
@@ -130,7 +137,7 @@
 							{
 								<li class="nav-item">
 									<a class="nav-link" asp-action="LogOff" asp-controller="Account">
-										<i class="material-icons">person</i>Log Off
+										<i class="material-icons">account_circle</i>Log Off
 										<p class="d-lg-none d-md-block">
 										</p>
 									</a>

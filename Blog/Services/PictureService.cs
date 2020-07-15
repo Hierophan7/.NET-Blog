@@ -17,9 +17,16 @@ namespace Blog.Services
 			_repository = new Repository<Picture>(blogContext);
 		}
 
+		public async Task<Picture> GetAvatarAsync(Guid userId)
+		{
+			return (await _repository.FindByConditionAsync(a => a.UserId == userId)).FirstOrDefault();
+		}
+
 		public async override Task<Picture> GetByIdAsync(Guid id)
 		{
 			return (await _repository.FindByConditionAsync(p => p.Id == id)).FirstOrDefault();
 		}
+
+
 	}
 }

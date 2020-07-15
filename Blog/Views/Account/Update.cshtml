@@ -4,6 +4,8 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*<link href="~/css/common.css" rel="stylesheet" />*@
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -14,7 +16,7 @@
 						<p class="card-category">Complete your profile</p>
 					</div>
 					<div class="card-body">
-						<form asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id">
+						<form asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
@@ -65,6 +67,20 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-md-4">
+
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text text-warning" id="inputGroupFileAddon01">New avatar</span>
+										</div>
+										<div class="custom-file">
+											<input type="file" asp-for="Avatar" value="New avatar" id="avatar"
+												   aria-describedby="inputGroupFileAddon01" />
+										</div>
+									</div>
+								</div>
+							</div>
 							@if (User.IsInRole("SuperAdmin"))
 							{
 								<div class="form-group">
@@ -73,7 +89,7 @@
 											<label class="control-label">Доступні ролі</label>
 										</div>
 										<div class="col">
-			 								@foreach (var role in Model.AllRoles)
+											@foreach (var role in Model.AllRoles)
 											{
 												<div class="form-check d-inline-block mr-5">
 													<label class="form-check-label">
@@ -83,7 +99,7 @@
 																<span class="check"></span>
 															</span>
 														</label>
-												</div>
+													</div>
 												}
 										</div>
 									</div>
@@ -98,9 +114,14 @@
 			<div class="col-md-4">
 				<div class="card card-profile">
 					<div class="card-avatar">
-						<a href="#pablo">
+						@if (Model.AvatarViewDTO != null)
+						{
+							<img class="img" src="~/Files/Avatars/@Model.AvatarViewDTO.PictureName" />
+						}
+						else
+						{
 							<img class="img" src="~/assets/img/faces/marc.jpg" />
-						</a>
+						}
 					</div>
 					<div class="card-body">
 						<h6 class="card-title">@Model.UserName</h6>

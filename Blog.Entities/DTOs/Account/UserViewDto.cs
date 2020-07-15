@@ -25,6 +25,6 @@ namespace Blog.Entities.DTOs.Account
 
 		public string TwitterLink { get; set; }
 		
-		public PictureViewDTO PictureViewDTO { get; set; }
+		public PictureViewDTO AvatarViewDTO { get; set; }
 	}
 }
