@@ -27,6 +27,10 @@ namespace Blog.Services
 			return (await _repository.FindByConditionAsync(p => p.Id == id)).FirstOrDefault();
 		}
 
-
+		public async Task<Picture> GetPicturesAsync(Guid postId)
+		{
+			//WIP
+			return (await _repository.FindByConditionAsync(a => a.PostId == postId)).FirstOrDefault();
+		}
 	}
 }
