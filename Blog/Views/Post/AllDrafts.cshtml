@@ -6,7 +6,7 @@
 
 <h1>AllDrafts</h1>
 
-<table class="table">
+@*<table class="table">
 	<thead>
 		<tr>
 			<th>
@@ -90,4 +90,11 @@
 			</tr>
 		}
 	</tbody>
-</table>
+</table>*@
+
+
+<div class="container-fluid d-flex justify-content-center" id="view-all">
+	<div class="container">
+		@await Html.PartialAsync("_ViewPosts", Model)
+	</div>
+</div>

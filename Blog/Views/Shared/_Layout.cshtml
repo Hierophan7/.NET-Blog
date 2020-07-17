@@ -80,22 +80,6 @@
 								</a>
 							</li>
 
-                            <li class="nav-item ">
-                                <a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
-                                    <i class="material-icons">description</i>
-                                    <p>Drafts</p>
-                                </a>
-                            </li>
-                        }
-
-                        <li class="nav-item ">
-                            <a class="nav-link" asp-action="CreateLanguage" asp-controller="Language">
-                                <i class="material-icons">create</i>
-                                <p>Create language</p>
-                            </a>
-                        </li>
-
-                    }
 							<li class="nav-item ">
 								<a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
 									<i class="material-icons">description</i>
@@ -103,14 +87,38 @@
 								</a>
 							</li>
 						}
+						@if (User.IsInRole("Admin"))
+						{
+							<li class="nav-item ">
+								<a class="nav-link" asp-action="" asp-controller="">
+									<i class="material-icons">description</i>
+									<p>Drafts</p>
+								</a>
+							</li>
+
+							<li class="nav-item ">
+								<a class="nav-link" asp-action="" asp-controller="">
+									<i class="material-icons">archive</i>
+									<p>Archive</p>
+								</a>
+							</li>
+						}
 
 						<li class="nav-item ">
-							<a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
-								<i class="material-icons">table_chart</i>
-								<p>Create category</p>
+							<a class="nav-link" asp-action="CreateLanguage" asp-controller="Language">
+								<i class="material-icons">create</i>
+								<p>Create language</p>
 							</a>
 						</li>
+
 					}
+
+					<li class="nav-item ">
+						<a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
+							<i class="material-icons">table_chart</i>
+							<p>Create category</p>
+						</a>
+					</li>
 
 					<li class="nav-item active-pro ">
 						<a class="nav-link">

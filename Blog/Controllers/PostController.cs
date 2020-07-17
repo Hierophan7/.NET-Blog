@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Blog.Entities.DTOs.Language;
+using Blog.Entities.DTOs.Account;
 
 namespace Blog.Controllers
 {
@@ -179,6 +181,19 @@ namespace Blog.Controllers
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
+
+				var category = await _categoryService.GetByIdAsync(post.CategoryId);
+				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
+
+				var language = await _languageService.GetByIdAsync(post.LanguageId);
+				var languageViewDTO = _mapper.Map<LanguageViewDTO>(language);
+
+				var user = await _userManager.FindByIdAsync(post.UserId.ToString());
+				var userViewDTO = _mapper.Map<UserViewDto>(user);
+
+				postViewDTO.LanguageViewDTO = languageViewDTO;
+				postViewDTO.CategoryViewDTO = categoryViewDTO;
+				postViewDTO.UserViewDto = userViewDTO;
 
 				if (postViewDTO.Text.Length > 100)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 100);
