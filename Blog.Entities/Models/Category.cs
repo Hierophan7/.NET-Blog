@@ -13,5 +13,6 @@ namespace Blog.Entities.Models
 		public string CategoryName { get; set; }
 
 		public List<Post> Posts { get; set; }
-	}
+
+    }
 }

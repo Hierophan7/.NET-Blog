@@ -11,6 +11,7 @@ using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Blog.Controllers
 {
@@ -44,7 +45,15 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid && !string.IsNullOrEmpty(postCreateDTO.Title) && !string.IsNullOrEmpty(postCreateDTO.Text))
 			{
+				var category = _mapper.Map<Category>(postCreateDTO.CategoryCreateDTO);
+
+				var newCategory = await _categoryService.CreateAsync(category);
+
+				List<SelectListItem> selectListItems = new List<SelectListItem>();
 				var post = _mapper.Map<Post>(postCreateDTO);
+
+				post.CategoryId = newCategory.Id;
+
 				await _postService.CreateAsync(post);
 				return RedirectToAction("Index", "Home");
 			}
@@ -53,13 +62,13 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
-		public IActionResult UpdatePost(Guid postId)
+		public async Task<IActionResult> UpdatePostAsync(Guid postId)
 		{
 
 			if (postId == Guid.Empty)
 				return NotFound();
 
-			var post = _postService.GetByIdAsync(postId);
+			var post = await _postService.GetByIdAsync(postId);
 
 			if (post == null)
 				return NotFound();
