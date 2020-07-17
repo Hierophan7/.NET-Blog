@@ -31,54 +31,54 @@
 				</a>
 			</div>
 			<div class="sidebar-wrapper">
-				<ul class="nav">
-					<li class="nav-item">
-						<a class="nav-link" asp-action="Index" asp-controller="Home">
-							<i class="material-icons">dashboard</i>
-							<p>Travel blog</p>
-						</a>
-					</li>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Home">
+                            <i class="material-icons">dashboard</i>
+                            <p>Travel blog</p>
+                        </a>
+                    </li>
 
-					@if (User.Identity.IsAuthenticated)
-					{
-						<li class="nav-item ">
-							<a class="nav-link" asp-action="Update" asp-controller="Account">
-								<i class="material-icons">person</i>
-								<p>User Profile</p>
-							</a>
-						</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="Update" asp-controller="Account">
+                                <i class="material-icons">person</i>
+                                <p>User Profile</p>
+                            </a>
+                        </li>
 
-						@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-						{
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="" asp-controller="">
-									<i class="material-icons">table_chart</i>
-									<p>My posts</p>
-								</a>
-							</li>
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="" asp-controller="">
+                                    <i class="material-icons">table_chart</i>
+                                    <p>My posts</p>
+                                </a>
+                            </li>
 
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="CreatePost" asp-controller="Post">
-									<i class="material-icons">create</i>
-									<p>Create post</p>
-								</a>
-							</li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="CreatePost" asp-controller="Post">
+                                    <i class="material-icons">create</i>
+                                    <p>Create post</p>
+                                </a>
+                            </li>
 
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="Users" asp-controller="Admin">
-									<i class="material-icons">group</i>
-									<p>Users</p>
-								</a>
-							</li>
-						}
-						@if (User.IsInRole("SuperAdmin"))
-						{
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="AllArchivedPostsAsync" asp-controller="Post">
-									<i class="material-icons">archive</i>
-									<p>Archive</p>
-								</a>
-							</li>
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="Users" asp-controller="Admin">
+                                    <i class="material-icons">group</i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <li class="nav-item ">
+                                <a class="nav-link" asp-action="AllArchivedPostsAsync" asp-controller="Post">
+                                    <i class="material-icons">archive</i>
+                                    <p>Archive</p>
+                                </a>
+                            </li>
 
                             <li class="nav-item ">
                                 <a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
@@ -95,30 +95,37 @@
                             </a>
                         </li>
 
+                        <li class="nav-item ">
+                            <a class="nav-link" asp-action="CreateTag" asp-controller="Tag">
+                                <i class="material-icons">create</i>
+                                <p>Create tag</p>
+                            </a>
+                        </li>
+
                     }
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
-									<i class="material-icons">description</i>
-									<p>Drafts</p>
-								</a>
-							</li>
-						}
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
+                            <i class="material-icons">description</i>
+                            <p>Drafts</p>
+                        </a>
+                    </li>
+                    }
 
-						<li class="nav-item ">
-							<a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
-								<i class="material-icons">table_chart</i>
-								<p>Create category</p>
-							</a>
-						</li>
-					}
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
+                            <i class="material-icons">table_chart</i>
+                            <p>Create category</p>
+                        </a>
+                    </li>
+                    }
 
-					<li class="nav-item active-pro ">
-						<a class="nav-link">
-							<i class="material-icons">unarchive</i>
-							<p>Upgrade to PRO</p>
-						</a>
-					</li>
-				</ul>
+                    <li class="nav-item active-pro ">
+                        <a class="nav-link">
+                            <i class="material-icons">unarchive</i>
+                            <p>Upgrade to PRO</p>
+                        </a>
+                    </li>
+                </ul>
 			</div>
 		</div>
 		<div class="main-panel">
