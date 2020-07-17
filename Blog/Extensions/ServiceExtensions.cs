@@ -19,6 +19,7 @@ namespace Blog.Extensions
 			services.AddScoped<IReactionService, ReactionService>();
 			services.AddScoped<ITagService, TagService>();
 			services.AddScoped<IEmailService, EmailService>();
+			services.AddScoped<ILanguageService, LanguageService>();
 		}
 	}
 }

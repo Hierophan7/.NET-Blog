@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Blog.Entities.DTOs.Post.PostViewDTO>
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<div class="card-columns">
+					@foreach (var post in Model)
+					{
+						<div class="card">
+
+							<div class="card-header card-header-primary">
+								<h5 class="card-category">@post.CategoryViewDTO.CategoryName</h5>
+								<a href="#">
+									<h4 class="card-title "><b>@post.Title</b></h4>
+								</a>
+							</div>
+
+							<div class="card-body">
+								<a href="">
+									<span class="text-primary">@post.Text</span>
+								</a>
+							</div>
+
+							<div class="card-footer p-3">
+								<p>
+									<a>@post.UserViewDto.UserName</a>
+								</p>
+
+								<p>
+									Modified data: @post.ModifiedDate
+								</p>
+
+								<p>
+									Cteation data: @post.CreationData
+								</p>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

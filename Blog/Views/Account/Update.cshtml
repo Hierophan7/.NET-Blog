@@ -68,17 +68,19 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-4">
-
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text text-warning" id="inputGroupFileAddon01">New avatar</span>
-										</div>
-										<div class="custom-file">
-											<input type="file" asp-for="Avatar" value="New avatar" id="avatar"
-												   aria-describedby="inputGroupFileAddon01" />
-										</div>
+								<div class="col-5">
+									<div class="form-check">
+										<label class="form-check-label text-warning">
+											<input class="form-check-input" type="checkbox" value="true" asp-for="AutomaticEmailNotification">
+											<span class="form-check-sign">
+												<span class="check"></span>
+											</span>
+											To sign up for automatic email notification
+										</label>
 									</div>
+								</div>
+								<div class="col">
+									<input type="file" asp-for="Avatar" value="New avatar" />
 								</div>
 							</div>
 							@if (User.IsInRole("SuperAdmin"))

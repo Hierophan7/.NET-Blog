@@ -11,7 +11,7 @@ using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Controllers
 {
@@ -22,14 +22,26 @@ namespace Blog.Controllers
 		private readonly ITagService _tagService;
 		private readonly ICategoryService _categoryService;
 		private readonly IPictureService _pictureService;
+		private readonly ILanguageService _languageService;
+		private readonly UserManager<User> _userManager;
 
 
 		public PostController(
 			IMapper mapper,
-			IPostService postService)
+			IPostService postService,
+			ITagService tagService,
+			ICategoryService categoryService,
+			IPictureService pictureService,
+			ILanguageService languageService,
+			UserManager<User> userManager)
 		{
 			_mapper = mapper;
 			_postService = postService;
+			_tagService = tagService;
+			_categoryService = categoryService;
+			_pictureService = pictureService;
+			_languageService = languageService;
+			_userManager = userManager;
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
@@ -49,7 +61,6 @@ namespace Blog.Controllers
 
 				var newCategory = await _categoryService.CreateAsync(category);
 
-				List<SelectListItem> selectListItems = new List<SelectListItem>();
 				var post = _mapper.Map<Post>(postCreateDTO);
 
 				post.CategoryId = newCategory.Id;
@@ -123,67 +134,97 @@ namespace Blog.Controllers
 			return NotFound();
 		}
 
-		//public async Task<IActionResult> ViewPost(PostViewDTO postViewDTO)
-		//{
-		//	return View(postViewDTO);
-		//}
-
-		public async Task<IActionResult> ViewAllPosts()
+		[Authorize(Roles = "SuperAdmin")]
+		[HttpGet]
+		public async Task<IActionResult> AllArchivedPosts()
 		{
-			var posts = await _postService.GetAllAsync();
+			List<PostViewDTO> postViewDTOs = new List<PostViewDTO>();
 
-			List<PostViewDTO> postViewDtos = new List<PostViewDTO>();
+			var posts = await _postService.GetAllArchivedPostsAsync();
 
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				//pictures;
+				if (postViewDTO.Text.Length > 100)
+					postViewDTO.Text = postViewDTO.Text.Substring(0, 100);
 
-				postViewDtos.Add(postViewDTO);
+				postViewDTOs.Add(postViewDTO);
 			}
-			return View(postViewDtos);
+
+			return View(postViewDTOs);
 		}
 
-		//View all by post status;
-
-		[Authorize(Roles = "SuperAdmin, Admin")]
-		[HttpPost]
-		public async Task<IActionResult> CreateTag(TagCreateDTO tagCreateDTO)
+		[Authorize(Roles = "SuperAdmin")]
+		[HttpGet]
+		public async Task<IActionResult> AllDrafts()
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(tagCreateDTO.TagName))
+			List<PostViewDTO> postViewDTOs = new List<PostViewDTO>();
+
+			var posts = await _postService.GetAllDraftsAsync();
+
+			foreach (var post in posts)
 			{
-				var tag = _mapper.Map<Tag>(tagCreateDTO);
-				await _tagService.CreateAsync(tag);
-				return RedirectToAction("Index", "Home");
+				var postViewDTO = _mapper.Map<PostViewDTO>(post);
+
+				if (postViewDTO.Text.Length > 100)
+					postViewDTO.Text = postViewDTO.Text.Substring(0, 100);
+
+				postViewDTOs.Add(postViewDTO);
 			}
-			return View(tagCreateDTO);
+
+			return View(postViewDTOs);
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> ViewTag(TagViewDTO tagViewDTO)
-		//{
-		//	return View(tagViewDTO);
-		//}
 
-		[Authorize(Roles = "SuperAdmin, Admin")]
-		[HttpPost]
-		public async Task<IActionResult> CreateCategory(CategoryCreateDTO categoryCreateDTO)
+		[Authorize]
+		[HttpGet]
+		public async Task<IActionResult> GetAllUserPosts ()
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(categoryCreateDTO.CategoryName))
+			var userName = User.Identity.Name;
+
+			var user = await _userManager.FindByNameAsync(userName);
+
+			List<PostViewDTO> postViewDTOs = new List<PostViewDTO>();
+
+			var posts = await _postService.GetAllUserPostedPostsAsync(user.Id);
+
+			foreach (var post in posts)
 			{
-				var category = _mapper.Map<Category>(categoryCreateDTO);
-				await _categoryService.CreateAsync(category);
-				return RedirectToAction("Index", "Home");
+				var postViewDTO = _mapper.Map<PostViewDTO>(post);
+
+				if (postViewDTO.Text.Length > 100)
+					postViewDTO.Text = postViewDTO.Text.Substring(0, 100);
+
+				postViewDTOs.Add(postViewDTO);
 			}
-			return View(categoryCreateDTO);
+
+			return View(postViewDTOs);
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> ViewCategory(CategoryViewDTO categoryViewDTO)
-		//{
-		//	return View(categoryViewDTO);
-		//}
+		[Authorize]
+		[HttpGet]
+		public async Task<IActionResult> GetAllUserDrafts()
+		{
+			var userName = User.Identity.Name;
 
+			var user = await _userManager.FindByNameAsync(userName);
+
+			List<PostViewDTO> postViewDTOs = new List<PostViewDTO>();
+
+			var posts = await _postService.GetAllUserPostedPostsAsync(user.Id);
+
+			foreach (var post in posts)
+			{
+				var postViewDTO = _mapper.Map<PostViewDTO>(post);
+
+				if (postViewDTO.Text.Length > 100)
+					postViewDTO.Text = postViewDTO.Text.Substring(0, 100);
+
+				postViewDTOs.Add(postViewDTO);
+			}
+
+			return View(postViewDTOs);
+		}
 	}
 }

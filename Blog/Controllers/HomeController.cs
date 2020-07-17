@@ -6,20 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Blog.Models;
+using Blog.Services.Interfaces;
+using AutoMapper;
+using Blog.Entities.DTOs.Post;
 
 namespace Blog.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+		private readonly IPostService _postService;
+		private readonly IMapper _mapper;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(
+			IPostService postService,
+			IMapper mapper)
 		{
-			_logger = logger;
+			_postService = postService;
+			_mapper = mapper;
 		}
 
-		public IActionResult Index()
+		public  IActionResult Index()
 		{
+			//var postedPosts = _postService.GetAllPostedPostsAsync();
+
+			//var postViewDTOs = _mapper.Map<IEnumerable<PostViewDTO>>(postedPosts);
+
+			//return View(postViewDTOs);
 			return View();
 		}
 		
