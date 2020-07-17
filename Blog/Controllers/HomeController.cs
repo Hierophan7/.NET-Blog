@@ -32,6 +32,7 @@ namespace Blog.Controllers
 			//var postViewDTOs = _mapper.Map<IEnumerable<PostViewDTO>>(postedPosts);
 
 			//return View(postViewDTOs);
+
 			return View();
 		}
 		

@@ -57,13 +57,26 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var category = _mapper.Map<Category>(postCreateDTO.CategoryCreateDTO);
+				var userName = User.Identity.Name;
 
-				var newCategory = await _categoryService.CreateAsync(category);
+				var user = await _userManager.FindByNameAsync(userName);
+
+				var categories = await _categoryService.GetAllAsync();
+				var languages = await _languageService.GetAllAsync();
+
+				var category = categories.First();
+				var language = languages.First();
 
 				var post = _mapper.Map<Post>(postCreateDTO);
 
-				post.CategoryId = newCategory.Id;
+				post.UserId = user.Id;
+				post.CreationData = DateTime.Now;
+
+				if (category != null && language != null)
+				{
+					post.CategoryId = category.Id;
+					post.LanguageId = language.Id;
+				}
 
 				await _postService.CreateAsync(post);
 				return RedirectToAction("Index", "Home");
@@ -179,7 +192,7 @@ namespace Blog.Controllers
 
 		[Authorize]
 		[HttpGet]
-		public async Task<IActionResult> GetAllUserPosts ()
+		public async Task<IActionResult> GetAllUserPosts()
 		{
 			var userName = User.Identity.Name;
 

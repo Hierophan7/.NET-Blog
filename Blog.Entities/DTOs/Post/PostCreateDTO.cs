@@ -15,7 +15,6 @@ namespace Blog.Entities.DTOs.Post
 		[Required]
 		public string Text { get; set; }
 
-		[Required]
 		public PostStatus PostStatus { get; set; }
 
 		public bool CommentingPermission { get; set; }
@@ -36,7 +35,6 @@ namespace Blog.Entities.DTOs.Post
 
 		public List<PictureCreateDTO> Pictures { get; set; }
 
-		//Tags;
 
 	}
 }
