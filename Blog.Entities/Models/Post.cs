@@ -34,7 +34,7 @@ namespace Blog.Entities.Models
 		[Required]
 		public PostStatus PostStatus { get; set; }
 
-		public Guid CategoryId { get; set; }
+		public Guid? CategoryId { get; set; }
 
 		public Category Category { get; set; }
 

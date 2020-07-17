@@ -57,14 +57,22 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid && !string.IsNullOrEmpty(postCreateDTO.Title) && !string.IsNullOrEmpty(postCreateDTO.Text))
 			{
-				var category = _mapper.Map<Category>(postCreateDTO.CategoryCreateDTO);
+				var userName = User.Identity.Name;
 
-				var newCategory = await _categoryService.CreateAsync(category);
+				var user = await _userManager.FindByNameAsync(userName);
+
+				//var category = _mapper.Map<Category>(postCreateDTO.CategoryCreateDTO);
+
+				//var newCategory = await _categoryService.CreateAsync(category);
 
 				var post = _mapper.Map<Post>(postCreateDTO);
 
-				post.CategoryId = newCategory.Id;
+				post.UserId = user.Id;
+				post.CreationData = DateTime.Now;
+				post.CategoryId = Guid.Parse("8E11C019-1E4F-4CDD-B78B-318105A5721A");
 
+				
+				
 				await _postService.CreateAsync(post);
 				return RedirectToAction("Index", "Home");
 			}
