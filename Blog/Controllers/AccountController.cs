@@ -308,13 +308,16 @@ namespace Blog.Controllers
 			// Get the user's prifile picture
 			var avatar = await _pictureService.GetAvatarAsync(user.Id);
 
-			var avatarViewDTO = _mapper.Map<PictureViewDTO>(avatar);
-
 			var roles = await _roleManager.Roles.ToListAsync();
 
 			var userToView = _mapper.Map<UserUpdateDto>(user);
 
-			userToView.AvatarViewDTO = avatarViewDTO;
+			if (avatar != null)
+			{
+				var avatarViewDTO = _mapper.Map<PictureViewDTO>(avatar);
+
+				userToView.AvatarViewDTO = avatarViewDTO;
+			}
 
 			var rolesInUser = await _userManager.GetRolesAsync(user);
 
@@ -333,6 +336,22 @@ namespace Blog.Controllers
 				{
 					var user = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
 
+					// Get the user's prifile picture
+					var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
+
+					if (userUpdateDto.Avatar != null)
+					{
+						Picture avatar = new Picture();
+						
+						if (currentAvatar != null)
+							// Delete the current profile pictures
+							await _pictureService.DeleteAsync(currentAvatar.Id);
+
+						AddAvatar(userUpdateDto.Avatar, user.Id, out avatar);
+
+						await _pictureService.CreateAsync(avatar);
+					}
+
 					if (user != null)
 					{
 						user.UserName = userUpdateDto.UserName;
@@ -342,22 +361,9 @@ namespace Blog.Controllers
 						user.LinkedInLink = userUpdateDto.LinkedInLink;
 						user.TwitterLink = userUpdateDto.TwitterLink;
 						user.YoutubeLink = userUpdateDto.YoutubeLink;
+						user.AutomaticEmailNotification = userUpdateDto.AutomaticEmailNotification;
 					}
 
-					// Get the user's prifile picture
-					var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
-
-					if (currentAvatar != null)
-						// Delete the current profile pictures
-						await _pictureService.DeleteAsync(currentAvatar.Id);
-
-					Picture avatar = new Picture();
-
-					if (userUpdateDto.Avatar != null)
-						AddAvatar(userUpdateDto.Avatar, user.Id, out avatar);
-
-					await _pictureService.CreateAsync(avatar);
-					
 					// получем список ролей пользователя
 					var userRoles = await _userManager.GetRolesAsync(user);
 					// получаем все роли
@@ -396,7 +402,6 @@ namespace Blog.Controllers
 			// Save the profile picture into WebRootPath/Files/Avatars
 			using (var fileStream = new FileStream(path, FileMode.Create))
 			{
-				//await formFile.CopyToAsync(fileStream);
 				formFile.CopyTo(fileStream);
 			}
 

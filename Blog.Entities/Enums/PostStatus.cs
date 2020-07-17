@@ -3,7 +3,7 @@
 	public enum PostStatus
 	{
 		Draft,
-		Post,
+		Posted,
 		Archive
 	}
 }

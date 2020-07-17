@@ -22,7 +22,10 @@ namespace Abbott.Entities.Dtos.Account
 		[EmailAddress]
 		public string Email { get; set; }
 
+		public bool AutomaticEmailNotification { get; set; }
+
 		public List<string> RolesInCurrentUser { get; set; }
+
 		public List<AppRole> AllRoles { get; set; }
 
 		public PictureViewDTO AvatarViewDTO { get; set; }

@@ -38,6 +38,7 @@
 							<p>Travel blog</p>
 						</a>
 					</li>
+
 					@if (User.Identity.IsAuthenticated)
 					{
 						<li class="nav-item ">
@@ -50,44 +51,37 @@
 						@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
 						{
 							<li class="nav-item ">
+								<a class="nav-link" asp-action="" asp-controller="">
+									<i class="material-icons">table_chart</i>
+									<p>My posts</p>
+								</a>
+							</li>
+
+							<li class="nav-item ">
 								<a class="nav-link" asp-action="Users" asp-controller="Admin">
 									<i class="material-icons">group</i>
 									<p>Users</p>
 								</a>
 							</li>
 						}
-						<li class="nav-item ">
-							<a class="nav-link">
-								<i class="material-icons">archive</i>
-								<p>Archive</p>
-							</a>
-						</li>
-						<li class="nav-item ">
-							<a class="nav-link">
-								<i class="material-icons">description</i>
-								<p>Drafts</p>
-							</a>
-						</li>
-					}
-					<li class="nav-item ">
-						<a class="nav-link">
-							<i class="material-icons">content_paste</i>
-							<p>Table List</p>
-						</a>
-					</li>
+						@if (User.IsInRole("SuperAdmin"))
+						{
+							<li class="nav-item ">
+								<a class="nav-link" asp-action="AllArchivedPostsAsync" asp-controller="Post">
+									<i class="material-icons">archive</i>
+									<p>Archive</p>
+								</a>
+							</li>
 
-					<li class="nav-item ">
-						<a class="nav-link">
-							<i class="material-icons">bubble_chart</i>
-							<p>Icons</p>
-						</a>
-					</li>
-					<li class="nav-item ">
-						<a class="nav-link">
-							<i class="material-icons">notifications</i>
-							<p>Notifications</p>
-						</a>
-					</li>
+							<li class="nav-item ">
+								<a class="nav-link" asp-action="AllDrafts" asp-controller="Post">
+									<i class="material-icons">description</i>
+									<p>Drafts</p>
+								</a>
+							</li>
+						}
+					}
+
 					<li class="nav-item active-pro ">
 						<a class="nav-link">
 							<i class="material-icons">unarchive</i>

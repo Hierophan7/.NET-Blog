@@ -6,6 +6,8 @@ namespace Blog.Entities.Models
 {
 	public class User : IdentityUser<Guid>
 	{
+		public bool AutomaticEmailNotification { get; set; }
+
 		public byte[] PasswordSalt { get; set; }
 
 		public string InstagramLink { get; set; }

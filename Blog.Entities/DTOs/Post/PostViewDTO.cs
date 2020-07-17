@@ -33,23 +33,19 @@ namespace Blog.Entities.DTOs.Post
 		public DateTime ModifiedDate { get; set; }
 
 		public Guid CategoryId { get; set; }
-
-		public CategoryViewDTO Category { get; set; }
+		public CategoryViewDTO CategoryViewDTO { get; set; }
 
 		public Guid UserId { get; set; }
-
-		public UserViewDto User { get; set; }
+		public UserViewDto UserViewDto { get; set; }
 
 		public Guid LanguageId { get; set; }
-
-		public LanguageViewDTO Language { get; set; }
+		public LanguageViewDTO LanguageViewDTO { get; set; }
 
 		public List<PictureViewDTO> Pictures { get; set; }
 
 		public List<ReactionViewDTO> Reactions { get; set; }
 
 		public List<CommentViewDTO> Comments { get; set; }
-
 
 		public List<TagViewDTO> TagViewDTO { get; set; }
 
