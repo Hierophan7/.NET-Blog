@@ -55,7 +55,7 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreatePost(PostCreateDTO postCreateDTO)
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(postCreateDTO.Title) && !string.IsNullOrEmpty(postCreateDTO.Text))
+			if (ModelState.IsValid)
 			{
 				var category = _mapper.Map<Category>(postCreateDTO.CategoryCreateDTO);
 

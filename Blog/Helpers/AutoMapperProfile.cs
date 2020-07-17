@@ -5,6 +5,7 @@ using Blog.Entities.DTOs.Account;
 using Blog.Entities.DTOs.Category;
 using Blog.Entities.DTOs.Comment;
 using Blog.Entities.DTOs.Complaint;
+using Blog.Entities.DTOs.Language;
 using Blog.Entities.DTOs.Picture;
 using Blog.Entities.DTOs.Post;
 using Blog.Entities.DTOs.Reaction;
@@ -51,6 +52,9 @@ namespace Blog.Helpers
 			CreateMap<TagCreateDTO, Tag>();
 			CreateMap<TagUpdateDTO, Tag>();
 			CreateMap<Tag, TagViewDTO>();
+
+			CreateMap<Language, LanguageViewDTO>();
+			CreateMap<LanguageCreateDTO, Language>();
 
 		}
 	}

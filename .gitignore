@@ -341,3 +341,6 @@ healthchecksdb
 
 Blog/wwwroot/Files/Avatars/*
 Blog/wwwroot/Files/Images/*
+
+# Connection string diff
+appsettings.json
