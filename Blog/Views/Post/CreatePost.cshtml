@@ -17,27 +17,27 @@
 						<form asp-action="CreatePost">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="form-group">
-                                <label class="bmd-label-floating">Title</label>
-                                <input asp-for="Title" class="form-control" style="font-size: 25px"/>
-                                <span asp-validation-for="Title" class="text-danger"></span>
-                            </div>
+							<div class="form-group">
+								<label class="bmd-label-floating">Title</label>
+								<input asp-for="Title" class="form-control" style="font-size: 25px" />
+								<span asp-validation-for="Title" class="text-danger"></span>
+							</div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating"> Your text here</label>
-                                        <textarea asp-for="Text" class="form-control" rows="20"> </textarea>
-                                        <span asp-validation-for="Text" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="bmd-label-floating"> Your text here</label>
+										<textarea asp-for="Text" class="form-control" rows="20"> </textarea>
+										<span asp-validation-for="Text" class="text-danger"></span>
+									</div>
+								</div>
+							</div>
 
 							@*<div class="form-group">
-								<label asp-for="PostStatus" class="control-label"></label>
-								<input asp-for="PostStatus" class="form-control" />
-								<span asp-validation-for="PostStatus" class="text-danger"></span>
-							</div>*@
+									<label asp-for="PostStatus" class="control-label"></label>
+									<input asp-for="PostStatus" class="form-control" />
+									<span asp-validation-for="PostStatus" class="text-danger"></span>
+								</div>*@
 
 							<div class="form-check d-inline-block mr-5">
 								<div class="form-group form-check">
@@ -51,32 +51,34 @@
 								</div>
 							</div>
 
-                            @*<div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
-                                    Category
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    @foreach (var category in Model.CategoryViewDTOs)
-                                    {
-                                        <select asp-for="CategoryId" asp-items="Model.CategoryViewDTOs"></select>
-                                    }
-                                    <div class="dropdown-divider"></div>
-                                    <input asp-for="CategoryCreateDTO.CategoryName" class="form-control" />
-                                </div>
-                            </div>
+							@*<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+										Category
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										@foreach (var category in model.categoryviewdtos)
+										{
+											@html.displayfor(modelitem => category.categoryname)
+										}
 
-                            <div class="form-group">
-                                <label asp-for="LanguageId" class="control-label"></label>
-                                <input asp-for="LanguageId" class="form-control" />
-                                <span asp-validation-for="LanguageId" class="text-danger"></span>
-                            </div>*@
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+										<div class="dropdown-divider"></div>
+										<input asp-for="CategoryCreateDTO.CategoryName" class="form-control" />
+									</div>
+								</div>*@
+
+							@*<div class="form-group">
+									<label asp-for="LanguageId" class="control-label"></label>
+									<input asp-for="LanguageId" class="form-control" />
+									<span asp-validation-for="LanguageId" class="text-danger"></span>
+								</div>*@
+
+							<div class="form-group">
+								<input type="submit" value="Create" class="btn btn-primary" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

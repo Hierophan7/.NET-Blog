@@ -47,6 +47,7 @@ namespace Blog.Controllers
 			_userManager = userManager;
 		}
 
+
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
 		public IActionResult CreatePost()
