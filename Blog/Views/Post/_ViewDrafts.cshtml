@@ -8,32 +8,15 @@
 				<div class="col-12">
 					<div class="card">
 
-						<div class="card-header card-header-warning">
-							<div class="row">
-								<div class="col">
-									<h5 class="card-category">@post.CategoryViewDTO.CategoryName</h5>
-									<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
-										<h4 class="card-title "><b>@post.Title</b></h4>
-									</a>
-								</div>
-								<div class="col-1">
-									@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-									{
-										<div class="col-1">
-											<form asp-action="ZipPost" asp-controller="Post" asp-route-id="@post.Id">
-												<button type="submit" style="border: none; background: none;">
-													<img src="~/assets/img/archive-white-18dp.svg" />
-												</button>
-											</form>
-										</div>
-									}
-								</div>
-							</div>
-							
+						<div class="card-header card-header-danger">
+							<h5 class="card-category">@post.CategoryViewDTO.CategoryName</h5>
+							<a href="#">
+								<h4 class="card-title "><b>@post.Title</b></h4>
+							</a>
 						</div>
 
 						<div class="card-body ">
-							<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
+							<a href="#">
 								<span class="text-white">@post.Text</span>
 							</a>
 						</div>
@@ -54,7 +37,7 @@
 												</small>
 											</div>
 										</div>
-
+										
 									</div>
 
 									<div class="col w-100">

@@ -51,8 +51,15 @@
 						@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
 						{
 							<li class="nav-item ">
-								<a class="nav-link" asp-action="" asp-controller="">
-									<i class="material-icons">table_chart</i>
+								<a class="nav-link" asp-action="Users" asp-controller="Admin">
+									<i class="material-icons">group</i>
+									<p>Users</p>
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" asp-action="GetAllUserPosts" asp-controller="Post">
+									<i class="material-icons">list</i>
 									<p>My posts</p>
 								</a>
 							</li>
@@ -63,18 +70,11 @@
 									<p>Create post</p>
 								</a>
 							</li>
-
-							<li class="nav-item ">
-								<a class="nav-link" asp-action="Users" asp-controller="Admin">
-									<i class="material-icons">group</i>
-									<p>Users</p>
-								</a>
-							</li>
 						}
 						@if (User.IsInRole("SuperAdmin"))
 						{
 							<li class="nav-item ">
-								<a class="nav-link" asp-action="AllArchivedPostsAsync" asp-controller="Post">
+								<a class="nav-link" asp-action="AllArchivedPosts" asp-controller="Post">
 									<i class="material-icons">archive</i>
 									<p>Archive</p>
 								</a>
@@ -87,19 +87,19 @@
 								</a>
 							</li>
 						}
-						@if (User.IsInRole("Admin"))
+						else if (User.IsInRole("Admin"))
 						{
 							<li class="nav-item ">
-								<a class="nav-link" asp-action="" asp-controller="">
+								<a class="nav-link" asp-action="GetAllUserDrafts" asp-controller="Post">
 									<i class="material-icons">description</i>
-									<p>Drafts</p>
+									<p>My Drafts</p>
 								</a>
 							</li>
 
 							<li class="nav-item ">
-								<a class="nav-link" asp-action="" asp-controller="">
+								<a class="nav-link" asp-action="GetAllUserArcihedPosts" asp-controller="Post">
 									<i class="material-icons">archive</i>
-									<p>Archive</p>
+									<p>My Archive</p>
 								</a>
 							</li>
 						}
@@ -111,14 +111,13 @@
 							</a>
 						</li>
 
+						<li class="nav-item ">
+							<a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
+								<i class="material-icons">table_chart</i>
+								<p>Create category</p>
+							</a>
+						</li>
 					}
-
-					<li class="nav-item ">
-						<a class="nav-link" asp-action="CreateCategory" asp-controller="Category">
-							<i class="material-icons">table_chart</i>
-							<p>Create category</p>
-						</a>
-					</li>
 
 					<li class="nav-item active-pro ">
 						<a class="nav-link">

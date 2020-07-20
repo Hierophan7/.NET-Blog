@@ -1,4 +1,11 @@
-﻿@{
-	Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model IEnumerable<Blog.Entities.DTOs.Post.PostViewDTO>
 
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid d-flex justify-content-center" id="view-all">
+	<div class="container">
+		@await Html.PartialAsync("_ViewPosts", Model)
+	</div>
+</div>

@@ -9,6 +9,10 @@ using Blog.Models;
 using Blog.Services.Interfaces;
 using AutoMapper;
 using Blog.Entities.DTOs.Post;
+using Microsoft.AspNetCore.Identity;
+using Blog.Entities.Models;
+using Blog.Entities.DTOs.Category;
+using Blog.Entities.DTOs.Account;
 
 namespace Blog.Controllers
 {
@@ -16,29 +20,47 @@ namespace Blog.Controllers
 	{
 		private readonly IPostService _postService;
 		private readonly IMapper _mapper;
+		private readonly UserManager<User> _userManager;
+		private readonly ICategoryService _categoryService;
 
 		public HomeController(
 			IPostService postService,
+			UserManager<User> userManager,
+			ICategoryService categoryService,
 			IMapper mapper)
 		{
 			_postService = postService;
+			_userManager = userManager;
+			_categoryService = categoryService;
 			_mapper = mapper;
 		}
 
-		public  IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			//var postedPosts = _postService.GetAllPostedPostsAsync();
+			List<PostViewDTO> postViewDTOs = new List<PostViewDTO>();
 
-			//var postViewDTOs = _mapper.Map<IEnumerable<PostViewDTO>>(postedPosts);
+			var posts = await _postService.GetAllPostedPostsAsync();
 
-			//return View(postViewDTOs);
+			foreach (var post in posts)
+			{
+				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-			return View();
-		}
-		
-		public IActionResult Privacy()
-		{
-			return View();
+				var user = await _userManager.FindByIdAsync(post.UserId.ToString());
+				var category = await _categoryService.GetByIdAsync(post.CategoryId);
+				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
+
+				var userViewDTO = _mapper.Map<UserViewDto>(user);
+
+				postViewDTO.UserViewDto = userViewDTO;
+				postViewDTO.CategoryViewDTO = categoryViewDTO;
+
+				if (postViewDTO.Text.Length > 300)
+					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
+
+				postViewDTOs.Add(postViewDTO);
+			}
+
+			return View(postViewDTOs);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,0 +1,61 @@
+﻿@model Blog.Entities.DTOs.Post.PostViewDTO
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+
+					<div class="card-header card-header-warning">
+						<h5 class="card-category">@Model.CategoryViewDTO.CategoryName</h5>
+
+						<h4 class="card-title "><b>@Model.Title</b></h4>
+					</div>
+
+					<div class="card-body">
+						<span class="text-white">@Model.Text</span>
+					</div>
+
+					<div class="card-footer p-2 text-muted">
+						<div class="container-fluid">
+							<div class="row align-items-center">
+								<div class="col w-100 ml-5">
+									<div class="row justify-content-center">
+										<div class="col">
+											<a>@Model.UserViewDto.UserName</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<small>
+												Cteation data: @Model.CreationData
+											</small>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="col w-100">
+									<span class="m-4">
+										<i class="material-icons">visibility</i>
+										1
+									</span>
+
+									<span class="m-4">
+										<i class="material-icons">thumb_up_alt</i>
+										1
+									</span>
+
+									<span class="m-4">
+										<i class="material-icons">thumb_down_alt</i>
+										1
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

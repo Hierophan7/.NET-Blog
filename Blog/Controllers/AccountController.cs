@@ -228,22 +228,6 @@ namespace Blog.Controllers
 			return View(userNewPasswordDto);
 		}
 
-		//[Authorize]
-		//[HttpGet]
-		//public async Task<IActionResult> ChangePassword()
-		//{
-		//	var nameOfCurrentUser = HttpContext.User.Identity.Name;
-
-		//	var currentUser = await _userManager.FindByNameAsync(nameOfCurrentUser);
-
-		//	if (currentUser == null)
-		//		return NotFound();
-
-		//	var userChangePasswordDto = _mapper.Map<UserChangePasswordDto>(currentUser);
-
-		//	return PartialView(userChangePasswordDto);
-		//}
-
 		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> ChangePassword(UserChangePasswordDto userChangePasswordDto)
@@ -336,16 +320,20 @@ namespace Blog.Controllers
 				{
 					var user = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
 
-					// Get the user's prifile picture
-					var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
-
 					if (userUpdateDto.Avatar != null)
 					{
+						// Get the user's prifile picture
+						var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
+
 						Picture avatar = new Picture();
 						
 						if (currentAvatar != null)
+						{
 							// Delete the current profile pictures
 							await _pictureService.DeleteAsync(currentAvatar.Id);
+							
+							System.IO.File.Delete(currentAvatar.PicturePath);
+						}
 
 						AddAvatar(userUpdateDto.Avatar, user.Id, out avatar);
 
@@ -385,6 +373,9 @@ namespace Blog.Controllers
 				{
 					ModelState.AddModelError(string.Empty, ex.Message);
 				}
+
+				if (User.IsInRole("SuperAdmin"))
+					return RedirectToAction("Users", "Admin");
 
 				return RedirectToAction("Index", "Home");
 			}
