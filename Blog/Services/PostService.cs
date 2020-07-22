@@ -60,5 +60,12 @@ namespace Blog.Services
 		{
 			return (await _repository.FindByAsync(r => r.Id == id, i => i.Category, i => i.User, i => i.Language)).FirstOrDefault();
 		}
+
+		public async Task<IEnumerable<Post>> SearchAsync(string searchString)
+		{
+			return (await _repository.FindByAsync(p=>
+			p.Title.Contains(searchString) || p.Text.Contains(searchString) || p.Description.Contains(searchString),
+			i => i.Category, i => i.User, i => i.Language));
+		}
 	}
 }

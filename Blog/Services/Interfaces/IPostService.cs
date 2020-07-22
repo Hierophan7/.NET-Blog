@@ -25,5 +25,7 @@ namespace Blog.Services.Interfaces
 		// Get all user archived posts
 		Task<IEnumerable<Post>> GetAllUserArchivedPostsAsync(Guid userID);
 
+		Task<IEnumerable<Post>> SearchAsync(string searchString);
+
 	}
 }

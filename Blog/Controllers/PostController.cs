@@ -210,9 +210,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				if (postViewDTO.Text.Length > 300)
-					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
-
 				postViewDTOs.Add(postViewDTO);
 			}
 
@@ -230,9 +227,6 @@ namespace Blog.Controllers
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-				if (postViewDTO.Text.Length > 300)
-					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 
 				postViewDTOs.Add(postViewDTO);
 			}
@@ -257,9 +251,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				if (postViewDTO.Text.Length > 300)
-					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
-
 				postViewDTOs.Add(postViewDTO);
 			}
 
@@ -282,9 +273,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				if (postViewDTO.Text.Length > 300)
-					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
-
 				postViewDTOs.Add(postViewDTO);
 			}
 
@@ -306,9 +294,6 @@ namespace Blog.Controllers
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-				if (postViewDTO.Text.Length > 300)
-					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 
 				postViewDTOs.Add(postViewDTO);
 			}
