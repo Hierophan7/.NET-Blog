@@ -21,9 +21,12 @@ namespace Blog.Services
 
 		public override async Task<User> GetByIdAsync(Guid id)
 		{
-			User user = (await _repository.FindByConditionAsync(u => u.Id == id)).FirstOrDefault();
+			return (await _repository.FindByConditionAsync(u => u.Id == id)).FirstOrDefault();
+		}
 
-			return user;
+		public async Task<IEnumerable<User>> GetUsersForNitificationAsync()
+		{
+			return (await _repository.FindByConditionAsync(u => u.AutomaticEmailNotification == true));
 		}
 	}
 }

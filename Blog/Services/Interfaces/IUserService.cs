@@ -8,5 +8,6 @@ namespace Blog.Services.Interfaces
 {
 	public interface IUserService : IBaseService<User>
 	{
+		Task<IEnumerable<User>> GetUsersForNitificationAsync();
 	}
 }

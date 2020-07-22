@@ -45,15 +45,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				var user = await _userManager.FindByIdAsync(post.UserId.ToString());
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.UserViewDto = userViewDTO;
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
-
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 

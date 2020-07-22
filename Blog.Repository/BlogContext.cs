@@ -19,7 +19,7 @@ namespace Blog.Repository
 			: base(options)
 		{
 			_httpContextAccessor = httpContextAccessor;
-			//Database.EnsureCreated();
+			Database.EnsureCreated();
 		}
 
 		public DbSet<Tag> Tags { get; set; }

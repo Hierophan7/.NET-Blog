@@ -10,7 +10,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="card p-3">
-					<div class="card-header card-header-warning">
+					<div class="card-header card-header-primary">
 						<h4 class="card-title">Create post</h4>
 					</div>
 					<div class="card-body">
@@ -19,15 +19,25 @@
 
 							<div class="form-group">
 								<label class="bmd-label-floating">Title</label>
-								<input asp-for="Title" class="form-control" style="font-size: 25px" />
+								<input asp-for="Title" class="form-control" style="font-size: 25px" maxlength="100" required/>
 								<span asp-validation-for="Title" class="text-danger"></span>
+							</div>
+
+							<div class="row">
+								<div class="col-7">
+									<div class="form-group">
+										<label class="bmd-label-floating"> Your description here</label>
+										<textarea asp-for="Description" class="form-control" rows="5" maxlength="300" required></textarea>
+										<span asp-validation-for="Description" class="text-danger"></span>
+									</div>
+								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="bmd-label-floating"> Your text here</label>
-										<textarea asp-for="Text" class="form-control" rows="20"> </textarea>
+										<textarea asp-for="Text" class="form-control" rows="20" required> </textarea>
 										<span asp-validation-for="Text" class="text-danger"></span>
 									</div>
 								</div>

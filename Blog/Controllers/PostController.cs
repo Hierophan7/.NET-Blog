@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Blog.Entities.DTOs.Language;
 using Blog.Entities.DTOs.Account;
 using Blog.Entities.Enums;
+using Blog.Common;
 
 namespace Blog.Controllers
 {
@@ -27,7 +28,9 @@ namespace Blog.Controllers
 		private readonly IPictureService _pictureService;
 		private readonly ILanguageService _languageService;
 		private readonly UserManager<User> _userManager;
-
+		private readonly IUserService _userService;
+		private readonly IAutomaticEmailNotificationService _automaticEmailNotificationService;
+		private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
 		public PostController(
 			IMapper mapper,
@@ -36,7 +39,10 @@ namespace Blog.Controllers
 			ICategoryService categoryService,
 			IPictureService pictureService,
 			ILanguageService languageService,
-			UserManager<User> userManager)
+			UserManager<User> userManager,
+			IUserService userService,
+			IAutomaticEmailNotificationService automaticEmailNotificationService,
+			IRazorViewToStringRenderer razorViewToStringRenderer)
 		{
 			_mapper = mapper;
 			_postService = postService;
@@ -45,8 +51,10 @@ namespace Blog.Controllers
 			_pictureService = pictureService;
 			_languageService = languageService;
 			_userManager = userManager;
+			_userService = userService;
+			_automaticEmailNotificationService = automaticEmailNotificationService;
+			_razorViewToStringRenderer = razorViewToStringRenderer;
 		}
-
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
@@ -84,6 +92,32 @@ namespace Blog.Controllers
 				}
 
 				await _postService.CreateAsync(post);
+
+				var usersForNotification = await _userService.GetUsersForNitificationAsync();
+
+				if (usersForNotification != null)
+				{
+					var usersVoewDTO = _mapper.Map<List<UserViewDto>>(usersForNotification);
+					var postViewDTO = _mapper.Map<PostViewDTO>(post);
+					var userViewDTO = _mapper.Map<UserViewDto>(user);
+
+					if (postViewDTO.Text.Length > 300)
+						postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
+
+					postViewDTO.UserViewDto = userViewDTO;
+
+					var viewPostLink = Url.Action(
+						"PostDetails",
+						"Post",
+						new { id = postViewDTO.Id },
+						protocol: HttpContext.Request.Scheme);
+
+					var stringForm = await _razorViewToStringRenderer.RenderToStringAsync("Post/PostForEmailNotification", postViewDTO);
+
+					await _automaticEmailNotificationService.SentAutomaticNotificationAsync(EmailNotificationSettings.subject,
+						EmailNotificationSettings.CteateMessage(postViewDTO, stringForm, viewPostLink), usersVoewDTO);
+				}
+
 				return RedirectToAction("Index", "Home");
 			}
 			return View(postCreateDTO);
@@ -144,16 +178,7 @@ namespace Blog.Controllers
 		{
 			var post = await _postService.GetByIdAsync(id);
 
-			var category = await _categoryService.GetByIdAsync(post.CategoryId);
-			var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-			var user = await _userManager.FindByIdAsync(post.UserId.ToString());
-			var userViewDTO = _mapper.Map<UserViewDto>(user);
-
 			var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-			postViewDTO.CategoryViewDTO = categoryViewDTO;
-			postViewDTO.UserViewDto = userViewDTO;
 
 			return View(postViewDTO);
 		}
@@ -162,10 +187,13 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> DeletePost(Guid id)
 		{
-			var deleteStatus = await _postService.DeleteAsync(id);
+			if (id != Guid.Empty)
+			{
+				var deleteStatus = await _postService.DeleteAsync(id);
 
-			if (deleteStatus)
-				return RedirectToAction("AllArchivedPosts", "Post");
+				if (deleteStatus)
+					return RedirectToAction("AllArchivedPosts", "Post");
+			}
 
 			return NotFound();
 		}
@@ -181,15 +209,6 @@ namespace Blog.Controllers
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var user = await _userManager.FindByIdAsync(post.UserId.ToString());
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
-				postViewDTO.UserViewDto = userViewDTO;
 
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
@@ -212,21 +231,12 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var user = await _userManager.FindByIdAsync(post.UserId.ToString());
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.UserViewDto = userViewDTO;
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
-
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 
 				postViewDTOs.Add(postViewDTO);
 			}
-
+			 
 			return View(postViewDTOs);
 		}
 
@@ -246,14 +256,6 @@ namespace Blog.Controllers
 			foreach (var post in posts)
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.UserViewDto = userViewDTO;
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
 
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
@@ -280,14 +282,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.UserViewDto = userViewDTO;
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
-
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 
@@ -313,14 +307,6 @@ namespace Blog.Controllers
 			{
 				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-				var category = await _categoryService.GetByIdAsync(post.CategoryId);
-				var categoryViewDTO = _mapper.Map<CategoryViewDTO>(category);
-
-				var userViewDTO = _mapper.Map<UserViewDto>(user);
-
-				postViewDTO.UserViewDto = userViewDTO;
-				postViewDTO.CategoryViewDTO = categoryViewDTO;
-
 				if (postViewDTO.Text.Length > 300)
 					postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
 
@@ -332,7 +318,7 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
-		public async Task<IActionResult> ZipPost(Guid id)
+		public async Task<IActionResult> Archive(Guid id)
 		{
 			var post = await _postService.GetByIdAsync(id);
 
@@ -355,7 +341,7 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
-		public async Task<IActionResult> UnzipPost(Guid id)
+		public async Task<IActionResult> Unarchive(Guid id)
 		{
 			var post = await _postService.GetByIdAsync(id);
 

@@ -6,14 +6,16 @@
 			<div class="col-12">
 				<div class="card">
 
-					<div class="card-header card-header-warning">
+					<div class="card-header card-header-info">
 						<h5 class="card-category">@Model.CategoryViewDTO.CategoryName</h5>
 
 						<h4 class="card-title "><b>@Model.Title</b></h4>
 					</div>
 
 					<div class="card-body">
-						<span class="text-white">@Model.Text</span>
+						<label for="description" class="bmd-label-floating">Description</label>
+						<p class="text-white" id="description">@Model.Description</p>
+						<p class="text-white">@Model.Text</p>
 					</div>
 
 					<div class="card-footer p-2 text-muted">

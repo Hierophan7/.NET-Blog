@@ -1,0 +1,54 @@
+﻿@model Blog.Entities.DTOs.Post.PostViewDTO
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div style="position: relative; width: calc(100% - 260px); transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);">
+	<div style="margin-top: 70px; padding: 30px 15px; min-height: calc(100vh - 123px);">
+		<div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;">
+			<div class="row">
+				<div class="col-12">
+					<div style="background: #0F3664; padding: 0 1em;">
+						<div class="card-header card-header-warning" style="background: #E49500; padding: 1em; color: white;">
+							<div class="row">
+								<div class="col">
+									<h5 class="card-category">@Model.CategoryViewDTO.CategoryName</h5>
+									<h4 class="card-title "><b>@Model.Title</b></h4>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body" style="padding: 2em; color: white;">
+							<span class="text-white">@Model.Description</span>
+						</div>
+
+						<div class="card-footer p-2 text-muted">
+							<div class="container-fluid">
+								<div class="row align-items-center">
+									<div class="col w-100 ml-5" style="margin-left: 5em;">
+										<div class="row justify-content-center">
+											<div class="col" >
+												<a style="color: white;">@Model.UserViewDto.UserName</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<small style="color: white;">
+													Cteation data: @Model.CreationData
+												</small>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

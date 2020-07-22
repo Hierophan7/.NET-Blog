@@ -20,6 +20,8 @@ namespace Blog.Extensions
 			services.AddScoped<ITagService, TagService>();
 			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<ILanguageService, LanguageService>();
+			services.AddScoped<IAutomaticEmailNotificationService, AutomaticEmailNotificationService>();
+			services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 		}
 	}
 }

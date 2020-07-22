@@ -292,8 +292,6 @@ namespace Blog.Controllers
 			// Get the user's prifile picture
 			var avatar = await _pictureService.GetAvatarAsync(user.Id);
 
-			var roles = await _roleManager.Roles.ToListAsync();
-
 			var userToView = _mapper.Map<UserUpdateDto>(user);
 
 			if (avatar != null)
@@ -302,6 +300,8 @@ namespace Blog.Controllers
 
 				userToView.AvatarViewDTO = avatarViewDTO;
 			}
+
+			var roles = await _roleManager.Roles.ToListAsync();
 
 			var rolesInUser = await _userManager.GetRolesAsync(user);
 
@@ -326,12 +326,12 @@ namespace Blog.Controllers
 						var currentAvatar = await _pictureService.GetAvatarAsync(user.Id);
 
 						Picture avatar = new Picture();
-						
+
 						if (currentAvatar != null)
 						{
 							// Delete the current profile pictures
 							await _pictureService.DeleteAsync(currentAvatar.Id);
-							
+
 							System.IO.File.Delete(currentAvatar.PicturePath);
 						}
 
@@ -352,17 +352,21 @@ namespace Blog.Controllers
 						user.AutomaticEmailNotification = userUpdateDto.AutomaticEmailNotification;
 					}
 
-					// получем список ролей пользователя
-					var userRoles = await _userManager.GetRolesAsync(user);
-					// получаем все роли
-					var allRoles = _roleManager.Roles.ToList();
-					// получаем список ролей, которые были добавлены
-					var addedRoles = roles.Except(userRoles);
-					// получаем роли, которые были удалены
-					var removedRoles = userRoles.Except(roles);
+					if (User.IsInRole("SuperAdmin"))
+					{
+						// получем список ролей пользователя
+						var userRoles = await _userManager.GetRolesAsync(user);
+						// получаем все роли
+						var allRoles = _roleManager.Roles.ToList();
+						// получаем список ролей, которые были добавлены
+						var addedRoles = roles.Except(userRoles);
+						// получаем роли, которые были удалены
+						var removedRoles = userRoles.Except(roles);
 
-					await _userManager.AddToRolesAsync(user, addedRoles);
-					await _userManager.RemoveFromRolesAsync(user, removedRoles);
+						await _userManager.AddToRolesAsync(user, addedRoles);
+						await _userManager.RemoveFromRolesAsync(user, removedRoles);
+					}
+
 					await _userManager.UpdateAsync(user);
 				}
 				catch (DbUpdateException ex)

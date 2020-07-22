@@ -39,13 +39,6 @@ namespace Blog.Helpers
 			CreateMap<PictureCreateDTO, Picture>();
 			CreateMap<Picture, PictureViewDTO>();
 
-			CreateMap<PostCreateDTO, Post>();
-			CreateMap<PostUpdateDTO, Post>();
-			CreateMap<Post, PostViewDTO>()
-				.ForMember(d => d.CategoryViewDTO, o => o.MapFrom(s => s.Category))
-				.ForMember(d => d.UserViewDto, o => o.MapFrom(s => s.User))
-				.ForMember(d => d.LanguageViewDTO, o => o.MapFrom(s => s.Language));
-
 			CreateMap<ReactionCreateDTO, Reaction>();
 			CreateMap<Reaction, ReactionViewDTO>();
 
@@ -55,7 +48,13 @@ namespace Blog.Helpers
 
 			CreateMap<Language, LanguageViewDTO>();
 			CreateMap<LanguageCreateDTO, Language>();
-
+			
+			CreateMap<PostCreateDTO, Post>();
+			CreateMap<PostUpdateDTO, Post>();
+			CreateMap<Post, PostViewDTO>()
+				.ForMember(d => d.CategoryViewDTO, o => o.MapFrom(s => s.Category))
+				.ForMember(d => d.UserViewDto, o => o.MapFrom(s => s.User))
+				.ForMember(d => d.LanguageViewDTO, o => o.MapFrom(s => s.Language));
 		}
 	}
 }

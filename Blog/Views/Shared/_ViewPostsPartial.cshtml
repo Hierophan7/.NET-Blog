@@ -12,30 +12,30 @@
 							<div class="row">
 								<div class="col">
 									<h5 class="card-category">@post.CategoryViewDTO.CategoryName</h5>
-									<a href="#">
+									<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
 										<h4 class="card-title "><b>@post.Title</b></h4>
 									</a>
 								</div>
 								<div class="col-1">
-									<form asp-action="UnzipPost" asp-controller="Post" asp-route-id="@post.Id" method="post">
-										<button type="submit" style="border: none; background: none;">
-											<img src="~/assets/img/unarchive-white-18dp.svg" />
-										</button>
-									</form>
-								</div>
-								<div class="col-1">
-									<form asp-action="DeletePost" asp-controller="Post" asp-route-id="@post.Id" method="post">
-										<button type="submit" style="border: none; background: none;">
-											<img src="~/assets/img/delete_forever-white-18dp.svg" />
-										</button>
-									</form>
+									@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+									{
+										<div class="col-1">
+											<form asp-action="Archive" asp-controller="Post" asp-route-id="@post.Id">
+												<button type="submit" style="border: none; background: none;"
+														data-toggle="tooltip" data-placement="top" title="Archive">
+													<img src="~/assets/img/archive-white-18dp.svg" />
+												</button>
+											</form>
+										</div>
+									}
 								</div>
 							</div>
+
 						</div>
 
 						<div class="card-body ">
-							<a href="#">
-								<span class="text-white">@post.Text</span>
+							<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
+								<span class="text-white">@post.Description</span>
 							</a>
 						</div>
 

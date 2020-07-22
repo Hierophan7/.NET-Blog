@@ -30,7 +30,7 @@
 										<div class="col-md-3">
 											<div class="form-group">
 												<label class="bmd-label-floating">Username</label>
-												<input type="text" class="form-control" asp-for="UserName">
+												<input type="text" class="form-control" asp-for="UserName" required >
 												<span class="text-danger" asp-validation-for="UserName"></span>
 											</div>
 										</div>
@@ -38,7 +38,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Email address</label>
-												<input type="email" class="form-control" asp-for="Email">
+												<input type="email" class="form-control" asp-for="Email" required>
 												<span class="text-danger" asp-validation-for="Email"></span>
 											</div>
 										</div>
@@ -48,7 +48,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Password</label>
-												<input class="form-control" type="password" asp-for="Password">
+												<input class="form-control" type="password" asp-for="Password" required>
 												<span asp-validation-for="Password"></span>
 											</div>
 										</div>
@@ -56,7 +56,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label class="bmd-label-floating">Confirm password</label>
-												<input class="form-control" type="password" asp-for="PasswordConfirm">
+												<input class="form-control" type="password" asp-for="PasswordConfirm" required>
 												<span asp-validation-for="PasswordConfirm"></span>
 											</div>
 										</div>

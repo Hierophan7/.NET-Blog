@@ -19,6 +19,8 @@ namespace Blog.Entities.Models
 		[Required]
 		public string Text { get; set; }
 
+		public string Description { get; set; }
+
 		public int ViewsCounter { get; set; }
 
 		public int LikeCounter { get; set; }
