@@ -58,9 +58,16 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
-		public IActionResult CreatePost()
+		public async Task<IActionResult> CreatePost()
 		{
-			return View();
+			var category = await _categoryService.GetAllAsync();
+			var categoryVieDTOs = _mapper.Map<List<CategoryViewDTO>>(category);
+
+			PostCreateDTO postCreateDTO = new PostCreateDTO();
+
+			postCreateDTO.CategoryViewDTOs = categoryVieDTOs;
+
+			return View(postCreateDTO);
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
@@ -125,7 +132,7 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
-		public async Task<IActionResult> UpdatePostAsync(Guid postId)
+		public async Task<IActionResult> UpdatePost(Guid postId)
 		{
 
 			if (postId == Guid.Empty)

@@ -1,94 +1,103 @@
 ﻿@model Blog.Entities.DTOs.Post.PostCreateDTO
 
 @{
-	ViewData["Title"] = "CreatePost";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "CreatePost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<div class="row justify-content-center">
-			<div class="col-md-8">
-				<div class="card p-3">
-					<div class="card-header card-header-primary">
-						<h4 class="card-title">Create post</h4>
-					</div>
-					<div class="card-body">
-						<form asp-action="CreatePost">
-							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-3">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title">Create post</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CreatePost">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-							<div class="form-group">
-								<label class="bmd-label-floating">Title</label>
-								<input asp-for="Title" class="form-control" style="font-size: 25px" maxlength="100" required/>
-								<span asp-validation-for="Title" class="text-danger"></span>
-							</div>
+                            <div class="form-group">
+                                <div class="autocomplete w-100">
+                                    <input asp-for="CategoryCreateDTO.CategoryName" class="form-control" placeholder="Category">
+                                    <span asp-validation-for="CategoryCreateDTO.CategoryName" class="text-danger"></span>
+                                </div>
 
-							<div class="row">
-								<div class="col-7">
-									<div class="form-group">
-										<label class="bmd-label-floating"> Your description here</label>
-										<textarea asp-for="Description" class="form-control" rows="5" maxlength="300" required></textarea>
-										<span asp-validation-for="Description" class="text-danger"></span>
-									</div>
-								</div>
-							</div>
+                                @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Category
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink" style="padding-right: 10px">
+                                        <select multiple class="form-control h-50" id="selectCategory">
+                                            @foreach (var category in Model.CategoryViewDTOs)
+                                            {
+                                                <option class="dropdown-item w-100 " type="button">@category.CategoryName</option>
+                                            }
+                                        </select>
 
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="bmd-label-floating"> Your text here</label>
-										<textarea asp-for="Text" class="form-control" rows="20" required> </textarea>
-										<span asp-validation-for="Text" class="text-danger"></span>
-									</div>
-								</div>
-							</div>
+                                        <div class="dropdown-divider"></div>
+                                        <input asp-for="CategoryCreateDTO.CategoryName" class="form-control text-dark p-3" placeholder="New category" />
+                                        <span asp-validation-for="Title" class="text-danger"></span>
 
-							@*<div class="form-group">
-									<label asp-for="PostStatus" class="control-label"></label>
-									<input asp-for="PostStatus" class="form-control" />
-									<span asp-validation-for="PostStatus" class="text-danger"></span>
-								</div>*@
+                                    </div>*@
+                            </div>
 
-							<div class="form-check d-inline-block mr-5">
-								<div class="form-group form-check">
-									<label class="form-check-label">
-										<input asp-for="CommentingPermission" class="form-check-input" type="checkbox" value="true" />
-										<span class="form-check-sign">
-											<span class="check"></span>
-										</span>
-										Allow commenting
-									</label>
-								</div>
-							</div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Title</label>
+                                <input asp-for="Title" class="form-control" style="font-size: 25px" maxlength="100" required />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
 
-							@*<div class="dropdown">
-									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
-										Category
-									</button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										@foreach (var category in model.categoryviewdtos)
-										{
-											@html.displayfor(modelitem => category.categoryname)
-										}
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Your description here</label>
+                                        <textarea asp-for="Description" class="form-control" rows="5" maxlength="300" required></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-										<div class="dropdown-divider"></div>
-										<input asp-for="CategoryCreateDTO.CategoryName" class="form-control" />
-									</div>
-								</div>*@
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Your text here</label>
+                                        <textarea asp-for="Text" class="form-control" rows="20" required> </textarea>
+                                        <span asp-validation-for="Text" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-							@*<div class="form-group">
-									<label asp-for="LanguageId" class="control-label"></label>
-									<input asp-for="LanguageId" class="form-control" />
-									<span asp-validation-for="LanguageId" class="text-danger"></span>
-								</div>*@
+                            @*<div class="form-group">
+                                    <label asp-for="PostStatus" class="control-label"></label>
+                                    <input asp-for="PostStatus" class="form-control" />
+                                    <span asp-validation-for="PostStatus" class="text-danger"></span>
+                                </div>*@
 
-							<div class="form-group">
-								<input type="submit" value="Create" class="btn btn-primary" />
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            <div class="form-check d-inline-block mr-5">
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input asp-for="CommentingPermission" class="form-check-input" type="checkbox" value="true" />
+                                        <span class="form-check-sign">
+                                            <span class="check"></span>
+                                        </span>
+                                        Allow commenting
+                                    </label>
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label asp-for="LanguageId" class="control-label"></label>
+                                    <input asp-for="LanguageId" class="form-control" />
+                                    <span asp-validation-for="LanguageId" class="text-danger"></span>
+                                </div>*@
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-info" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
