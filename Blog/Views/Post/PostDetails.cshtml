@@ -14,7 +14,15 @@
 					<div class="card-body">
 						<label for="description" class="bmd-label-floating">Description</label>
 						<p class="text-white" id="description">@Model.Description</p>
+
 						<p class="text-white">@Model.Text</p>
+
+						<div class="container text-center">
+							@foreach(var image in Model.PictureViewDTOs)
+							{
+								<img class="img-fluid rounded m-3" src="~/Files/Images/@image.PictureName"/>
+							}
+						</div>
 					</div>
 
 					<div class="card-footer p-2 text-muted">

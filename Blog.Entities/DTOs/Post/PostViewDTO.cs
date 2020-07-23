@@ -41,7 +41,7 @@ namespace Blog.Entities.DTOs.Post
 		public Guid LanguageId { get; set; }
 		public LanguageViewDTO LanguageViewDTO { get; set; }
 
-		public List<PictureViewDTO> Pictures { get; set; }
+		public List<PictureViewDTO> PictureViewDTOs { get; set; }
 
 		public List<ReactionViewDTO> Reactions { get; set; }
 

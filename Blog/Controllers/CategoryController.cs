@@ -16,7 +16,7 @@ namespace Blog.Controllers
 	public class CategoryController : Controller
 	{
 		private readonly IMapper _mapper;
-		private readonly ICategoryService _categoryService; 
+		private readonly ICategoryService _categoryService;
 
 		public CategoryController(IMapper mapper,
 			ICategoryService categoryService)
@@ -43,6 +43,15 @@ namespace Blog.Controllers
 			}
 
 			return View(categoryCreateDTO);
+		}
+
+		public async Task<IActionResult> ViewAllCategories()
+		{
+			var categories = await _categoryService.GetAllAsync();
+
+			List<CategoryViewDTO> categoryViewDTOs = _mapper.Map<List<CategoryViewDTO>>(categories);
+
+			return View(categoryViewDTOs);
 		}
 	}
 }

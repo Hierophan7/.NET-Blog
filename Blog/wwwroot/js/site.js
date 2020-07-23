@@ -1,26 +1,48 @@
 ﻿jQueryAjaxDelete = form => {
-	if (confirm('Ви дійсно хочете видалити цього користувача?')) {
-		try {
-			$.ajax({
-				type: 'Post',
-				url: form.action,
-				data: new FormData(form),
-				contentType: false,
-				processData: false,
-				success: function (res) {
-					$("#view-all").html(res.html);
-				},
-				error: function (err) {
-					console.log(err);
-				}
-			})
-		} catch (e) {
-			console.log(e);
-		}
-	}
-	// to prevent default form submit event 
-	return false;
+    if (confirm('Ви дійсно хочете видалити цього користувача?')) {
+        try {
+            $.ajax({
+                type: 'Post',
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $("#view-all").html(res.html);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    // to prevent default form submit event 
+    return false;
 }
+
+$(document).ready(function () {
+    $("Title").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Category/CreateCategory",
+                type: "POST",
+                dataType: "json",
+                data: { Prefix: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Title, value: item.Title };
+                    }))
+                }
+            })
+        },
+        messages: {
+            noResults: "", results: ""
+        }
+    });
+})
+
 
 //$(document).ready(function () {
 //	$().ready(function () {

@@ -16,6 +16,10 @@ using Blog.Entities.DTOs.Language;
 using Blog.Entities.DTOs.Account;
 using Blog.Entities.Enums;
 using Blog.Common;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Blog.Entities.DTOs.Picture;
 
 namespace Blog.Controllers
 {
@@ -29,6 +33,7 @@ namespace Blog.Controllers
 		private readonly ILanguageService _languageService;
 		private readonly UserManager<User> _userManager;
 		private readonly IUserService _userService;
+		private readonly IWebHostEnvironment _webHostEnvironment;
 		private readonly IAutomaticEmailNotificationService _automaticEmailNotificationService;
 		private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
 
@@ -41,6 +46,7 @@ namespace Blog.Controllers
 			ILanguageService languageService,
 			UserManager<User> userManager,
 			IUserService userService,
+			IWebHostEnvironment webHostEnvironment,
 			IAutomaticEmailNotificationService automaticEmailNotificationService,
 			IRazorViewToStringRenderer razorViewToStringRenderer)
 		{
@@ -52,15 +58,23 @@ namespace Blog.Controllers
 			_languageService = languageService;
 			_userManager = userManager;
 			_userService = userService;
+			_webHostEnvironment = webHostEnvironment;
 			_automaticEmailNotificationService = automaticEmailNotificationService;
 			_razorViewToStringRenderer = razorViewToStringRenderer;
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
-		public IActionResult CreatePost()
+		public async Task<IActionResult> CreatePost()
 		{
-			return View();
+			var category = await _categoryService.GetAllAsync();
+			var categoryVieDTOs = _mapper.Map<List<CategoryViewDTO>>(category);
+
+			PostCreateDTO postCreateDTO = new PostCreateDTO();
+
+			postCreateDTO.CategoryViewDTOs = categoryVieDTOs;
+
+			return View(postCreateDTO);
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
@@ -69,9 +83,7 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var userName = User.Identity.Name;
-
-				var user = await _userManager.FindByNameAsync(userName);
+				var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
 				var categories = await _categoryService.GetAllAsync();
 				var languages = await _languageService.GetAllAsync();
@@ -83,15 +95,22 @@ namespace Blog.Controllers
 
 				post.UserId = user.Id;
 				post.CreationData = DateTime.Now;
+				post.ModifiedDate = DateTime.Now;
 				post.PostStatus = PostStatus.Posted;
+				post.CategoryId = category.Id;
+				post.LanguageId = language.Id;
 
-				if (category != null && language != null)
+				var newPost = await _postService.CreateAsync(post);
+
+				if (postCreateDTO.Files != null)
 				{
-					post.CategoryId = category.Id;
-					post.LanguageId = language.Id;
-				}
+					List<Picture> pictures = AddFiles(postCreateDTO.Files, newPost.Id);
 
-				await _postService.CreateAsync(post);
+					foreach (var picture in pictures)
+					{
+						await _pictureService.CreateAsync(picture);
+					}
+				}
 
 				var usersForNotification = await _userService.GetUsersForNitificationAsync();
 
@@ -127,13 +146,13 @@ namespace Blog.Controllers
 			if (Id != null)
 			{
 				var post = await _postService.GetByIdAsync(Id);
-
+				
 				if (post == null)
 					return NotFound();
 
-				var postViewDTO = _mapper.Map<PostViewDTO>(post);
+				var postUpdateDTO = _mapper.Map<PostUpdateDTO>(post);
 
-				return View(postViewDTO);
+				return View(postUpdateDTO);
 			}
 
 			return NotFound();
@@ -147,9 +166,19 @@ namespace Blog.Controllers
 			{
 				try
 				{
-					var postToUpdate = _mapper.Map<Post>(postUpdateDto);
+					if(postUpdateDto.NewPictures != null)
+					{
+						List<Picture> pictures = AddFiles(postUpdateDto.NewPictures, postUpdateDto.Id);
 
-					postToUpdate.ModifiedDate = DateTime.Now;
+						foreach (var picture in pictures)
+						{
+							await _pictureService.CreateAsync(picture);
+						}
+					}
+
+					postUpdateDto.ModifiedDate = DateTime.Now;
+					
+					var postToUpdate = _mapper.Map<Post>(postUpdateDto);
 
 					await _postService.UpdateAsync(postToUpdate);
 				}
@@ -339,6 +368,32 @@ namespace Blog.Controllers
 			}
 
 			return NotFound();
+		}
+
+		public List<Picture> AddFiles(IFormFileCollection formFiles, Guid postId)
+		{
+			List<Picture> pictures = new List<Picture>();
+
+			foreach (var file in formFiles)
+			{
+				var pictureName = Guid.NewGuid() + "_" + file.FileName;
+
+				// Path to the profile picture
+				var path = Path.Combine(_webHostEnvironment.WebRootPath, "Files", "Images", pictureName);
+
+				using (var fileStream = new FileStream(path, FileMode.Create))
+				{
+					file.CopyTo(fileStream);
+				}
+
+				var pictureCreateDTO = new PictureCreateDTO { PictureName = pictureName, PicturePath = path, PostId = postId };
+
+				var newPicture = _mapper.Map<Picture>(pictureCreateDTO);
+
+				pictures.Add(newPicture);
+			}
+
+			return pictures;
 		}
 	}
 }

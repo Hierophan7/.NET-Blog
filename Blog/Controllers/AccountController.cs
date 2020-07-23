@@ -9,7 +9,6 @@ using Blog.Common;
 using Blog.Entities.DTOs.Account;
 using Blog.Entities.DTOs.Picture;
 using Blog.Entities.Models;
-using Blog.Helpers;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +16,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Blog.Controllers
 {
@@ -25,7 +23,6 @@ namespace Blog.Controllers
 	{
 		private IUserService _userService;
 		private readonly IMapper _mapper;
-		private readonly AppSettings _appSettings;
 		private readonly IEmailService _emailService;
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
@@ -36,7 +33,6 @@ namespace Blog.Controllers
 		public AccountController(
 			IUserService userService,
 			IMapper mapper,
-			IOptions<AppSettings> appSettings,
 			IEmailService emailService,
 			UserManager<User> userManager,
 			SignInManager<User> signInManager,
@@ -46,7 +42,6 @@ namespace Blog.Controllers
 		{
 			_pictureService = pictureService;
 			_userService = userService;
-			_appSettings = appSettings.Value;
 			_mapper = mapper;
 			_emailService = emailService;
 			_userManager = userManager;

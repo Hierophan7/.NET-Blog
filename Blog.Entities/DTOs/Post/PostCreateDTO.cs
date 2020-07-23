@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Blog.Entities.DTOs.Category;
 using Blog.Entities.DTOs.Picture;
 using Blog.Entities.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Blog.Entities.DTOs.Post
 {
@@ -36,8 +37,7 @@ namespace Blog.Entities.DTOs.Post
 
 		public DateTime ModifiedDate { get; set; }
 
-		public List<PictureCreateDTO> Pictures { get; set; }
-
-
+		//[FileExtensions(Extensions = "png, jpg, jpeg, gif")]
+		public IFormFileCollection Files { get; set; }
 	}
 }

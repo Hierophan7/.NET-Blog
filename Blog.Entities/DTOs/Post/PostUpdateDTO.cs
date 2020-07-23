@@ -4,6 +4,11 @@ using System.Text;
 using Blog.Entities.Enums;
 using Blog.Entities.DTOs.Picture;
 using System.ComponentModel.DataAnnotations;
+using Blog.Entities.DTOs.Category;
+using System.Reflection.Metadata.Ecma335;
+using Blog.Entities.DTOs.Account;
+using Blog.Entities.DTOs.Language;
+using Microsoft.AspNetCore.Http;
 
 namespace Blog.Entities.DTOs.Post
 {
@@ -26,14 +31,19 @@ namespace Blog.Entities.DTOs.Post
 		public bool CommentingPermission { get; set; }
 
 		public Guid CategoryId { get; set; }
+		public CategoryViewDTO CategoryViewDTO { get; set; }
 
 		public Guid UserId { get; set; }
+		public UserViewDto UserViewDto { get; set; }
 
 		public Guid LanguageId { get; set; }
+		public LanguageViewDTO LanguageViewDTO { get; set; }
 
 		public DateTime ModifiedDate { get; set; }
 
-		public List<PictureCreateDTO> Pictures { get; set; }
+		public List<PictureViewDTO> PictureViewDTOs { get; set; }
+
+		public IFormFileCollection NewPictures { get; set; }
 
 		//Comments?, tags;
 	}

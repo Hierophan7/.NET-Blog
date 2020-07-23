@@ -14,8 +14,12 @@
 						<h4 class="card-title">Edit post</h4>
 					</div>
 					<div class="card-body">
-						<form asp-action="CreatePost">
+						<form asp-action="UpdatePost" enctype="multipart/form-data">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<input type="hidden" asp-for="CategoryId"/>
+							<input type="hidden" asp-for="LanguageId"/>
+							<input type="hidden" asp-for="UserId"/>
 
 							<div class="form-group">
 								<label class="bmd-label-floating">Title</label>
@@ -23,7 +27,7 @@
 								<span asp-validation-for="Title" class="text-danger"></span>
 							</div>
 
-							<div class="row">
+							<div class="row mt-3">
 								<div class="col-7">
 									<div class="form-group">
 										<label class="bmd-label-floating"> Your description here</label>
@@ -33,31 +37,59 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row mt-3 mb-2">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="bmd-label-floating"> Your text here</label>
-										<textarea asp-for="Text" class="form-control" rows="20" required> </textarea>
+										<textarea asp-for="Text" class="form-control" rows="12" required> </textarea>
 										<span asp-validation-for="Text" class="text-danger"></span>
 									</div>
 								</div>
 							</div>
 
-							<div class="form-check d-inline-block mr-5">
-								<div class="form-group form-check">
-									<label class="form-check-label">
-										<input asp-for="CommentingPermission" class="form-check-input" type="checkbox" value="true" />
-										<span class="form-check-sign">
-											<span class="check"></span>
-										</span>
-										Allow commenting
-									</label>
+							<div class="row">
+								<div class="col-3">
+									<div class="form-check d-inline-block mr-5">
+										<div class="form-group form-check">
+											<label class="form-check-label text-warning">
+												<input asp-for="CommentingPermission" class="form-check-input" type="checkbox" value="true" />
+												<span class="form-check-sign">
+													<span class="check"></span>
+												</span>
+												Allow commenting
+											</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="mt-2">
+										<input type="file" asp-for="NewPictures" accept="image/*" multiple /><br />
+										<span asp-validation-for="NewPictures" class="text-danger"></span>
+									</div>
 								</div>
 							</div>
 
-							<div class="form-group">
-								<input type="submit" value="Create" class="btn btn-primary" />
-							</div>
+							@if (Model.PictureViewDTOs != null)
+							{
+								<div class="row">
+									<div class="col">
+										<div class="container text-center">
+											@foreach (var image in Model.PictureViewDTOs)
+											{
+												<div class="row">
+													<div class="col">
+														<img class="img-fluid rounded m-3" src="~/Files/Images/@image.PictureName" />
+													</div>
+												</div>
+											}
+										</div>
+									</div>
+								</div>
+							}
+
+							<button type="submit" class="btn btn-primary pull-right">Save</button>
+							<div class="clearfix"></div>
 						</form>
 					</div>
 				</div>

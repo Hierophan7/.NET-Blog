@@ -51,10 +51,20 @@ namespace Blog.Helpers
 			
 			CreateMap<PostCreateDTO, Post>();
 			CreateMap<PostUpdateDTO, Post>();
+				//.ForMember(c => c.Category, o => o.MapFrom(s => s.CategoryViewDTO))
+				//.ForMember(c => c.User, o => o.MapFrom(s => s.UserViewDto))
+				//.ForMember(c => c.Language, o => o.MapFrom(s => s.LanguageViewDTO))
+				//.ForMember(d => d.Pictures, o => o.MapFrom(s => s.PictureViewDTOs));
+			CreateMap<Post, PostUpdateDTO>()
+				.ForMember(c => c.CategoryViewDTO, o => o.MapFrom(s => s.Category))
+				.ForMember(c => c.UserViewDto, o => o.MapFrom(s => s.User))
+				.ForMember(c => c.LanguageViewDTO, o => o.MapFrom(s => s.Language))
+				.ForMember(d => d.PictureViewDTOs, o => o.MapFrom(s => s.Pictures));
 			CreateMap<Post, PostViewDTO>()
 				.ForMember(d => d.CategoryViewDTO, o => o.MapFrom(s => s.Category))
 				.ForMember(d => d.UserViewDto, o => o.MapFrom(s => s.User))
-				.ForMember(d => d.LanguageViewDTO, o => o.MapFrom(s => s.Language));
+				.ForMember(d => d.LanguageViewDTO, o => o.MapFrom(s => s.Language))
+				.ForMember(d=>d.PictureViewDTOs, o=>o.MapFrom(s=>s.Pictures));
 		}
 	}
 }
