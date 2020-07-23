@@ -16,21 +16,26 @@
 										<h4 class="card-title "><b>@post.Title</b></h4>
 									</a>
 								</div>
-								<div class="col-1">
-									@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-									{
-										<div class="col-1">
-											<form asp-action="Archive" asp-controller="Post" asp-route-id="@post.Id">
-												<button type="submit" style="border: none; background: none;"
-														data-toggle="tooltip" data-placement="top" title="Archive">
-													<img src="~/assets/img/archive-white-18dp.svg" />
-												</button>
-											</form>
-										</div>
-									}
-								</div>
-							</div>
 
+								@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+								{
+									<div class="col-1">
+										<a asp-action="UpdatePost" asp-controller="Post" asp-route-id="@post.Id"
+										   data-toggle="tooltip" data-placement="top" title="Edit">
+											<img src="~/assets/img/edit-white-18dp.svg" />
+										</a>
+									</div>
+
+									<div class="col-1">
+										<form asp-action="Archive" asp-controller="Post" asp-route-id="@post.Id">
+											<button type="submit" style="border: none; background: none;"
+													data-toggle="tooltip" data-placement="top" title="Archive">
+												<img src="~/assets/img/archive-white-18dp.svg" />
+											</button>
+										</form>
+									</div>
+								}
+							</div>
 						</div>
 
 						<div class="card-body ">

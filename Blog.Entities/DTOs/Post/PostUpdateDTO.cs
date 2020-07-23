@@ -14,6 +14,9 @@ namespace Blog.Entities.DTOs.Post
 		[Required]
 		public string Title { get; set; }
 
+		[StringLength(300, ErrorMessage = "Description's length cann't be more than 300 characters!")]
+		public string Description { get; set; }
+
 		[Required]
 		public string Text { get; set; }
 

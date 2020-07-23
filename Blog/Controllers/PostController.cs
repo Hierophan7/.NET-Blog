@@ -101,9 +101,6 @@ namespace Blog.Controllers
 					var postViewDTO = _mapper.Map<PostViewDTO>(post);
 					var userViewDTO = _mapper.Map<UserViewDto>(user);
 
-					if (postViewDTO.Text.Length > 300)
-						postViewDTO.Text = postViewDTO.Text.Substring(0, 300);
-
 					postViewDTO.UserViewDto = userViewDTO;
 
 					var viewPostLink = Url.Action(
@@ -125,22 +122,21 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
-		public async Task<IActionResult> UpdatePostAsync(Guid postId)
+		public async Task<IActionResult> UpdatePost(Guid Id)
 		{
+			if (Id != null)
+			{
+				var post = await _postService.GetByIdAsync(Id);
 
-			if (postId == Guid.Empty)
-				return NotFound();
+				if (post == null)
+					return NotFound();
 
-			var post = await _postService.GetByIdAsync(postId);
+				var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
-			if (post == null)
-				return NotFound();
+				return View(postViewDTO);
+			}
 
-			var postViewDTO = _mapper.Map<PostViewDTO>(post);
-
-			//pictures;
-
-			return View(postViewDTO);
+			return NotFound();
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
@@ -156,8 +152,6 @@ namespace Blog.Controllers
 					postToUpdate.ModifiedDate = DateTime.Now;
 
 					await _postService.UpdateAsync(postToUpdate);
-
-
 				}
 				catch (DbUpdateException ex)
 				{
@@ -230,7 +224,7 @@ namespace Blog.Controllers
 
 				postViewDTOs.Add(postViewDTO);
 			}
-			 
+
 			return View(postViewDTOs);
 		}
 
