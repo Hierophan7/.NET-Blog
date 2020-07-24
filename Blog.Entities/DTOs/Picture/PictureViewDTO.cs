@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.DTOs.Picture
 {
-	public class PictureViewDTO
+	public class PictureViewDTO : TrackableModify
 	{
 		public Guid Id { get; set; }
 
@@ -15,6 +14,8 @@ namespace Blog.Entities.DTOs.Picture
 		public Guid? PostId { get; set; }
 
 		public Guid? UserId { get; set; }
+
+		public bool Delete { get; set; }
 
 	}
 }

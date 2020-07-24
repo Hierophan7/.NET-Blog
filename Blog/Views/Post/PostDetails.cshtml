@@ -12,15 +12,30 @@
 					</div>
 
 					<div class="card-body">
-						<label for="description" class="bmd-label-floating">Description</label>
-						<p class="text-white" id="description">@Model.Description</p>
-
-						<p class="text-white">@Model.Text</p>
+						<div class="row mt-3 mb-2">
+							<div class="col-md-12">
+								<div class="form-group">
+									@Html.Raw(Model.Description)
+								</div>
+							</div>
+						</div>
+						
+						<div class="row mt-3 mb-2">
+							<div class="col-md-12">
+								<div class="form-group">
+									@Html.Raw(Model.Text)
+								</div>
+							</div>
+						</div>
 
 						<div class="container text-center">
-							@foreach(var image in Model.PictureViewDTOs)
+							@foreach (var image in Model.PictureViewDTOs)
 							{
-								<img class="img-fluid rounded m-3" src="~/Files/Images/@image.PictureName"/>
+								<div class="row">
+									<div class="col">
+										<img class="img-fluid rounded m-3" src="~/Files/Images/@image.PictureName" />
+									</div>
+								</div>
 							}
 						</div>
 					</div>

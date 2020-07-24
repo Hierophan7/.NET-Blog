@@ -21,7 +21,13 @@
 						</div>
 
 						<div class="card-body" style="padding: 2em; color: white;">
-							<span class="text-white">@Model.Description</span>
+							<div class="row mt-3 mb-2">
+								<div class="col-md-12">
+									<div class="form-group">
+										@Html.Raw(Model.Description)
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<div class="card-footer p-2 text-muted">

@@ -4,10 +4,13 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/lib/ckeditor_4.14.1_full_easyimage/ckeditor/ckeditor.js"></script>
+
 <div class="content">
 	<div class="container-fluid">
 		<div class="row justify-content-center">
-			<div class="col-md-8">
+			<div class="col">
 				<div class="card p-3">
 					<div class="card-header card-header-info">
 						<h4 class="card-title">Create post</h4>
@@ -46,21 +49,22 @@
 								<span asp-validation-for="Title" class="text-danger"></span>
 							</div>
 
-							<div class="row">
-								<div class="col-7">
+							<div class="row mt-3">
+								<div class="col">
 									<div class="form-group">
-										<label class="bmd-label-floating"> Your description here</label>
-										<textarea asp-for="Description" class="form-control" rows="5" maxlength="300" required></textarea>
+										<label class="bmd-label-floating mb-4"> Your description here</label>
+										<textarea asp-for="Description" class="form-control" id="postDescription" maxlength="500" required>
+										</textarea>
 										<span asp-validation-for="Description" class="text-danger"></span>
 									</div>
 								</div>
 							</div>
 
-							<div class="row">
-								<div class="col-md-12">
+							<div class="row mt-3 mb-2">
+								<div class="col">
 									<div class="form-group">
-										<label class="bmd-label-floating"> Your text here</label>
-										<textarea asp-for="Text" class="form-control" rows="12" required> </textarea>
+										<label class="bmd-label-floating mb-4"> Your post text here</label>
+										<textarea asp-for="Text" id="postText" class="form-control" required> </textarea>
 										<span asp-validation-for="Text" class="text-danger"></span>
 									</div>
 								</div>
@@ -97,6 +101,11 @@
 
 							<button type="submit" class="btn btn-info pull-right">Create</button>
 							<div class="clearfix"></div>
+
+							<script>
+								CKEDITOR.replace('postText');
+								CKEDITOR.replace('postDescription');
+							</script>
 						</form>
 					</div>
 				</div>

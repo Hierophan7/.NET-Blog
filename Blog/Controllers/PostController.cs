@@ -105,7 +105,7 @@ namespace Blog.Controllers
 
 				if (postCreateDTO.Files != null)
 				{
-					List<Picture> pictures = AddFiles(postCreateDTO.Files, newPost.Id);
+					List<Picture> pictures = AddFiles(postCreateDTO.Files, newPost.Id, user.UserName);
 
 					foreach (var picture in pictures)
 					{
@@ -147,7 +147,7 @@ namespace Blog.Controllers
 			if (Id != null)
 			{
 				var post = await _postService.GetByIdAsync(Id);
-				
+
 				if (post == null)
 					return NotFound();
 
@@ -161,24 +161,39 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
-		public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdateDto)
+		public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdateDto, List<Guid> picturesForDelete)
 		{
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					if(postUpdateDto.NewPictures != null)
+					string userName = User.Identity.Name;
+
+					if (postUpdateDto.NewPictures != null)
 					{
-						List<Picture> pictures = AddFiles(postUpdateDto.NewPictures, postUpdateDto.Id);
+						List<Picture> pictures = AddFiles(postUpdateDto.NewPictures, postUpdateDto.Id, userName);
 
 						foreach (var picture in pictures)
 						{
 							await _pictureService.CreateAsync(picture);
 						}
 					}
-					
+
+					if (postUpdateDto.PictureViewDTOs != null)
+					{
+						foreach (var picture in postUpdateDto.PictureViewDTOs)
+						{
+							if (picture.Delete == true)
+							{
+								System.IO.File.Delete(picture.PicturePath);
+
+								await _pictureService.DeleteAsync(picture.Id);
+							}
+						}
+					}
+
 					postUpdateDto.Modified = DateTime.Now;
-					postUpdateDto.ModifiedBy = User.Identity.Name;
+					postUpdateDto.ModifiedBy = userName;
 
 					var postToUpdate = _mapper.Map<Post>(postUpdateDto);
 
@@ -372,7 +387,7 @@ namespace Blog.Controllers
 			return NotFound();
 		}
 
-		public List<Picture> AddFiles(IFormFileCollection formFiles, Guid postId)
+		public List<Picture> AddFiles(IFormFileCollection formFiles, Guid postId, string userName)
 		{
 			List<Picture> pictures = new List<Picture>();
 
@@ -388,7 +403,14 @@ namespace Blog.Controllers
 					file.CopyTo(fileStream);
 				}
 
-				var pictureCreateDTO = new PictureCreateDTO { PictureName = pictureName, PicturePath = path, PostId = postId };
+				var pictureCreateDTO = new PictureCreateDTO()
+				{
+					PictureName = pictureName,
+					PicturePath = path,
+					PostId = postId,
+					Created = DateTime.Now,
+					CreatedBy = userName
+				};
 
 				var newPicture = _mapper.Map<Picture>(pictureCreateDTO);
 

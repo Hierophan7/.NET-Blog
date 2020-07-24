@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.Models
 {
-	public class Picture
+	public class Picture : TrackableModify
 	{
 		[Key]
 		public Guid Id { get; set; }
