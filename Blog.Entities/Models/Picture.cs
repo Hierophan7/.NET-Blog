@@ -9,9 +9,9 @@ namespace Blog.Entities.Models
 		[Key]
 		public Guid Id { get; set; }
 
-		public string PictureName { get; set; }
+		public string Name { get; set; }
 
-		public string PicturePath { get; set; }
+		public string Path { get; set; }
 
 		public Guid? PostId { get; set; }
 

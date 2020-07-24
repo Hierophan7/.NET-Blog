@@ -13,7 +13,7 @@ namespace Blog.Entities.Models
 		public Guid Id { get; set; }
 
 		[Required]
-		public string CommentText { get; set; }
+		public string Text { get; set; }
 
 		[ForeignKey("UserId")]
 		public Guid? UserId { get; set; }

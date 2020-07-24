@@ -9,7 +9,7 @@ namespace Blog.Entities.DTOs.Complaint
 	public class ComplaintCreateDTO
 	{
 		[Required]
-		public string ComplaintText { get; set; }
+		public string Text { get; set; }
 
 		public Guid UserId { get; set; }
 

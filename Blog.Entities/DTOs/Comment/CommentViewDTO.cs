@@ -13,7 +13,7 @@ namespace Blog.Entities.DTOs.Comment
 		public Guid Id { get; set; }
 
 		[Required]
-		public string CommentText { get; set; }
+		public string Text { get; set; }
 
 		public Guid UserId { get; set; }
 

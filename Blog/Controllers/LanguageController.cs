@@ -34,7 +34,7 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateLanguage(LanguageCreateDTO languageCreateDTO)
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(languageCreateDTO.LanguageName))
+			if (ModelState.IsValid && !string.IsNullOrEmpty(languageCreateDTO.Name))
 			{
 				var language = _mapper.Map<Language>(languageCreateDTO);
 				await _languageService.CreateAsync(language);

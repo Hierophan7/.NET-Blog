@@ -10,6 +10,6 @@ namespace Blog.Entities.DTOs.Tag
 		public Guid Id { get; set; }
 
 		[Required]
-		public string TagName { get; set; }
+		public string Name { get; set; }
 	}
 }

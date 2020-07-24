@@ -12,7 +12,7 @@ namespace Blog.Entities.DTOs.Category
 		public Guid Id { get; set; }
 
 		[Required]
-		public string CategoryName { get; set; }
+		public string Name { get; set; }
 
 		public List<PostViewDTO> PostViewDTOs { get; set; }
 	}

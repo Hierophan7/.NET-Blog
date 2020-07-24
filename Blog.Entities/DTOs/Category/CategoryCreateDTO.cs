@@ -8,6 +8,6 @@ namespace Blog.Entities.DTOs.Category
 	public class CategoryCreateDTO
 	{
 		[Required]
-		public string CategoryName { get; set; }
+		public string Name { get; set; }
 	}
 }

@@ -12,7 +12,7 @@ namespace Blog.Entities.Models
 		public Guid Id { get; set; }
 
 		[Required]
-		public string ComplaintText { get; set; }
+		public string Text { get; set; }
 
 		public DateTime CreationData { get; set; }
 

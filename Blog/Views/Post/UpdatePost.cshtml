@@ -1,11 +1,10 @@
 ﻿@model Blog.Entities.DTOs.Post.PostUpdateDTO
 
-
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/ckeditor_4.14.1_full_easyimage/ckeditor/ckeditor.js"></script>
 
 <div class="content">
@@ -82,12 +81,12 @@
 
 													<div class="col">
 														<img class="img-fluid rounded m-3"
-															 src="~/Files/Images/@Model.PictureViewDTOs[i].PictureName" />
+															 src="~/Files/Images/@Model.PictureViewDTOs[i].Name" />
 													</div>
 
 													<div class="col-2">
 														<input asp-for="@Model.PictureViewDTOs[i].Id" type="hidden" />
-														<input asp-for="@Model.PictureViewDTOs[i].PicturePath" type="hidden" />
+														<input asp-for="@Model.PictureViewDTOs[i].Path" type="hidden" />
 														<div class="form-check d-inline-block mr-5 mt-5">
 															<div class="form-group form-check">
 																<label class="form-check-label text-warning">
@@ -121,9 +120,3 @@
 		</div>
 	</div>
 </div>
-
-@*@section scripts{
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="~/lib/Trumbowyg-master/dist/trumbowyg.min.js"></script>
-
-}*@

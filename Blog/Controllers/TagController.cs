@@ -33,7 +33,7 @@ namespace Blog.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateTag(TagCreateDTO tagCreateDTO)
 		{
-			if (ModelState.IsValid && !string.IsNullOrEmpty(tagCreateDTO.TagName))
+			if (ModelState.IsValid && !string.IsNullOrEmpty(tagCreateDTO.Name))
 			{
 				var tag = _mapper.Map<Tag>(tagCreateDTO);
 				await _tagService.CreateAsync(tag);

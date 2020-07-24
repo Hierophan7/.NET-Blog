@@ -10,7 +10,7 @@ namespace Blog.Entities.Models
 		public Guid Id { get; set; }
 
 		[Required]
-		public string LanguageName { get; set; }
+		public string Name { get; set; }
 
 		public List<Post> Posts { get; set; }
 	}

@@ -12,7 +12,7 @@ namespace Blog.Entities.DTOs.Language
 		public Guid Id { get; set; }
 
 		[Required]
-		public string LanguageName { get; set; }
+		public string Name { get; set; }
 
 		//public List<PostViewDTO> Posts { get; set; }
 	}

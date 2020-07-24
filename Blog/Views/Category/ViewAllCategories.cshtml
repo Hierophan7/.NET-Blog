@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -43,6 +43,6 @@
 
 <div class="form-group">
     <div class="col-md-5">
-        @Html.DropDownList("Categories", Model.Select(m => new SelectListItem() { Text = m.CategoryName, Value = m.CategoryName }).ToList(), "Select")
+        @Html.DropDownList("Categories", Model.Select(m => new SelectListItem() { Text = m.Name, Value = m.Name }).ToList(), "Select")
     </div>
     </div>

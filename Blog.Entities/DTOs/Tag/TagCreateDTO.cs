@@ -8,6 +8,6 @@ namespace Blog.Entities.DTOs.Tag
 	public class TagCreateDTO
 	{
 		[Required]
-		public string TagName { get; set; }
+		public string Name { get; set; }
 	}
 }

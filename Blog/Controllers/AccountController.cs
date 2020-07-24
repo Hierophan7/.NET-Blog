@@ -327,7 +327,7 @@ namespace Blog.Controllers
 							// Delete the current profile pictures
 							await _pictureService.DeleteAsync(currentAvatar.Id);
 
-							System.IO.File.Delete(currentAvatar.PicturePath);
+							System.IO.File.Delete(currentAvatar.Path);
 						}
 
 						AddAvatar(userUpdateDto.Avatar, user.Id, out avatar);
@@ -395,7 +395,7 @@ namespace Blog.Controllers
 				formFile.CopyTo(fileStream);
 			}
 
-			avatar = new Picture { PictureName = pictureName, PicturePath = path, UserId = userId };
+			avatar = new Picture { Name = pictureName, Path = path, UserId = userId };
 		}
 	}
 }

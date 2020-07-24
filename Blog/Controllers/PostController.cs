@@ -161,7 +161,7 @@ namespace Blog.Controllers
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
-		public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdateDto, List<Guid> picturesForDelete)
+		public async Task<IActionResult> UpdatePost(PostUpdateDTO postUpdateDto)
 		{
 			if (ModelState.IsValid)
 			{
@@ -185,7 +185,7 @@ namespace Blog.Controllers
 						{
 							if (picture.Delete == true)
 							{
-								System.IO.File.Delete(picture.PicturePath);
+								System.IO.File.Delete(picture.Path);
 
 								await _pictureService.DeleteAsync(picture.Id);
 							}
@@ -405,8 +405,8 @@ namespace Blog.Controllers
 
 				var pictureCreateDTO = new PictureCreateDTO()
 				{
-					PictureName = pictureName,
-					PicturePath = path,
+					Name = pictureName,
+					Path = path,
 					PostId = postId,
 					Created = DateTime.Now,
 					CreatedBy = userName

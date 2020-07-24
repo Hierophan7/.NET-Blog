@@ -8,6 +8,6 @@ namespace Blog.Entities.DTOs.Language
 	public class LanguageCreateDTO
 	{
 		[Required]
-		public string LanguageName { get; set; }
+		public string Name { get; set; }
 	}
 }
