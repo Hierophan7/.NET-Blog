@@ -22,38 +22,38 @@ namespace Blog.Services
 		public async Task<IEnumerable<Post>> GetAllArchivedPostsAsync()
 		{
 			return (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Archive, i => i.Category, i => i.User, i => i.Language))
-				.OrderByDescending(p => p.CreationData);
+				.OrderByDescending(p => p.Created);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllDraftsAsync()
 		{
 			return (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Draft, i => i.Category, i => i.User, i => i.Language,
-				i => i.Pictures)).OrderByDescending(p => p.CreationData);
+				i => i.Pictures)).OrderByDescending(p => p.Created);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllPostedPostsAsync()
 		{
 			var posts = (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Posted, i => i.Category, i => i.User, i => i.Language,
-			i => i.Pictures)).OrderByDescending(p => p.CreationData);
+			i => i.Pictures)).OrderByDescending(p => p.Created);
 			return posts;
 		}
 
 		public async Task<IEnumerable<Post>> GetAllUserArchivedPostsAsync(Guid userID)
 		{
 			return (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Archive && s.UserId == userID,
-				i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.CreationData);
+				i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.Created);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllUserDraftsAsync(Guid userID)
 		{
 			return (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Draft && s.UserId == userID,
-				 i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.CreationData);
+				 i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.Created);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllUserPostedPostsAsync(Guid userID)
 		{
 			return (await _repository.FindByAsync(s => s.PostStatus == PostStatus.Posted && s.UserId == userID,
-				 i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.CreationData);
+				 i => i.Category, i => i.User, i => i.Language, i => i.Pictures)).OrderByDescending(p => p.Created);
 		}
 
 		public async override Task<Post> GetByIdAsync(Guid id)
@@ -67,6 +67,11 @@ namespace Blog.Services
 			return (await _repository.FindByAsync(p =>
 			p.Title.Contains(searchString) || p.Text.Contains(searchString) || p.Description.Contains(searchString),
 			i => i.Category, i => i.User, i => i.Language, i => i.Pictures));
+		}
+
+		public async Task UpdateEntryAsync(Post post)
+		{
+			await _repository.UpdateEntryAsync(post, p => p.Title, p => p.Description, p => p.Text, p => p.CommentingPermission);
 		}
 	}
 }

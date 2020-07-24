@@ -33,9 +33,9 @@ namespace Blog.Entities.DTOs.Post
 
 		public Guid LanguageId { get; set; }
 
-		public DateTime CreationData { get; set; }
+		public DateTime Created { get; set; }
 
-		public DateTime ModifiedDate { get; set; }
+		public DateTime Modified { get; set; }
 
 		//[FileExtensions(Extensions = "png, jpg, jpeg, gif")]
 		public IFormFileCollection Files { get; set; }

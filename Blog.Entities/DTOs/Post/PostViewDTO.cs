@@ -28,9 +28,9 @@ namespace Blog.Entities.DTOs.Post
 
 		public int DislikeCounter { get; set; }
 
-		public DateTime CreationData { get; set; }
+		public DateTime Created { get; set; }
 
-		public DateTime ModifiedDate { get; set; }
+		public DateTime Modified { get; set; }
 
 		public Guid CategoryId { get; set; }
 		public CategoryViewDTO CategoryViewDTO { get; set; }

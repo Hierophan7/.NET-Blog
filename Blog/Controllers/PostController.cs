@@ -94,8 +94,9 @@ namespace Blog.Controllers
 				var post = _mapper.Map<Post>(postCreateDTO);
 
 				post.UserId = user.Id;
-				post.CreationData = DateTime.Now;
-				post.ModifiedDate = DateTime.Now;
+				post.Created = DateTime.Now;
+				post.Modified = DateTime.Now;
+				post.CreatedBy = user.UserName;
 				post.PostStatus = PostStatus.Posted;
 				post.CategoryId = category.Id;
 				post.LanguageId = language.Id;
@@ -175,12 +176,13 @@ namespace Blog.Controllers
 							await _pictureService.CreateAsync(picture);
 						}
 					}
-
-					postUpdateDto.ModifiedDate = DateTime.Now;
 					
+					postUpdateDto.Modified = DateTime.Now;
+					postUpdateDto.ModifiedBy = User.Identity.Name;
+
 					var postToUpdate = _mapper.Map<Post>(postUpdateDto);
 
-					await _postService.UpdateAsync(postToUpdate);
+					await _postService.UpdateEntryAsync(postToUpdate);
 				}
 				catch (DbUpdateException ex)
 				{

@@ -36,10 +36,12 @@ namespace Blog.Entities.DTOs.Post
 		public Guid UserId { get; set; }
 		public UserViewDto UserViewDto { get; set; }
 
+		public string ModifiedBy { get; set; }
+
 		public Guid LanguageId { get; set; }
 		public LanguageViewDTO LanguageViewDTO { get; set; }
 
-		public DateTime ModifiedDate { get; set; }
+		public DateTime Modified { get; set; }
 
 		public List<PictureViewDTO> PictureViewDTOs { get; set; }
 

@@ -8,7 +8,7 @@ using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.Models
 {
-	public class Post : IBaseEntity
+	public class Post : TrackableModify
 	{
 		[Key]
 		public Guid Id { get; set; }
@@ -28,10 +28,6 @@ namespace Blog.Entities.Models
 		public int DislikeCounter { get; set; }
 
 		public bool CommentingPermission { get; set; }
-
-		public DateTime CreationData { get; set; }
-
-		public DateTime ModifiedDate { get; set; }
 
 		[Required]
 		public PostStatus PostStatus { get; set; }

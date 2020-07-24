@@ -17,10 +17,6 @@
 						<form asp-action="UpdatePost" enctype="multipart/form-data">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-							<input type="hidden" asp-for="CategoryId"/>
-							<input type="hidden" asp-for="LanguageId"/>
-							<input type="hidden" asp-for="UserId"/>
-
 							<div class="form-group">
 								<label class="bmd-label-floating">Title</label>
 								<input asp-for="Title" class="form-control" style="font-size: 25px" maxlength="100" required />

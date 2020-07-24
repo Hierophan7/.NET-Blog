@@ -27,5 +27,6 @@ namespace Blog.Services.Interfaces
 
 		Task<IEnumerable<Post>> SearchAsync(string searchString);
 
+		Task UpdateEntryAsync(Post post);
 	}
 }
