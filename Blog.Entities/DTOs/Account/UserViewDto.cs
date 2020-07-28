@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Blog.Entities.DTOs.Picture;
+using Blog.Entities.DTOs.Post;
 
 namespace Blog.Entities.DTOs.Account
 {
@@ -26,5 +28,7 @@ namespace Blog.Entities.DTOs.Account
 		public string TwitterLink { get; set; }
 		
 		public PictureViewDTO AvatarViewDTO { get; set; }
+
+		public List<PostViewDTO> PostViewDTOs { get; set; }
 	}
 }

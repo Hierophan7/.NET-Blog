@@ -28,5 +28,8 @@ namespace Blog.Services.Interfaces
 		Task<IEnumerable<Post>> SearchAsync(string searchString);
 
 		Task UpdateEntryAsync(Post post);
+
+		Task<IEnumerable<Post>> GetPostsForUser(Guid userId);
+		Post GetByIdExtend(Guid id);
 	}
 }

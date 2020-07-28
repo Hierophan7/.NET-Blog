@@ -1,0 +1,20 @@
+﻿@model Blog.Entities.DTOs.Comment.CommentCreateDTO
+
+<div class="container">
+	<form asp-action="CreateComment" asp-controller="Comment" method="post">
+		<div class="row mt-3">
+			<div class="col my-4 ml-4">
+				<input type="hidden" asp-for="PostId">
+				<div class="form-group">
+					<label class="bmd-label-floating mb-4"> Your comment</label>
+					<textarea asp-for="Text" class="form-control" rows="3" maxlength="300" required>
+					</textarea>
+					<span asp-validation-for="Text" class="text-danger"></span>
+				</div>
+				<button type="submit" class="btn btn-info pull-right m-1">Send</button>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+
+	</form>
+</div>

@@ -19,9 +19,14 @@ namespace Blog.Services
 			_repository = new Repository<User>(blogContext);
 		}
 
+		public async Task<IEnumerable<User>> GetAllUsersAsync()
+		{
+			return (await _repository.FindByAsync(null, u => u.Picture, u => u.Posts));
+		}
+
 		public override async Task<User> GetByIdAsync(Guid id)
 		{
-			return (await _repository.FindByConditionAsync(u => u.Id == id)).FirstOrDefault();
+			return (await _repository.FindByAsync(u => u.Id == id, u => u.Picture)).FirstOrDefault();
 		}
 
 		public async Task<IEnumerable<User>> GetUsersForNitificationAsync()

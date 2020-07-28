@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Blog.Entities.DTOs.Picture;
+using Blog.Entities.DTOs;
 
 namespace Blog.Controllers
 {
@@ -95,7 +96,6 @@ namespace Blog.Controllers
 
 				post.UserId = user.Id;
 				post.Created = DateTime.Now;
-				post.Modified = DateTime.Now;
 				post.CreatedBy = user.UserName;
 				post.PostStatus = PostStatus.Posted;
 				post.CategoryId = category.Id;
@@ -141,6 +141,46 @@ namespace Blog.Controllers
 		}
 
 		[Authorize(Roles = "SuperAdmin, Admin")]
+		[HttpPost]
+		public async Task<IActionResult> CreateDraft(PostCreateDTO postCreateDTO)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+				var categories = await _categoryService.GetAllAsync();
+				var languages = await _languageService.GetAllAsync();
+
+				var category = categories.First();
+				var language = languages.First();
+
+				var post = _mapper.Map<Post>(postCreateDTO);
+
+				post.UserId = user.Id;
+				post.Created = DateTime.Now;
+				post.CreatedBy = user.UserName;
+				post.PostStatus = PostStatus.Draft;
+				post.CategoryId = category.Id;
+				post.LanguageId = language.Id;
+
+				var newPost = await _postService.CreateAsync(post);
+
+				if (postCreateDTO.Files != null)
+				{
+					List<Picture> pictures = AddFiles(postCreateDTO.Files, newPost.Id, user.UserName);
+
+					foreach (var picture in pictures)
+					{
+						await _pictureService.CreateAsync(picture);
+					}
+				}
+
+				return RedirectToAction("Index", "Home");
+			}
+			return View(postCreateDTO);
+		}
+
+		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpGet]
 		public async Task<IActionResult> UpdatePost(Guid Id)
 		{
@@ -168,6 +208,10 @@ namespace Blog.Controllers
 				try
 				{
 					string userName = User.Identity.Name;
+
+					var user = await _userManager.FindByNameAsync(userName);
+
+					var userViewDTO = _mapper.Map<UserViewDto>(user);
 
 					if (postUpdateDto.NewPictures != null)
 					{
@@ -214,9 +258,9 @@ namespace Blog.Controllers
 			return View(postUpdateDto);
 		}
 
-		public async Task<IActionResult> PostDetails(Guid id)
+		public IActionResult PostDetails(Guid id)
 		{
-			var post = await _postService.GetByIdAsync(id);
+			var post = _postService.GetByIdExtend(id);
 
 			var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
@@ -232,7 +276,7 @@ namespace Blog.Controllers
 				var deleteStatus = await _postService.DeleteAsync(id);
 
 				if (deleteStatus)
-					return RedirectToAction("AllArchivedPosts", "Post");
+					return RedirectToAction("Index", "Home");
 			}
 
 			return NotFound();
@@ -341,6 +385,26 @@ namespace Blog.Controllers
 			return View(postViewDTOs);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> ListOfPostsForUser(Guid id)
+		{
+			var user = await _userService.GetByIdAsync(id);
+
+			var userPosts = await _postService.GetPostsForUser(user.Id);
+
+			var postViewDTOs = _mapper.Map<List<PostViewDTO>>(userPosts);
+
+			var userViewDTO = _mapper.Map<UserViewDto>(user);
+
+			UserPostsDTO userPostsDTO = new UserPostsDTO()
+			{
+				UserViewDto = userViewDTO,
+				PostViewDTOs = postViewDTOs
+			};
+
+			return View(userPostsDTO);
+		}
+
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
 		public async Task<IActionResult> Archive(Guid id)
@@ -364,9 +428,10 @@ namespace Blog.Controllers
 			return NotFound();
 		}
 
+		// You can use this action
 		[Authorize(Roles = "SuperAdmin, Admin")]
 		[HttpPost]
-		public async Task<IActionResult> Unarchive(Guid id)
+		public async Task<IActionResult> PublishPost(Guid id)
 		{
 			var post = await _postService.GetByIdAsync(id);
 

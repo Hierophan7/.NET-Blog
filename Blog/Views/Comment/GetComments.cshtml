@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Blog.Entities.DTOs.Comment.CommentViewDTO>
+
+<div class="container bg-inverse p-3">
+	@foreach (var comment in Model)
+	{
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card card-profile">
+
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<pre>@comment.Text</pre>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@comment.UserId">
+								@comment.UserViewDto.UserName
+							</a>
+						</div>
+						
+						<div class="col">
+							Created: @comment.Created
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>

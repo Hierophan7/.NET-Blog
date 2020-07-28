@@ -9,6 +9,7 @@ namespace Blog.Entities.DTOs.Comment
 {
 	public class CommentCreateDTO
 	{
+		[MaxLength(300, ErrorMessage = "Comment length can not be more than 300 characters!")]
 		public string Text { get; set; }
 
 		public Guid UserId { get; set; }
@@ -17,9 +18,9 @@ namespace Blog.Entities.DTOs.Comment
 
 		public PostViewDTO PostViewDTO { get; set; }
 
-		public DateTime CreationData { get; set; }
+		public DateTime Created { get; set; }
 
-		public DateTime ModifiedDate { get; set; }
+		public DateTime Modified { get; set; }
 
 		public List<ComplaintViewDTO> Complaints { get; set; }
 	}

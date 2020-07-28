@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Entities.Models;
@@ -21,5 +22,10 @@ namespace Blog.Services
 		{
 			return (await _repository.FindByConditionAsync(c => c.Id == id)).FirstOrDefault();
 		}
+
+		//public async Task<IEnumerable<Comment>> GetCommentsForPost(Guid id)
+		//{
+		//	return (await _repository.FindByAsync(c => c.PostId == id, u=>u.User));
+		//}
 	}
 }

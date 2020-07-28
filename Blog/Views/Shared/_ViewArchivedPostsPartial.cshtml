@@ -17,9 +17,9 @@
 									</a>
 								</div>
 								<div class="col-1">
-									<form asp-action="Unarchive" asp-controller="Post" asp-route-id="@post.Id" method="post">
+									<form asp-action="PublishPost" asp-controller="Post" asp-route-id="@post.Id" method="post">
 										<button type="submit" style="border: none; background: none;"
-												data-toggle="tooltip" data-placement="top" title="Unarchive">
+												data-toggle="tooltip" data-placement="top" title="Publish">
 											<img src="~/assets/img/unarchive-white-18dp.svg" />
 										</button>
 									</form>
@@ -40,7 +40,7 @@
 								<div class="row mt-3 mb-2">
 									<div class="col-md-12">
 										<div class="form-group">
-											@Html.Raw(post.Description)
+											<p>@post.Description</p>
 										</div>
 									</div>
 								</div>

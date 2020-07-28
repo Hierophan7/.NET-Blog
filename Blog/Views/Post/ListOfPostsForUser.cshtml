@@ -1,0 +1,148 @@
+﻿@model Blog.Entities.DTOs.UserPostsDTO
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/social.css" rel="stylesheet" />
+
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card card-profile">
+					<div class="card-avatar">
+						@if (Model.UserViewDto.AvatarViewDTO != null)
+						{
+							<img class="img" src="~/Files/Avatars/@Model.UserViewDto.AvatarViewDTO.Name" />
+						}
+						else
+						{
+							<img class="img" src="~/assets/img/faces/marc.jpg" />
+						}
+					</div>
+
+					<div class="card-body">
+						<h6 class="card-title">@Model.UserViewDto.UserName</h6>
+						<h4 class="card-category">@Model.UserViewDto.Email</h4>
+					</div>
+
+					@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+					{
+						<div class="card-footer justify-content-center">
+							<div class="row mb-3" style="height: 3em;">
+								<div class="col">
+									<div class="social">
+										<ul>
+											@if (Model.UserViewDto.FacebookLink != null)
+											{
+												<li><a href="@Model.UserViewDto.FacebookLink.ToString()"><i class="fa fa-lg fa-facebook"></i></a></li>
+											}
+
+											@if (Model.UserViewDto.TwitterLink != null)
+											{
+												<li><a href="@Model.UserViewDto.TwitterLink.ToString()"><i class="fa fa-lg fa-twitter"></i></a></li>
+
+											}
+
+											@if (Model.UserViewDto.LinkedInLink != null)
+											{
+												<li><a href="@Model.UserViewDto.LinkedInLink.ToString()"><i class="fa fa-lg fa-linkedin"></i></a></li>
+											}
+
+											@if (Model.UserViewDto.InstagramLink != null)
+											{
+												<li><a href="@Model.UserViewDto.InstagramLink.ToString()"><i class="fa fa-lg fa-instagram"></i></a></li>
+											}
+
+											@if (Model.UserViewDto.YoutubeLink != null)
+											{
+												<li><a href="@Model.UserViewDto.YoutubeLink.ToString()"><i class="fa fa-lg fa-youtube"></i></a></li>
+											}
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				@foreach (var post in Model.PostViewDTOs)
+				{
+					<div class="card my-5">
+						<div class="card-header card-header-success">
+							<div class="row">
+								<div class="col">
+									<h5 class="card-category">@post.CategoryViewDTO.Name</h5>
+									<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
+										<h4 class="card-title "><b>@post.Title</b></h4>
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body ">
+							<a asp-action="PostDetails" asp-controller="Post" asp-route-id="@post.Id">
+								<div class="row mt-3 mb-2">
+									<div class="col-md-12">
+										<div class="form-group">
+											<p>@post.Description</p>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card-footer p-2 text-muted">
+							<div class="container-fluid">
+								<div class="row align-items-center">
+									<div class="col w-100 ml-5">
+										@if (post.Modified != DateTime.MinValue)
+										{
+											<div class="row">
+												<div class="col">
+													<small>
+														Post was modified: @post.Modified
+													</small>
+												</div>
+											</div>
+										}
+										<div class="row">
+											<div class="col">
+												<small>
+													Cteation data: @post.Created
+												</small>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="col w-100">
+										<span class="m-4">
+											<i class="material-icons">visibility</i>
+											1
+										</span>
+
+										<span class="m-4">
+											<i class="material-icons">thumb_up_alt</i>
+											1
+										</span>
+
+										<span class="m-4">
+											<i class="material-icons">thumb_down_alt</i>
+											1
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>

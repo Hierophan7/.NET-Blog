@@ -42,7 +42,7 @@ namespace Blog.Controllers
 
 		public async Task<IActionResult> Users()
 		{
-			var users = await _userService.GetAllAsync();
+			var users = await _userService.GetAllUsersAsync();
 
 			List<UserViewDto> userViewDtos = new List<UserViewDto>();
 
@@ -53,15 +53,15 @@ namespace Blog.Controllers
 
 				var userViewDTO = _mapper.Map<UserViewDto>(user);
 
-				var avatar = await _pictureService.GetAvatarAsync(user.Id);
+				//var avatar = await _pictureService.GetAvatarAsync(user.Id);
 
-				if (avatar != null)
-				{
-					var avatarViewDTO = _mapper.Map<PictureViewDTO>(avatar);
-					userViewDTO.AvatarViewDTO = avatarViewDTO;
-				}
-				else
-					userViewDTO.AvatarViewDTO = null;
+				//if (avatar != null)
+				//{
+				//	var avatarViewDTO = _mapper.Map<PictureViewDTO>(avatar);
+				//	userViewDTO.AvatarViewDTO = avatarViewDTO;
+				//}
+				//else
+				//	userViewDTO.AvatarViewDTO = null;
 
 				// User has only one role, so when we get roles list, we take zero [0] element from it.
 				userViewDTO.RoleName = rolesInUser[0].ToString();

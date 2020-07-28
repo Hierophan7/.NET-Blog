@@ -5,7 +5,7 @@
 }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/ckeditor_4.14.1_full_easyimage/ckeditor/ckeditor.js"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
 
 <div class="content">
 	<div class="container-fluid">
@@ -29,7 +29,7 @@
 								<div class="col">
 									<div class="form-group">
 										<label class="bmd-label-floating"> Your description here</label>
-										<textarea asp-for="Description" class="form-control" id="postDescription" maxlength="300" required>
+										<textarea asp-for="Description" class="form-control" rows="3" maxlength="300" required>
 										</textarea>
 										<span asp-validation-for="Description" class="text-danger"></span>
 									</div>
@@ -111,7 +111,6 @@
 							<div class="clearfix"></div>
 							<script>
 								CKEDITOR.replace('postText');
-								CKEDITOR.replace('postDescription');
 							</script>
 						</form>
 					</div>

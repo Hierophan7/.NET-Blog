@@ -7,7 +7,6 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="card">
-
 						<div class="card-header card-header-success">
 							<div class="row">
 								<div class="col">
@@ -43,7 +42,7 @@
 								<div class="row mt-3 mb-2">
 									<div class="col-md-12">
 										<div class="form-group">
-											@Html.Raw(post.Description)
+											<p>@post.Description</p>
 										</div>
 									</div>
 								</div>
@@ -56,9 +55,21 @@
 									<div class="col w-100 ml-5">
 										<div class="row justify-content-center">
 											<div class="col">
-												<a>@post.UserViewDto.UserName</a>
+												<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@post.UserId">
+													@post.UserViewDto.UserName
+												</a>
 											</div>
 										</div>
+										@if (post.Modified != DateTime.MinValue)
+										{
+											<div class="row">
+												<div class="col">
+													<small>
+														Post was modified: @post.Modified
+													</small>
+												</div>
+											</div>
+										}
 										<div class="row">
 											<div class="col">
 												<small>

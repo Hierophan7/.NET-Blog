@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.Models
 {
-	public class Comment : IBaseEntity
+	public class Comment : TrackableModify
 	{
 		[Key]
 		public Guid Id { get; set; }
@@ -23,10 +22,6 @@ namespace Blog.Entities.Models
 		public Guid PostId { get; set; }
 
 		public Post Post { get; set; }
-
-		public DateTime CreationData { get; set; }
-
-		public DateTime ModifiedDate { get; set; }
 
 		public List<Complaint> Complaints { get; set; }
 	}

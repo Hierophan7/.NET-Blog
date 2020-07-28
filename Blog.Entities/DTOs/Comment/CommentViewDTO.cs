@@ -23,9 +23,9 @@ namespace Blog.Entities.DTOs.Comment
 
 		public PostViewDTO PostViewDTO { get; set; }
 
-		public DateTime CreationData { get; set; }
+		public DateTime Created { get; set; }
 
-		public DateTime ModifiedDate { get; set; }
+		public DateTime Modified { get; set; }
 
 		public List<ComplaintViewDTO> Complaints { get; set; }
 	}

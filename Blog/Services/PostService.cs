@@ -6,17 +6,20 @@ using Blog.Entities.Enums;
 using Blog.Entities.Models;
 using Blog.Repository;
 using Blog.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Services
 {
 	public class PostService : BaseService<Post>, IPostService
 	{
 		private Repository<Post> _repository;
+		private BlogContext _blogContext;
 
 		public PostService(BlogContext blogContext)
 			: base(blogContext)
 		{
-			_repository = new Repository<Post>(blogContext);
+			_blogContext = blogContext;
+			   _repository = new Repository<Post>(blogContext);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllArchivedPostsAsync()
@@ -58,8 +61,32 @@ namespace Blog.Services
 
 		public async override Task<Post> GetByIdAsync(Guid id)
 		{
-			return (await _repository.FindByAsync(r => r.Id == id, i => i.Category, i => i.User, i => i.Language,
-				i => i.Pictures)).FirstOrDefault();
+			return (await _repository.FindByAsync(
+				r => r.Id == id,
+				i => i.Category,
+				i => i.User,
+				i => i.Language,
+				i => i.Pictures,
+				i => i.Comments)).FirstOrDefault();
+		}
+
+		public Post GetByIdExtend(Guid id)
+		{
+			var post =  (_blogContext.Posts.Where(r => r.Id == id)
+					.Include(i => i.User)
+					.Include(i => i.Category)
+					.Include(i => i.User)
+					.Include(i => i.Language)
+					.Include(i => i.Pictures)
+					.Include(i => i.Comments)
+					.Include(i => i.Comments).ThenInclude(i => i.User)).FirstOrDefault();
+			return post;
+		}
+
+		public async Task<IEnumerable<Post>> GetPostsForUser(Guid userId)
+		{
+			return (await _repository.FindByAsync(u => u.UserId == userId, i => i.Category, i => i.User, i => i.Language,
+				i => i.Pictures));
 		}
 
 		public async Task<IEnumerable<Post>> SearchAsync(string searchString)
