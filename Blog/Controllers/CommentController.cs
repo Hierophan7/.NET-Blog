@@ -60,21 +60,5 @@ namespace Blog.Controllers
 
 			return PartialView(commentCreateDTO);
 		}
-
-		//[HttpGet]
-		//public async Task<IActionResult> GetComments(Guid id)
-		//{
-		//	if (id != Guid.Empty)
-		//	{
-		//		// id it's post's Id
-		//		var comments = await _commentService.GetCommentsForPost(id);
-
-		//		List<CommentViewDTO> commentViewDTOs = _mapper.Map<List<CommentViewDTO>>(comments);
-
-		//		return PartialView(commentViewDTOs);
-		//	}
-
-		//	return NotFound();
-		//}
 	}
 }

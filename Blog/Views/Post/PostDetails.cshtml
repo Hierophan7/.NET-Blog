@@ -81,47 +81,53 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col">
-							<div class="container">
-								@foreach (var comment in Model.CommentViewDTOs)
-								{
-									<div class="row">
-										<div class="col">
-											<div class="card card-profile text-white p-3 m-3" style="box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-	">
-												<div class="card-body">
-													<div class="row">
-														<div class="col text-left">
-															<p class="text-white">@comment.Text</p>
+					@if (Model.CommentViewDTOs != null)
+					{
+						<div class="row">
+							<div class="col">
+								<div class="container">
+									@foreach (var comment in Model.CommentViewDTOs)
+									{
+										<div class="row">
+											<div class="col">
+												<div class="card card-profile text-white p-3 m-3" style="box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);">
+													<div class="card-body">
+														<div class="row">
+															<div class="col text-left">
+																<p class="text-white">@comment.Text</p>
+															</div>
 														</div>
 													</div>
-												</div>
 
-												<div class="row">
-													<div class="col text-left ml-5">
-														<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@comment.UserId">
-															@comment.UserViewDto.UserName
-														</a>
-													</div>
+													<div class="row">
+														<div class="col text-left ml-5">
+															<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@comment.UserId">
+																@comment.UserViewDto.UserName
+															</a>
+														</div>
 
-													<div class="col text-right">
-														Created: @comment.Created
+														<div class="col text-right">
+															Created: @comment.Created
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								}
+									}
+								</div>
 							</div>
 						</div>
-					</div>
+					}
 
-					<div class="row">
-						<div class="col">
-							@await Html.PartialAsync("~/Views/Comment/CreateComment.cshtml", new Blog.Entities.DTOs.Comment.CommentCreateDTO { PostId = Model.Id })
+					@if (Model.CommentingPermission)
+					{
+						<div class="row">
+							<div class="col">
+								@await Html.PartialAsync("~/Views/Comment/CreateComment.cshtml", new Blog.Entities.DTOs.Comment.CommentCreateDTO { PostId = Model.Id })
+							</div>
 						</div>
-					</div>
+					}
+
 				</div>
 			</div>
 		</div>

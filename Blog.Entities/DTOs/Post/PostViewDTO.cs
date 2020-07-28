@@ -26,6 +26,8 @@ namespace Blog.Entities.DTOs.Post
 
 		public int DislikeCounter { get; set; }
 
+		public bool CommentingPermission { get; set; }
+
 		public DateTime Created { get; set; }
 
 		public DateTime Modified { get; set; }

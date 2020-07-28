@@ -2,47 +2,78 @@
 
 @{
     ViewData["Title"] = "ViewAllCategories";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>ViewAllCategories</h1>
 
+
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create category</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+<div>
+    <label>Categories: </label>
+    @foreach (var item in Model)
+    {
+        <label> @Html.DisplayFor(modelItem => item.Name) </label>
+    }
+</div>
+
+<hr style="width:100%;text-align:left;margin-left:0">
 
 <div class="form-group">
-    <div class="col-md-5">
-        @Html.DropDownList("Categories", Model.Select(m => new SelectListItem() { Text = m.Name, Value = m.Name }).ToList(), "Select")
+    <label for="autocomplete">Select category: </label>
+    <input id="autocomplete"
+           class="ui-autocomplete-input"
+           autocomplete="off" />
+    @*<script>
+        $(document).ready(function () {
+            $('#autocomplete').autocomplete({
+                source: '/category/ViewAllCategories'
+            });
+        });
+    </script>*@
+    <script>
+            var tags = ["Anime", "Travel", "Art", "Lifestyle", "Cars"];
+            $("#autocomplete").autocomplete({
+                source: function (request, response) {
+                    var matcher = new RegExp(
+                        "^" + $.ui.autocomplete.escapeRegex(request.term),
+                        "i"
+                    );
+                    response(
+                        $.grep(tags, function (item) {
+                            return matcher.test(item);
+                        })
+                    );
+                }
+            });
+        </script>
+</div>
+
+@*//$("#categoryInput").autocomplete({
+    //    source: function (request, response) {
+    //        $.ajax({
+    //            url: "/Category/ViewAllCategories",
+    //            type: "POST",
+    //            dataType: "json",
+    //            data: { Prefix: request.term },
+    //            success: function (data) {
+    //                response($.map(data, function (item) {
+    //                    return { label: item.Name, value: item.Id }
+    //                }))
+    //            }
+    //        })
+    //    },
+    //    messages: {
+    //        noResults: "", results: ""
+    //    }
+    //});*@
+
+@*<div class="form-group">
+    <div class="col-md-5" placeholder="">
+        @Html.DropDownList("Categories", Model.Select(m => new SelectListItem() { Text = m.Name, Value = m.Name }).ToList())
     </div>
-    </div>
+</div>*@
