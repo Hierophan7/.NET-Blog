@@ -9,6 +9,7 @@ using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text.Json;
 
 namespace Blog.Controllers
 {
@@ -44,7 +45,6 @@ namespace Blog.Controllers
 
 			return View(categoryCreateDTO);
 		}
-
 		public async Task<IActionResult> ViewAllCategories()
 		{
 			var categories = await _categoryService.GetAllAsync();
@@ -52,6 +52,18 @@ namespace Blog.Controllers
 			List<CategoryViewDTO> categoryViewDTOs = _mapper.Map<List<CategoryViewDTO>>(categories);
 
 			return View(categoryViewDTOs);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> SelectCategory(string Prefix)
+		{
+			var categories = await _categoryService.GetByPrefixAsync(Prefix);
+
+			List<CategoryViewDTO> categoryViewDTOs = _mapper.Map<List<CategoryViewDTO>>(categories);
+			
+			var json = JsonSerializer.Serialize(categoryViewDTOs);
+
+			return View(json);
 		}
 	}
 }
