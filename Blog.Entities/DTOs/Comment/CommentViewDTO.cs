@@ -15,6 +15,8 @@ namespace Blog.Entities.DTOs.Comment
 		[Required]
 		public string Text { get; set; }
 
+		public bool PositiveComment { get; set; }
+
 		public Guid UserId { get; set; }
 
 		public UserViewDto UserViewDto { get; set; }

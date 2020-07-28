@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Blog.Entities.DTOs.Post;
 using Blog.Entities.DTOs.Complaint;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Blog.Entities.DTOs.Comment
 {
@@ -15,6 +16,8 @@ namespace Blog.Entities.DTOs.Comment
 		public Guid UserId { get; set; }
 
 		public Guid PostId { get; set; }
+
+		public bool PositiveComment { get; set; }
 
 		public PostViewDTO PostViewDTO { get; set; }
 

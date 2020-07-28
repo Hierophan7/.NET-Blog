@@ -14,6 +14,8 @@ namespace Blog.Entities.Models
 		[Required]
 		public string Text { get; set; }
 
+		public bool PositiveComment { get; set; }
+
 		[ForeignKey("UserId")]
 		public Guid? UserId { get; set; }
 

@@ -35,7 +35,7 @@ namespace Blog.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateComment(CommentCreateDTO commentCreateDTO)
+		public async Task<IActionResult> CreateComment(CommentCreateDTO commentCreateDTO, bool commentStatus)
 		{
 			if (ModelState.IsValid)
 			{
@@ -52,6 +52,8 @@ namespace Blog.Controllers
 				commentCreateDTO.UserId = user.Id;
 
 				Comment comment = _mapper.Map<Comment>(commentCreateDTO);
+
+				comment.PositiveComment = commentStatus;
 
 				await _commentService.CreateAsync(comment);
 
