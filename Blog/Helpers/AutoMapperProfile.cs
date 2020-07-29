@@ -4,7 +4,6 @@ using Blog.Entities.DTOs;
 using Blog.Entities.DTOs.Account;
 using Blog.Entities.DTOs.Category;
 using Blog.Entities.DTOs.Comment;
-using Blog.Entities.DTOs.Complaint;
 using Blog.Entities.DTOs.Language;
 using Blog.Entities.DTOs.Picture;
 using Blog.Entities.DTOs.Post;
@@ -30,13 +29,8 @@ namespace Blog.Helpers
 			CreateMap<Category, CategoryViewDTO>();
 
 			CreateMap<CommentCreateDTO, Comment>();
-			CreateMap<CommentUpdateDTO, Comment>();
 			CreateMap<Comment, CommentViewDTO>()
 				.ForMember(c => c.UserViewDto, o => o.MapFrom(s => s.User));
-
-			CreateMap<ComplaintCreateDTO, Complaint>();
-			CreateMap<Complaint, ComplaintViewDTO>();
-			CreateMap<ComplaintUpdateDTO, Complaint>();
 
 			CreateMap<PictureCreateDTO, Picture>();
 			CreateMap<Picture, PictureViewDTO>();

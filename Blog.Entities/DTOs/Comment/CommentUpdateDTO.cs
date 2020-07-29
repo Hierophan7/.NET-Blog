@@ -2,7 +2,6 @@
 using System.Text;
 using System.Collections.Generic;
 using Blog.Entities.DTOs.Post;
-using Blog.Entities.DTOs.Complaint;
 using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Entities.DTOs.Comment
@@ -22,6 +21,5 @@ namespace Blog.Entities.DTOs.Comment
 
 		public DateTime Modified { get; set; }
 
-		public List<ComplaintViewDTO> Complaints { get; set; }
 	}
 }

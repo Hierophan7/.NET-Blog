@@ -1,4 +1,5 @@
 ﻿@model Blog.Entities.DTOs.Post.PostViewDTO
+@using Blog.Entities.Enums
 
 <div class="content">
 	<div class="container-fluid">
@@ -86,40 +87,54 @@
 						<div class="row">
 							<div class="col">
 								<div class="container">
+									@if (Model.NumberOfComments != 0)
+									{
+										<h4 class="mt-4 mb-3 text-warning">@Model.NumberOfComments comments</h4>
+									}
 									@foreach (var comment in Model.CommentViewDTOs)
 									{
 										<div class="row">
 											<div class="col">
-												<div class="card card-profile text-white p-3 m-3" style="box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);">
+												<div class="card card-profile text-white p-3 m-3" style="background: #2f384f; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);">
 													<div class="card-body">
-														<div class="row">
+														<div class="row d-flex">
+															<div class="col-2 my-auto">
+																@if (comment.CommentStatus == CommentStatus.Useful)
+																{
+																	<b class="text-success p-2 rounded" style="background: #A1E69A;">Positive comment</b>
+																}
+																else if (comment.CommentStatus == CommentStatus.Neutral)
+																{
+																	<b class="text-info p-2 rounded" style="background: #9AD1E6;">Neutral comment</b>
+																}
+																else if (comment.CommentStatus == CommentStatus.Dangerous)
+																{
+																	<b class="text-danger p-2 rounded" style="background: #E69B9A;">Negative comment</b>
+																}
+															</div>
+
 															<div class="col">
-																@if (comment.PositiveComment)
-																{
-																	<b class="text-success">Positive comment</b>
-																}
-																else
-																{
-																	<b class="text-danger">Negative comment</b>
-																}
-															</div>
-														</div>
-														<div class="row">
-															<div class="col text-left">
-																<p class="text-white">@comment.Text</p>
-															</div>
-														</div>
-													</div>
+																<div class="row">
+																	<div class="col text-left mb-2">
+																		<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@comment.UserId">
+																			<b class="text-info">@comment.UserViewDto.UserName</b>
+																		</a>
+																	</div>
+																</div>
 
-													<div class="row">
-														<div class="col text-left ml-5">
-															<a asp-action="ListOfPostsForUser" asp-controller="Post" asp-route-id="@comment.UserId">
-																@comment.UserViewDto.UserName
-															</a>
-														</div>
+																<div class="row">
+																	<div class="col text-left">
+																		<p class="text-white">@comment.Text</p>
+																	</div>
+																</div>
 
-														<div class="col text-right">
-															Created: @comment.Created
+																<div class="row">
+																	<div class="col text-left">
+																		Created: @comment.Created
+																	</div>
+																</div>
+															</div>
+
 														</div>
 													</div>
 												</div>

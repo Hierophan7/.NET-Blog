@@ -1,30 +1,52 @@
 ﻿@model Blog.Entities.DTOs.Comment.CommentCreateDTO
 
+<link href="~/css/radio-buttons.css" rel="stylesheet" />
+
 <div class="container">
 	<form asp-action="CreateComment" asp-controller="Comment" method="post" class="was-validated">
 		<div class="row mt-3">
 			<div class="col my-4 ml-4">
 				<input type="hidden" asp-for="PostId">
-				<div class="m-2">
-					<div class="custom-control custom-radio">
-						<input type="radio" class="custom-control-input" id="positive" value="true" name="commentStatus" required>
-						<label class="custom-control-label text-success" for="positive">Positive comment</label>
+
+				<div class="row d-flex m-2">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating mb-4"> Your comment</label>
+							<textarea asp-for="Text" class="form-control" rows="3" maxlength="300" required></textarea>
+							<span asp-validation-for="Text" class="text-danger"></span>
+						</div>
 					</div>
-					<div class="custom-control custom-radio mb-3">
-						<input type="radio" class="custom-control-input" id="negative" value="false" name="commentStatus" required>
-						<label class="custom-control-label text-danger" for="negative">Negative comment</label>
-						<div class="invalid-feedback">Choose your option</div>
+
+					<div class="col-2 my-auto">
+						<div class="funkyradio-success">
+							<div class="funkyradio-sm">
+								<input type="radio" name="commentStatus" id="Useful" value="1" required>
+								<label for="Useful" class="text-center">Positive</label>
+							</div>
+						</div>
+
+						<div class="funkyradio-info">
+							<div class="funkyradio-sm">
+								<input type="radio" name="commentStatus" id="Neutral" value="2" required>
+								<label for="Neutral" class="text-center">Neutral</label>
+							</div>
+						</div>
+
+						<div class="funkyradio-danger">
+							<div class="funkyradio-sm">
+								<input type="radio" name="commentStatus" id="Dangerous" value="3" required>
+								<label for="Dangerous" class="text-center">Negative</label>
+							</div>
+						</div>
 					</div>
 				</div>
 
-
-				<div class="form-group">
-					<label class="bmd-label-floating mb-4"> Your comment</label>
-					<textarea asp-for="Text" class="form-control" rows="3" maxlength="300" required></textarea>
-					<span asp-validation-for="Text" class="text-danger"></span>
+				<div class="row">
+					<div class="col">
+						<button type="submit" class="btn btn-info pull-right m-1">Send</button>
+						<div class="clearfix"></div>
+					</div>
 				</div>
-				<button type="submit" class="btn btn-info pull-right m-1">Send</button>
-				<div class="clearfix"></div>
 			</div>
 		</div>
 	</form>

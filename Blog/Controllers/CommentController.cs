@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Blog.Entities.DTOs.Comment;
+using Blog.Entities.Enums;
 using Blog.Entities.Models;
 using Blog.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,7 @@ namespace Blog.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateComment(CommentCreateDTO commentCreateDTO, bool commentStatus)
+		public async Task<IActionResult> CreateComment(CommentCreateDTO commentCreateDTO, int commentStatus)
 		{
 			if (ModelState.IsValid)
 			{
@@ -51,9 +52,20 @@ namespace Blog.Controllers
 				commentCreateDTO.Created = DateTime.Now;
 				commentCreateDTO.UserId = user.Id;
 
-				Comment comment = _mapper.Map<Comment>(commentCreateDTO);
+				switch (commentStatus)
+				{
+					case 1:
+						commentCreateDTO.CommentStatus = CommentStatus.Useful;
+						break;
+					case 2:
+						commentCreateDTO.CommentStatus = CommentStatus.Neutral;
+						break;
+					case 3:
+						commentCreateDTO.CommentStatus = CommentStatus.Dangerous;
+						break;
+				}
 
-				comment.PositiveComment = commentStatus;
+				Comment comment = _mapper.Map<Comment>(commentCreateDTO);
 
 				await _commentService.CreateAsync(comment);
 

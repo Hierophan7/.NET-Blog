@@ -86,7 +86,7 @@ namespace Blog.Services
 		public async Task<IEnumerable<Post>> GetPostsForUser(Guid userId)
 		{
 			return (await _repository.FindByAsync(u => u.UserId == userId, i => i.Category, i => i.User, i => i.Language,
-				i => i.Pictures));
+				i => i.Pictures)).OrderByDescending(p => p.Created);
 		}
 
 		public async Task<IEnumerable<Post>> SearchAsync(string searchString)

@@ -1,0 +1,376 @@
+﻿/* FUNKY SM */
+.funkyradio-sm label:not(.simple) {
+	/*min-width: 400px;*/
+	width: 100%;
+	border-radius: 3px;
+	border: 1px solid #D1D3D4;
+	font-weight: normal;
+}
+
+.funkyradio-sm input[type="radio"]:empty{
+	display: none;
+}
+
+	.funkyradio-sm input[type="radio"]:empty ~ label{
+		position: relative;
+		line-height: 1.5em;
+		text-indent: 1.75em;
+		margin-top: 0.1em;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		font-size: 0.8rem;
+	}
+
+		.funkyradio-sm input[type="radio"]:empty ~ label:before{
+			position: absolute;
+			display: block;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			content: ' ';
+			width: 2em;
+			font-size: 0.6rem;
+			background: #D1D3D4;
+			border-radius: 3px 0 0 3px;
+		}
+
+.funkyradio-sm input[type="radio"]:hover:not(:checked) ~ label:before {
+	content: '\2717';
+	text-indent: .6em;
+	color: #C2C2C2;
+}
+
+.funkyradio-sm input[type="radio"]:hover:not(:checked) ~ label{
+	color: #888;
+}
+
+.funkyradio-sm input[type="radio"]:checked ~ label:before {
+	content: '\2717';
+	text-indent: .6em;
+	color: #333;
+	background-color: #ccc;
+}
+
+.funkyradio-sm input[type="radio"]:checked ~ label{
+	color: #777;
+}
+
+.funkyradio-sm input[type="radio"]:focus ~ label:before{
+	box-shadow: 0 0 0 3px #999;
+}
+
+/* FUNKY */
+.funkyradio label:not(.simple) {
+	/*min-width: 400px;*/
+	width: 100%;
+	border-radius: 3px;
+	border: 1px solid #D1D3D4;
+	font-weight: normal;
+}
+
+.funkyradio input[type="radio"]:empty{
+	display: none;
+}
+
+	.funkyradio input[type="radio"]:empty ~ label{
+		position: relative;
+		line-height: 2.5em;
+		text-indent: 3.25em;
+		margin-top: 0.2em;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+		.funkyradio input[type="radio"]:empty ~ label:before{
+			position: absolute;
+			display: block;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			content: '';
+			width: 2.5em;
+			background: #D1D3D4;
+			border-radius: 3px 0 0 3px;
+		}
+
+
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label:before {
+	content: '\2717';
+	text-indent: .9em;
+	color: #C2C2C2;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label {
+	color: #888;
+}
+
+.funkyradio input[type="radio"]:checked ~ label:before {
+	content: '\2717';
+	text-indent: .9em;
+	color: #333;
+	background-color: #ccc;
+}
+
+.funkyradio input[type="radio"]:checked ~ label{
+	color: #777;
+}
+
+.funkyradio input[type="radio"]:focus ~ label:before {
+	box-shadow: 0 0 0 3px #999;
+}
+
+/* DEFAULT and not set */
+.funkyradio input[type="radio"]:checked ~ label:before {
+	color: #333;
+	background-color: #ccc;
+}
+
+.funkyradio input[type="radio"]:checked ~ label {
+	background-color: #fafafa;
+}
+
+.funkyradio-default input[type="radio"]:checked ~ label:before{
+	color: #333;
+	background-color: #ccc;
+}
+
+.funkyradio-default input[type="radio"]:checked ~ label{
+	background-color: #fafafa;
+}
+
+/* PRIMARY */
+.funkyradio-primary input[type="radio"]:checked ~ label:before {
+	color: #fff;
+	background-color: #4285f4;
+}
+
+.funkyradio-primary input[type="radio"]:checked ~ label {
+	background-color: #e3edfd;
+}
+
+/* SECONDARY */
+.funkyradio-secondary input[type="radio"]:checked ~ label:before {
+	color: #fff;
+	background-color: #aa66cc;
+}
+
+.funkyradio-secondary input[type="radio"]:checked ~ label{
+	background-color: #f2e8f7;
+}
+
+/* SUCCESS */
+.funkyradio-success input[type="radio"]:checked ~ label:before {
+	color: #fff;
+	background-color: #00c851;
+}
+
+.funkyradio-success input[type="radio"]:checked ~ label {
+	background-color: #d9f7e5;
+}
+
+/* DANGER */
+.funkyradio-danger input[type="radio"]:checked ~ label:before{
+	color: #fff;
+	background-color: #ff3547;
+}
+
+.funkyradio-danger input[type="radio"]:checked ~ label{
+	background-color: #ffe1e4;
+}
+
+/* WARNING */
+.funkyradio-warning input[type="radio"]:checked ~ label:before{
+	color: #fff;
+	background-color: #ffbb33;
+}
+
+.funkyradio-warning input[type="radio"]:checked ~ label{
+	background-color: #fff5e1;
+}
+
+/* INFO */
+.funkyradio-info input[type="radio"]:checked ~ label:before {
+	color: #fff;
+	background-color: #33b5e5;
+}
+
+.funkyradio-info input[type="radio"]:checked ~ label {
+	background-color: #e1f4fb;
+}
+
+/* DARK */
+.funkyradio-dark input[type="radio"]:checked ~ label:before{
+	color: #fff;
+	background-color: #212121;
+}
+
+.funkyradio-dark input[type="radio"]:checked ~ label{
+	background-color: #dedede;
+}
+
+/* ALT */
+.funkyradio-alt input[type="radio"]:checked ~ label:before {
+	color: #ffffff;
+	background-color: #2bbbad;
+}
+
+.funkyradio-alt input[type="radio"]:checked ~ label{
+	background-color: #dff5f3;
+}
+
+/* ELEGANT */
+.funkyradio-elegant input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #2e2e2e;
+}
+
+.funkyradio-elegant input[type="radio"]:checked ~ label{
+	background-color: #e0e0e0;
+}
+
+/* UNIQUE */
+.funkyradio-unique input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #880e4f;
+}
+
+.funkyradio-unique input[type="radio"]:checked ~ label{
+	background-color: #eddbe5;
+}
+
+/* PINK */
+.funkyradio-pink input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #ec407a;
+}
+
+.funkyradio-pink input[type="radio"]:checked ~ label{
+	background-color: #fce3eb;
+}
+
+/* PURPLE */
+.funkyradio-purple input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #8e24aa;
+}
+
+.funkyradio-purple input[type="radio"]:checked ~ label{
+	background-color: #eedef2;
+}
+
+/* DEEP BLUE */
+.funkyradio-deep-blue input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #512da8;
+}
+
+.funkyradio-deep-blue input[type="radio"]:checked ~ label, .funkyradio-deep-blue input[type="checkbox"]:checked ~ label {
+	background-color: #e5e0f2;
+}
+
+/* INDIGO */
+.funkyradio-indigo input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #3f51b5;
+}
+
+.funkyradio-indigo input[type="radio"]:checked ~ label{
+	background-color: #e2e5f4;
+}
+
+/* LIGHT BLUE */
+.funkyradio-light-blue input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #3f51b5;
+}
+
+.funkyradio-light-blue input[type="radio"]:checked ~ label{
+	background-color: #e2e5f4;
+}
+
+/* CYAN */
+.funkyradio-cyan input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #00bcd4;
+}
+
+.funkyradio-cyan input[type="radio"]:checked ~ label{
+	background-color: #d9f5f9;
+}
+
+/* DARK GREEN */
+.funkyradio-dark-green input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #388e3c;
+}
+
+.funkyradio-dark-green input[type="radio"]:checked ~ label{
+	background-color: #e1eee2;
+}
+
+/* LIGHT GREEN */
+.funkyradio-light-green input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #8bc34a;
+}
+
+.funkyradio-light-green input[type="radio"]:checked ~ label {
+	background-color: #eef6e4;
+}
+
+/* YELLOW */
+.funkyradio-yellow input[type="radio"]:checked ~ label:before {
+	color: #ffffff;
+	background-color: #fbc02d;
+}
+
+.funkyradio-yellow input[type="radio"]:checked ~ label{
+	background-color: #fef6e0;
+}
+
+/* AMBER */
+.funkyradio-amber input[type="radio"]:checked ~ label:before {
+	color: #ffffff;
+	background-color: #ffa000;
+}
+
+.funkyradio-amber input[type="radio"]:checked ~ label {
+	background-color: #fff1d9;
+}
+
+/* DEEP ORANGE */
+.funkyradio-deep-orange input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #ff7043;
+}
+
+.funkyradio-deep-orange input[type="radio"]:checked ~ label {
+	background-color: #ffeae3;
+}
+
+/* BROWN */
+.funkyradio-brown input[type="radio"]:checked ~ label:before{
+	color: #ffffff;
+	background-color: #795548;
+}
+
+.funkyradio-brown input[type="radio"]:checked ~ label{
+	background-color: #ebe6e4;
+}
+
+/* BLUE-GREY */
+.funkyradio-blue-grey input[type="radio"]:checked ~ label:before {
+	color: #ffffff;
+	background-color: #78909c;
+}
+
+.funkyradio-blue-grey input[type="radio"]:checked ~ label{
+	background-color: #ebeef0;
+}

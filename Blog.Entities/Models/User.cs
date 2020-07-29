@@ -26,6 +26,5 @@ namespace Blog.Entities.Models
 
 		public List<Comment> Comments { get; set; }
 
-		public List<Complaint> Complaints { get; set; }
 	}
 }

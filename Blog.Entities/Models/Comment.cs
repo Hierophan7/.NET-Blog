@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Blog.Entities.Enums;
 using Blog.Entities.Models.Interfaces;
 
 namespace Blog.Entities.Models
@@ -14,7 +15,7 @@ namespace Blog.Entities.Models
 		[Required]
 		public string Text { get; set; }
 
-		public bool PositiveComment { get; set; }
+		public CommentStatus CommentStatus { get; set; }
 
 		[ForeignKey("UserId")]
 		public Guid? UserId { get; set; }
@@ -25,6 +26,5 @@ namespace Blog.Entities.Models
 
 		public Post Post { get; set; }
 
-		public List<Complaint> Complaints { get; set; }
 	}
 }

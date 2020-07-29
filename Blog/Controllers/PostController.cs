@@ -264,6 +264,8 @@ namespace Blog.Controllers
 
 			var postViewDTO = _mapper.Map<PostViewDTO>(post);
 
+			postViewDTO.NumberOfComments = postViewDTO.CommentViewDTOs.Count;
+
 			return View(postViewDTO);
 		}
 

@@ -14,7 +14,6 @@ namespace Blog.Extensions
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<ICommentService, CommentService>();
-			services.AddScoped<IComplaintService, ComplaintService>();
 			services.AddScoped<IPictureService, PictureService>();
 			services.AddScoped<IReactionService, ReactionService>();
 			services.AddScoped<ITagService, TagService>();

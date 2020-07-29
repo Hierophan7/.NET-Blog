@@ -28,6 +28,8 @@ namespace Blog.Entities.DTOs.Post
 
 		public bool CommentingPermission { get; set; }
 
+		public int NumberOfComments { get; set; }
+
 		public DateTime Created { get; set; }
 
 		public DateTime Modified { get; set; }
