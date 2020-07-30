@@ -31,14 +31,14 @@
 						<div class="row mt-2 text-center control-buttons ">
 							<div class="col text-center">
 								<a asp-action="Update" asp-controller="Account" asp-route-id="@item.Id">
-									<img src="~/assets/img/edit-white-18dp.svg" />
+									<img src="~/assets/img/edit-white-24dp.svg" />
 								</a>
 							</div>
 							<div class="col text-center">
 								<form asp-action="DeleteUser" asp-controller="Admin" asp-route-id="@item.Id" onsubmit=" return jQueryAjaxDelete(this);">
 									<div class="ed-del-buttons">
 										<button type="submit">
-											<img src="~/assets/img/delete-white-18dp.svg" />
+											<img src="~/assets/img/delete-white-24dp.svg" />
 										</button>
 									</div>
 								</form>

@@ -17,6 +17,8 @@ namespace Blog.Entities.DTOs.Comment
 
 		public Guid PostId { get; set; }
 
+		public Guid? ReplyToCommentId { get; set; }
+
 		public CommentStatus CommentStatus { get; set; }
 
 		public PostViewDTO PostViewDTO { get; set; }

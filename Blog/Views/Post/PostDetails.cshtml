@@ -95,7 +95,7 @@
 									{
 										<div class="row">
 											<div class="col">
-												<div class="card card-profile text-white p-3 m-3" style="background: #2f384f; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);">
+												<div class="card card-profile text-white p-2  m-3" style="background: #2f384f; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);">
 													<div class="card-body">
 														<div class="row d-flex">
 															<div class="col-2 my-auto">
@@ -134,7 +134,31 @@
 																	</div>
 																</div>
 															</div>
+														</div>
 
+														<div class="row">
+															<div class="col text-left">
+																<a href="#" data-toggle="collapse" data-target="#collapseReply" aria-expanded="false"
+																   aria-controls="collapseExample" class="text-muted">
+																	<small>Reply</small>
+																</a>
+
+																<div class="collapse" id="collapseReply">
+																	@if (Model.CommentingPermission)
+																	{
+																		<div class="row">
+																			<div class="col">
+																				@await Html.PartialAsync("~/Views/Comment/CreateComment.cshtml",
+																			   new Blog.Entities.DTOs.Comment.CommentCreateDTO
+																				{
+																				   PostId = Model.Id,
+																				   ReplyToCommentId = comment.Id
+																			   })
+																			</div>
+																		</div>
+																	}
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>

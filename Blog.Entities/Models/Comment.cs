@@ -15,6 +15,8 @@ namespace Blog.Entities.Models
 		[Required]
 		public string Text { get; set; }
 
+		public Guid? ReplyToCommentId { get; set; }
+
 		public CommentStatus CommentStatus { get; set; }
 
 		[ForeignKey("UserId")]

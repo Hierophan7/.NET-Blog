@@ -19,7 +19,7 @@ namespace Blog.Services
 			: base(blogContext)
 		{
 			_blogContext = blogContext;
-			   _repository = new Repository<Post>(blogContext);
+			_repository = new Repository<Post>(blogContext);
 		}
 
 		public async Task<IEnumerable<Post>> GetAllArchivedPostsAsync()
@@ -72,7 +72,7 @@ namespace Blog.Services
 
 		public Post GetByIdExtend(Guid id)
 		{
-			var post =  (_blogContext.Posts.Where(r => r.Id == id)
+			var post = (_blogContext.Posts.Where(r => r.Id == id)
 					.Include(i => i.User)
 					.Include(i => i.Category)
 					.Include(i => i.User)

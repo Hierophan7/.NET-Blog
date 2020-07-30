@@ -40,14 +40,11 @@ namespace Blog.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				User user = new User();
-
 				if (!User.Identity.IsAuthenticated)
 					return RedirectToAction("Authenticate", "Account");
 
 				var curUser = User.Identity.Name;
-				if (curUser != null)
-					user = await _userManager.FindByNameAsync(curUser);
+				User user = await _userManager.FindByNameAsync(curUser);
 
 				commentCreateDTO.Created = DateTime.Now;
 				commentCreateDTO.UserId = user.Id;
