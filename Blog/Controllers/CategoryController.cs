@@ -13,11 +13,13 @@ using System.Text.Json;
 
 namespace Blog.Controllers
 {
+	
 	[Authorize]
 	public class CategoryController : Controller
 	{
 		private readonly IMapper _mapper;
 		private readonly ICategoryService _categoryService;
+
 
 		public CategoryController(IMapper mapper,
 			ICategoryService categoryService)
@@ -64,6 +66,24 @@ namespace Blog.Controllers
 			var json = JsonSerializer.Serialize(categoryViewDTOs);
 
 			return View(json);
+		}
+
+		[Route("api/category")]
+		[Produces("application/json")]
+		[HttpGet("search")]
+		public async Task<IActionResult> Search()
+		{
+			try
+			{
+				string Prefix = HttpContext.Request.Query["term"].ToString();
+				var categories = await _categoryService.GetByPrefixAsync(Prefix);
+				List<CategoryViewDTO> categoryViewDTOs = _mapper.Map<List<CategoryViewDTO>>(categories);
+				return Ok(categoryViewDTOs);
+			}
+			catch
+			{
+				return BadRequest();
+			}
 		}
 	}
 }

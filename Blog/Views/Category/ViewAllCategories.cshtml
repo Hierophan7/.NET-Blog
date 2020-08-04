@@ -4,6 +4,10 @@
     ViewData["Title"] = "ViewAllCategories";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <h1>ViewAllCategories</h1>
 
@@ -23,35 +27,39 @@
 
 <hr style="width:100%;text-align:left;margin-left:0">
 
-<div class="form-group">
+@*<div class="form-group">
     <label for="autocomplete">Select category: </label>
     <input id="autocomplete"
            class="ui-autocomplete-input"
-           autocomplete="off" />
-    @*<script>
-        $(document).ready(function () {
-            $('#autocomplete').autocomplete({
-                source: '/category/ViewAllCategories'
-            });
-        });
-    </script>*@
+           autocomplete="off"
+           autofill="true" />
     <script>
-            var tags = ["Anime", "Travel", "Art", "Lifestyle", "Cars"];
-            $("#autocomplete").autocomplete({
-                source: function (request, response) {
-                    var matcher = new RegExp(
-                        "^" + $.ui.autocomplete.escapeRegex(request.term),
-                        "i"
-                    );
-                    response(
-                        $.grep(tags, function (item) {
-                            return matcher.test(item);
-                        })
-                    );
-                }
+            $(document).ready(function () {
+                $('#autocomplete').autocomplete({
+                    source: '@Url.Action("SelectCategory", "Category")'
+                });
             });
-        </script>
-</div>
+    </script>
+
+    <ejs-autocomplete id="country" dataSource="@Url.Action("SelectCategory", "Category")" placeholder="e.g. Australia" autofill="true" filterType="StartsWith" sortOrder="@ViewBag.sort">
+        <e-autocomplete-fields value="Name"></e-autocomplete-fields>
+        <script>
+                var tags = ["Anime", "Travel", "Art", "Lifestyle", "Cars"];
+                $("#autocomplete").autocomplete({
+                    source: function (request, response) {
+                        var matcher = new RegExp(
+                            "^" + $.ui.autocomplete.escapeRegex(request.term),
+                            "i"
+                        );
+                        response(
+                            $.grep(tags, function (item) {
+                                return matcher.test(item);
+                            })
+                        );
+                    }
+                });
+            </script>
+</div>*@
 
 @*//$("#categoryInput").autocomplete({
     //    source: function (request, response) {
@@ -73,7 +81,29 @@
     //});*@
 
 @*<div class="form-group">
-    <div class="col-md-5" placeholder="">
-        @Html.DropDownList("Categories", Model.Select(m => new SelectListItem() { Text = m.Name, Value = m.Name }).ToList())
-    </div>
-</div>*@
+        <div class="col-md-5" placeholder="">
+            <div asp-action="ViewAllCategories" asp-controller="Category"></div>
+        </div>
+    </div>*@
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productName').autocomplete({
+                source: '/api/category/search'
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <h3>AutoComplete in ASP.NET Core MVC</h3>
+    <form>
+        <input type="text" id="productName" placeholder="Input your keyword" />
+    </form>
+
+</body>
